@@ -1,0 +1,23 @@
+{
+  "name": "vue-enterprise",
+  "version": "1.0.0",
+  "description": "This is an idea about building an enterprise framework based on Vue.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "vue": "^2.5.13",
+    "vue-class-component": "^6.1.2",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "types": "./index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
