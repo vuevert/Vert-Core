@@ -1,7 +1,8 @@
-import Vue from 'vue'
+import Vue, { ComponentOptions } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { Store } from 'vuex'
 
+import { AppService } from '../../decorator/service'
 import { isDefined } from '../../utils/type-detect'
 
 /**
@@ -15,20 +16,36 @@ import { isDefined } from '../../utils/type-detect'
 export class AppPage {
   private _element: string | HTMLElement
   private _name: string
-  private _services: TService[]
   private _store: Store<any>
   private _viewModel: Vue
+
+  private _serviceInstances: {[srvName: string]: AppService} = {}
 
   get name (): string { return this._name }
   get store (): Store<any> { return this._store }
   get viewModel (): Vue { return this._viewModel }
 
-  private initViewModel (RootComponent: TRootComponent) {
-    const option = {
-      template: createViewModelTemplate(`v-app-${this.name}`),
-      components: {
-        RootComponent
+  private createSrvInstance (services: Array<typeof AppService>) {
+    for (const Srv of services) {
+      const isSrv = Srv.prototype.$isService
+      const srvName = Srv.prototype.$serviceName
+      if (!srvName || !isSrv) {
+        console.error('[Error] This is not a service constructor but is given for creating service:', Srv)
+        continue
       }
+      const srv = new Srv()
+      this._serviceInstances[srvName] = srv
+    }
+  }
+
+  private initViewModel (RootComponent: TRootComponent) {
+    const option: ComponentOptions<Vue> = {
+      name: this.name,
+      template: createViewModelTemplate(`v-${this.name}`),
+      components: {
+        'root-component': RootComponent
+      },
+      provide: this._serviceInstances
     }
 
     if (isDefined(this._store)) {
@@ -45,8 +62,9 @@ export class AppPage {
   constructor (option: IAppPageOption) {
     this._element = option.element
     this._name = option.name
-    this._services = option.services || []
     this._store = option.store
+
+    this.createSrvInstance(option.services || [])
     this.initViewModel(option.rootComponent)
   }
 }
@@ -57,11 +75,6 @@ export class AppPage {
 type TRootComponent = CombinedVueInstance<any, any, any, any, any>
 
 /**
- * Service type.
- */
-type TService = typeof Function
-
-/**
  * Constructor param of AppPage.
  *
  * @interface IAppPage
@@ -70,7 +83,7 @@ export interface IAppPageOption {
   element: string | HTMLElement
   name: string
   rootComponent: TRootComponent
-  services?: TService[]
+  services?: Array<typeof AppService>
   store?: Store<any>
 }
 

@@ -1,7 +1,10 @@
-import { Service } from '../../../src/decorator'
+import { AppService, Service } from '../../../src/decorator/service'
 
-@Service
-class AuthorList {
+@Service('AuthorList')
+class AuthorList extends AppService {
+  fetchList () {
+    return [1, 2, 3]
+  }
 }
 
 export {

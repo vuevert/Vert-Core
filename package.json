@@ -2,22 +2,81 @@
   "name": "vue-enterprise",
   "version": "1.0.0",
   "description": "This is an idea about building an enterprise framework based on Vue.",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
+  "author": {
+    "name": "LancerComet",
+    "email": "chw644@hotmail.com"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --config ./webpack.js",
+    "test": "jest --runInBand --watch"
   },
   "dependencies": {
     "axios": "^0.17.1",
     "vue": "^2.5.13",
     "vue-class-component": "^6.1.2",
+    "vue-property-decorator": "^6.0.0",
     "vuex": "^3.0.1"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "@types/jest": "^22.0.1",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "css-loader": "^0.28.9",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.4",
+    "jest-serializer-vue": "^0.3.0",
+    "regenerator-runtime": "^0.11.1",
+    "ts-jest": "^22.0.1",
+    "ts-loader": "^3.3.0",
+    "typescript": "^2.6.2",
+    "vue-jest": "^1.4.0",
+    "vue-loader": "^13.7.0",
+    "vue-template-compiler": "^2.5.13",
+    "vue-test-utils": "^1.0.0-beta.11",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   },
   "types": "./index.d.ts",
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true
+      }
+    },
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "ts-jest",
+      ".+\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/jest-serializer-vue"
+    ],
+    "testMatch": [
+      "**/*.(spec|test).(js|ts)?(x)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.jest/file-mock.js",
+      "\\.(css|less)$": "<rootDir>/.jest/style-mock.js",
+      "vue$": "vue/dist/vue.common.js"
+    },
+    "mapCoverage": true,
+    "setupFiles": [
+      "<rootDir>/.jest/setup.js"
+    ],
+    "coverageDirectory": "<rootDir>/.coverage-report",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx,ts,tsx,vue}",
+      "!**/*.d.ts",
+      "!**/node_modules/**"
+    ]
+  }
 }

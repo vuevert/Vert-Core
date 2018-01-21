@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue'
 import { AppPage, IAppPageOption } from './page'
 
 abstract class VueEnterprise {
   static readonly VERSION = '1.0.0'
 
-  static createAppPage (option: IAppPageOption): AppPage {
+  static createAppPage (option: IAppPageOption) {
     return new AppPage(option)
   }
 

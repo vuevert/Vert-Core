@@ -8,7 +8,7 @@ This is an idea about building an enterprise framework based on Vue.
 
  - [x] Dividing project by pages.
 
- - [ ] Support DI.
+ - [x] Service type and DI.
 
  - [ ] Provide services and modules.
 
