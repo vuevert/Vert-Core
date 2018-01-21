@@ -1,6 +1,6 @@
 import { VueEnterprise } from '../../src'
 
-import { AuthorList } from './service/author-list'
+import { AuthorList } from '../service/author-list'
 import View from './view/index.vue'
 
 const indexApp = VueEnterprise.createAppPage({
