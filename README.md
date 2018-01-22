@@ -12,4 +12,4 @@ This is an idea about building an enterprise framework based on Vue.
 
  - [ ] Provide services and modules.
 
- - [ ] Provide internal services such as http, localStorage, ect.
+ - [x] Provide internal services such as http, localStorage, ect.

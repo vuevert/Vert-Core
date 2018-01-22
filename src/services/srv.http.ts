@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { Injectable } from '../decorator/deco.injection'
 
 const DEFAULT_TIMEOUT = 5000
 
@@ -7,8 +8,18 @@ const DEFAULT_TIMEOUT = 5000
  *
  * @class Http
  */
+@Injectable()
 class Http {
-  private $http: AxiosInstance
+  private _$http: AxiosInstance
+  private get $http (): AxiosInstance {
+    if (!this._$http) {
+      this._$http = axios.create({
+        timeout: DEFAULT_TIMEOUT
+      })
+    }
+
+    return this._$http
+  }
 
   /**
    * Make a get request.
@@ -63,17 +74,6 @@ class Http {
     onRejected?: (error: any) => any
   ): number {
     return this.$http.interceptors.response.use(onFulfilled, onRejected)
-  }
-
-  private createInstance () {
-    const $http = axios.create({
-      timeout: DEFAULT_TIMEOUT
-    })
-    this.$http = $http
-  }
-
-  constructor () {
-    this.createInstance()
   }
 }
 

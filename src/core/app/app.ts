@@ -1,51 +1,51 @@
 import Vue, { ComponentOptions } from 'vue'
-import { CombinedVueInstance } from 'vue/types/vue'
 import { Store } from 'vuex'
 
-import { AppService } from '../../decorator/service'
-import { isDefined } from '../../utils/type-detect'
+import { THookFunction, TRootComponent, TService } from '../../types'
+import { isDefined, isFunction } from '../../utils/type-detect'
 
 /**
- * AppPage class.
+ * App class.
  *
  * @description
  * Page is the root member for an app. Create an instance to initialize your app.
  *
- * @class AppPage
+ * @class App
  */
-export class AppPage {
+export class App {
   private _element: string | HTMLElement
   private _name: string
   private _store: Store<any>
   private _viewModel: Vue
 
-  private _serviceInstances: {[srvName: string]: AppService} = {}
+  private _serviceInstances: {[srvName: string]: TService} = {}
 
   get name (): string { return this._name }
   get store (): Store<any> { return this._store }
   get viewModel (): Vue { return this._viewModel }
 
-  private createSrvInstance (services: Array<typeof AppService>) {
-    for (const Srv of services) {
-      const isSrv = Srv.prototype.$isService
-      const srvName = Srv.prototype.$serviceName
-      if (!srvName || !isSrv) {
-        console.error('[Error] This is not a service constructor but is given for creating service:', Srv)
-        continue
-      }
-      const srv = new Srv()
-      this._serviceInstances[srvName] = srv
-    }
-  }
-
-  private initViewModel (RootComponent: TRootComponent) {
+  private initViewModel (
+    RootComponent: TRootComponent,
+    created: THookFunction,
+    mounted: THookFunction,
+    beforeDestroy: THookFunction
+  ) {
     const option: ComponentOptions<Vue> = {
       name: this.name,
       template: createViewModelTemplate(`v-${this.name}`),
       components: {
         'root-component': RootComponent
       },
-      provide: this._serviceInstances
+      provide: this._serviceInstances,
+      created () {
+        isFunction(created) && created(this)
+      },
+      mounted () {
+        isFunction(mounted) && mounted(this)
+      },
+      beforeDestroy () {
+        isFunction(beforeDestroy) && beforeDestroy(this)
+      }
     }
 
     if (isDefined(this._store)) {
@@ -55,36 +55,46 @@ export class AppPage {
     this._viewModel = new Vue(option)
   }
 
+  /**
+   * Start up this app.
+   *
+   * @memberof App
+   */
   boot () {
     this._viewModel.$mount(this._element)
   }
 
-  constructor (option: IAppPageOption) {
+  constructor (option: IAppOption) {
+    option.services = option.services || []
+
     this._element = option.element
     this._name = option.name
     this._store = option.store
 
-    this.createSrvInstance(option.services || [])
-    this.initViewModel(option.rootComponent)
+    this.initViewModel(
+      option.rootComponent,
+      option.created,
+      option.mounted,
+      option.beforeDestroy
+    )
   }
 }
-
-/**
- * Root component type.
- */
-type TRootComponent = CombinedVueInstance<any, any, any, any, any>
 
 /**
  * Constructor param of AppPage.
  *
  * @interface IAppPage
  */
-export interface IAppPageOption {
+export interface IAppOption {
   element: string | HTMLElement
   name: string
   rootComponent: TRootComponent
-  services?: Array<typeof AppService>
+  services?: TService[]
   store?: Store<any>
+
+  created?: THookFunction
+  mounted?: THookFunction
+  beforeDestroy?: THookFunction
 }
 
 function createViewModelTemplate (id: string): string {

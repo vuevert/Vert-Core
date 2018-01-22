@@ -1,15 +1,23 @@
-import { AppComponent } from '../../../src'
-import { Component, Inject } from '../../../src/decorator/component'
-import { AuthorList } from '../../service/author-list'
+import { AppComponent } from '../../../src/core'
+import { Component } from '../../../src/decorator'
+import { Author, srvInjector } from '../service'
+
+const authorSrv: Author = srvInjector.get(Author)
 
 @Component
 export default class RootComponent extends AppComponent {
-  authorListData = []
+  authorList: string[] = []
 
-  @Inject('AuthorList')
-  authorList: AuthorList
+  async fetchAuthorList () {
+    const list = await authorSrv.fetchList()
+    this.authorList = list
+  }
 
-  mounted () {
-    this.authorListData = this.authorList.fetchList()
+  async created () {
+    await this.fetchAuthorList()
+  }
+
+  constructor () {
+    super()
   }
 }

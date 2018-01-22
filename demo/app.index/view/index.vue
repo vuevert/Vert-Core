@@ -4,7 +4,7 @@
     <div>
       <h2>Author list</h2>
       <ul>
-        <li v-for="item in authorListData" :key="item">{{item}}</li>
+        <li v-for="item in authorList" :key="item">{{item}}</li>
       </ul>
     </div>
   </div>

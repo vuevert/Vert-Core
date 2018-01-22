@@ -1,13 +1,11 @@
-import { VueEnterprise } from '../../src'
+import { createApp } from '../../src/core'
 
-import { AuthorList } from '../service/author-list'
 import View from './view/index.vue'
 
-const indexApp = VueEnterprise.createAppPage({
-  element: '#index-app',
-  name: 'index-app',
-  rootComponent: View,
-  services: [AuthorList]
+const indexApp = createApp({
+  element: '#app-index',
+  name: 'app-index',
+  rootComponent: View
 })
 
 indexApp.boot()
