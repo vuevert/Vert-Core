@@ -1,6 +1,6 @@
-import { AppComponent } from '../../../src/core'
-import { Component } from '../../../src/decorator'
-import { Author, srvInjector } from '../service'
+import { AppComponent } from '../../../src/core/index'
+import { Component } from '../../../src/decorator/index'
+import { Author, srvInjector } from '../service/index'
 
 const authorSrv: Author = srvInjector.get(Author)
 

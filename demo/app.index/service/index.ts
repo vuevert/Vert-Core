@@ -1,6 +1,6 @@
 import { ReflectiveInjector } from '../../../src/decorator'
 import { Http } from '../../../src/services'
-import { Author } from './author'
+import { Author } from './srv.author'
 
 const srvInjector = ReflectiveInjector.resolveAndCreate([
   Author,

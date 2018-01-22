@@ -1,11 +1,11 @@
-import { createApp } from '../../src/core'
+import { App } from '../../src/core'
 
-import View from './view/index.vue'
+import RootComponent from './components/root-component.vue'
 
-const indexApp = createApp({
+const appIndex = new App({
   element: '#app-index',
   name: 'app-index',
-  rootComponent: View
+  rootComponent: RootComponent
 })
 
-indexApp.boot()
+appIndex.boot()
