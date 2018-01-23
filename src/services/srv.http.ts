@@ -3,6 +3,9 @@ import { Injectable } from '../decorator/deco.injection'
 
 const DEFAULT_TIMEOUT = 5000
 
+const GLOBAL_REQUEST_INTERCEPTORS: IGlobalInterceptor[] = []
+const GLOBAL_RESPONSE_INTERCEPTORS: IGlobalInterceptor[] = []
+
 /**
  * Http Service.
  *
@@ -12,13 +15,44 @@ const DEFAULT_TIMEOUT = 5000
 class Http {
   private _$http: AxiosInstance
   private get $http (): AxiosInstance {
-    if (!this._$http) {
-      this._$http = axios.create({
-        timeout: DEFAULT_TIMEOUT
-      })
-    }
-
+    !this._$http && this.init()
     return this._$http
+  }
+
+  private init () {
+    const $http = axios.create({
+      timeout: DEFAULT_TIMEOUT
+    })
+
+    GLOBAL_REQUEST_INTERCEPTORS.forEach(item => {
+      $http.interceptors.request.use(item.onFulfilled, item.onRejected)
+    })
+
+    GLOBAL_RESPONSE_INTERCEPTORS.forEach(item => {
+      $http.interceptors.response.use(item.onFulfilled, item.onRejected)
+    })
+
+    this._$http = $http
+  }
+
+  /**
+   * Add an interceptor for all requests.
+   *
+   * @static
+   * @param {IGlobalInterceptor} interceptor
+   */
+  static addGlobalRequestInterceptor (interceptor: IGlobalInterceptor) {
+    !GLOBAL_REQUEST_INTERCEPTORS.includes(interceptor) && GLOBAL_REQUEST_INTERCEPTORS.push(interceptor)
+  }
+
+  /**
+   * Add an interceptor for all responses.
+   *
+   * @static
+   * @param {IGlobalInterceptor} inteceptor
+   */
+  static addGlobalResponseInterceptor (inteceptor: IGlobalInterceptor) {
+    !GLOBAL_RESPONSE_INTERCEPTORS.includes(inteceptor) && GLOBAL_RESPONSE_INTERCEPTORS.push(inteceptor)
   }
 
   /**
@@ -44,6 +78,16 @@ class Http {
    */
   post (url: string, data?: any, config?: AxiosRequestConfig) {
     return this.$http.post(url, data, config)
+  }
+
+  /**
+   * Make a request by using config.
+   *
+   * @param {AxiosRequestConfig} config
+   * @return {AxiosPromise<any>}
+   */
+  request (config: AxiosRequestConfig) {
+    return this.$http.request(config)
   }
 
   /**
@@ -79,4 +123,9 @@ class Http {
 
 export {
   Http
+}
+
+interface IGlobalInterceptor {
+  onFulfilled?: (value: AxiosResponse) => AxiosResponse | Promise<AxiosResponse>
+  onRejected?: (error: any) => any
 }

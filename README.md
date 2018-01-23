@@ -77,11 +77,11 @@ Create a instance to bootstrap your web app. Check "Quick Start" for more exampl
 
 TODO: ...
 
-### Better way to create a class-based service and use it.
+### Better way to create a class-based service and how to use it.
 
-If you want to create a service by using class, `Dependency Injection` is the best choice.
+If you want to create a service by using class, `Dependency Injection` is your best choice.
 
-Vue-Enterprise provides some decorators to help you to achieve DI and ICO:
+Vue-Enterprise provides some decorators to help you to do DI and ICO stuffs:
 
 ```typescript
 // services.ts
@@ -150,4 +150,4 @@ export default class RootComponent extends AppComponent {
 }
 ```
 
-It is the same as Angular, will come in handy when you use class.
+Same as Angular, comes in handy.
