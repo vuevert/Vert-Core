@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config ./webpack.js",
+    "dev": "webpack-dev-server --config ./demo/webpack.js",
     "test": "jest --runInBand --watch"
   },
   "dependencies": {

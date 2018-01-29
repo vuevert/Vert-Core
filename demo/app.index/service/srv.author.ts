@@ -4,8 +4,9 @@ import { Http } from '../../../src/services'
 @Inject(Http)
 class Author {
   async fetchList () {
-    console.log('Http service in AuthorList:')
-    return ['John Smith', 'Jimmy Parker', 'Eric Cartman', 'LancerComet']
+    const { data } = await this.http.get('/api/author-list.json')
+    const authorList = data.data
+    return authorList
   }
 
   constructor (private http: Http) {

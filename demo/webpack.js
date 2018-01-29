@@ -21,7 +21,8 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     compress: true,
-    port: 8080
+    port: 8080,
+    contentBase: resolve('./demo/static')
   },
 
   resolve: {
@@ -66,5 +67,5 @@ module.exports = {
 }
 
 function resolve (filePath) {
-  return path.resolve(__dirname, './', filePath)
+  return path.resolve(__dirname, '../', filePath)
 }

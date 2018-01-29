@@ -18,6 +18,5 @@ export default class RootComponent extends AppComponent {
 
   constructor (public authorSrv: Author) {
     super()
-    console.log(this.authorSrv)
   }
 }

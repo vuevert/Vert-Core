@@ -1,8 +1,9 @@
 import Vue, { ComponentOptions } from 'vue'
 import { Store } from 'vuex'
 
-import { THookFunction, TRootComponent, TService } from '../../types'
-import { isDefined, isFunction } from '../../utils/util.type-detect'
+import { THookFunction, TRootComponent, TService } from '../types/index'
+import { isDefined, isFunction } from '../utils/util.type-detect'
+import { Router } from './core.router'
 
 /**
  * App is the basic unit for a project.
@@ -16,6 +17,7 @@ export class App {
   private _element: string | HTMLElement
   private _name: string
   private _store: Store<any>
+  private _router: Router
   private _viewModel: Vue
 
   private _serviceInstances: {[srvName: string]: TService} = {}
@@ -60,7 +62,7 @@ export class App {
    *
    * @memberof App
    */
-  boot () {
+  start () {
     this._viewModel.$mount(this._element)
   }
 
@@ -69,6 +71,7 @@ export class App {
 
     this._element = option.element
     this._name = option.name
+    this._router = option.router
     this._store = option.store
 
     this.initViewModel(
@@ -89,6 +92,7 @@ export interface IAppOption {
   element: string | HTMLElement
   name: string
   rootComponent: TRootComponent
+  router: Router
   services?: TService[]
   store?: Store<any>
 

@@ -12,9 +12,17 @@
 
 import 'reflect-metadata'
 
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { Router } from './core.router'
+import { Store, Vuex } from './core.store'
+import { Vue } from './core.vue'
 
+Vue.use(Router)
 Vue.use(Vuex)
 
-export { App } from './app'
+export { App } from './core.app'
+export {
+  Router,
+  Store,
+  Vue,
+  Vuex
+}
