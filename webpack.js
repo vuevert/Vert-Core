@@ -15,7 +15,7 @@ const babelLoader = {
 
 module.exports = {
   entry: {
-    index: path.resolve(__dirname, './demo/app.index/index.ts')
+    index: resolve('./demo/app.index/index.ts')
   },
 
   devServer: {
@@ -28,6 +28,7 @@ module.exports = {
     extensions: ['.js', '.ts', '.vue', '.json'],
 
     alias: {
+      'vue-enterprise': resolve('./src'),
       'vue$': 'vue/dist/vue.common.js'
     }
   },
@@ -59,7 +60,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, './demo/app.index/index.html')
+      template: resolve('./demo/app.index/index.html')
     })
   ]
+}
+
+function resolve (filePath) {
+  return path.resolve(__dirname, './', filePath)
 }

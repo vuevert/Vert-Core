@@ -2,8 +2,8 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const DEFAULT_TIMEOUT = 5000
 
-const GLOBAL_REQUEST_INTERCEPTORS: IGlobalInterceptor[] = []
-const GLOBAL_RESPONSE_INTERCEPTORS: IGlobalInterceptor[] = []
+const GLOBAL_REQUEST_INTERCEPTORS: IInterceptor[] = []
+const GLOBAL_RESPONSE_INTERCEPTORS: IInterceptor[] = []
 
 /**
  * Http Service.
@@ -37,9 +37,9 @@ class Http {
    * Add an interceptor for all requests.
    *
    * @static
-   * @param {IGlobalInterceptor} interceptor
+   * @param {IInterceptor} interceptor
    */
-  static addGlobalRequestInterceptor (interceptor: IGlobalInterceptor) {
+  static addGlobalRequestInterceptor (interceptor: IInterceptor) {
     !GLOBAL_REQUEST_INTERCEPTORS.includes(interceptor) && GLOBAL_REQUEST_INTERCEPTORS.push(interceptor)
   }
 
@@ -47,9 +47,9 @@ class Http {
    * Add an interceptor for all responses.
    *
    * @static
-   * @param {IGlobalInterceptor} inteceptor
+   * @param {IInterceptor} inteceptor
    */
-  static addGlobalResponseInterceptor (inteceptor: IGlobalInterceptor) {
+  static addGlobalResponseInterceptor (inteceptor: IInterceptor) {
     !GLOBAL_RESPONSE_INTERCEPTORS.includes(inteceptor) && GLOBAL_RESPONSE_INTERCEPTORS.push(inteceptor)
   }
 
@@ -123,7 +123,7 @@ export {
   Http
 }
 
-interface IGlobalInterceptor {
+interface IInterceptor {
   onFulfilled?: (value: AxiosResponse) => AxiosResponse | Promise<AxiosResponse>
   onRejected?: (error: any) => any
 }
