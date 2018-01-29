@@ -1,6 +1,18 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const babelLoader = {
+  loader: 'babel-loader',
+  options: {
+    "presets": [
+      ["env", { "modules": false }]
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  }
+}
+
 module.exports = {
   entry: {
     index: path.resolve(__dirname, './demo/app.index/index.ts')
@@ -29,14 +41,14 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
-          'babel-loader'
+          babelLoader
         ],
         exclude: /node_modules/
       },
       {
         test: /\.tsx?$/,
         use: [
-          'babel-loader',
+          babelLoader,
           'ts-loader'
         ],
         exclude: /node_modules/

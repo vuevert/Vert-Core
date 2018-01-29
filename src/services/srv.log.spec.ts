@@ -1,0 +1,2 @@
+describe('Log Service testing.', () => {
+})

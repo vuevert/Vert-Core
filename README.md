@@ -77,19 +77,18 @@ Create a instance to bootstrap your web app. Check "Quick Start" for more exampl
 
 TODO: ...
 
-### Better way to create a class-based service and how to use it.
+### Create a class-based service and use it in AppComponent.
 
-If you want to create a service by using class, `Dependency Injection` is your best choice.
+If you want to create a service by using class, you can use it in your component class by `Dependency Injection`.
 
-Vue-Enterprise provides some decorators to help you to do DI and ICO stuffs:
+Vue-Enterprise provides the decorators to help you to do DI and ICO stuffs:
 
 ```typescript
 // services.ts
+// This is your custom service.
 
-import { Injectable, ReflectiveInjector } from 'vue-enterprise/decorator'
 import { Http } from 'vue-enterprise/services'
 
-@Injectable()
 class User {
   async getUserInfoById (id: number) {
     const result = { data: null, error: null }
@@ -120,34 +119,55 @@ class User {
   constructor (private http: Http) {}
 }
 
-const injector = ReflectiveInjector.resolveAndCreate([ User ])
-
 export {
-  injector,
   User
 }
 ```
 
 ```typescript
-// some-module.ts
-import { AppComponent } from 'vue-enterprise/core'
-import { Component } from 'vue-enterprise/decorator'
-import { injector, User } from './services.ts'
+// root-component.ts
 
-const user: User = injector.get(User)
+import { AppComponent, Component } from 'vue-enterprise/app-component'
+import { User } from './services.ts'
 
-@Component
+@Component({
+  providers: [User]
+})
 export default class RootComponent extends AppComponent {
   userId: number = null
   userInfo: {} = {}
 
   async fetchAuthorList () {
-    const { data, error } = await user.getUserInfoById(tbis.userId)
+    const { data, error } = await this.user.getUserInfoById(this.userId)
     if (!error) {
       this.userInfo = data
     }
   }
+  
+  constructor (public user: User) {
+    super()
+  }
 }
 ```
 
-Same as Angular, comes in handy.
+### Dependency Injection decorator
+
+You can use `Inject` decorator to inject a class to another class:
+
+```typescript
+import { Inject } from 'vue-enterprise/decorator'
+
+class Study {
+  learnEnglish () {}
+  doHomework () {}
+}
+
+@Inject(Study)
+class Student {
+  constructor (public study: Study) {
+    // Now you can use:
+    // this.study.learnEnglish()
+    // this.study.doHomework()
+  }
+}
+```

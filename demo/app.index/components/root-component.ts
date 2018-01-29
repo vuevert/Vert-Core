@@ -1,15 +1,14 @@
-import { AppComponent } from '../../../src/core/index'
-import { Component } from '../../../src/decorator/index'
-import { Author, srvInjector } from '../service/index'
+import { AppComponent, Component } from '../../../src/app-component'
+import { Author } from '../service'
 
-const authorSrv: Author = srvInjector.get(Author)
-
-@Component
+@Component({
+  providers: [Author]
+})
 export default class RootComponent extends AppComponent {
   authorList: string[] = []
 
   async fetchAuthorList () {
-    const list = await authorSrv.fetchList()
+    const list = await this.authorSrv.fetchList()
     this.authorList = list
   }
 
@@ -17,7 +16,8 @@ export default class RootComponent extends AppComponent {
     await this.fetchAuthorList()
   }
 
-  constructor () {
+  constructor (public authorSrv: Author) {
     super()
+    console.log(this.authorSrv)
   }
 }

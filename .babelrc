@@ -1,15 +1,9 @@
 {
   "presets": [
-    ["env", {
-      "modules": false
-    }]
+    ["env"]
   ],
-  "plugins": ["transform-runtime"],
-  "env": {
-    "test": {
-      "plugins": [
-        "transform-es2015-modules-commonjs"
-      ]
-    }
-  }
+  "plugins": [
+    "transform-runtime",
+    "transform-es2015-modules-commonjs"
+  ]
 }

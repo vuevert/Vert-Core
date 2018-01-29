@@ -1,6 +1,3 @@
-import { Injectable } from '../decorator/deco.injection'
-
-@Injectable()
 class LocalStorage {
   getItem (keyName: string): string {
     return window.localStorage.getItem(keyName)

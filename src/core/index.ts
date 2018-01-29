@@ -17,5 +17,4 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export { AppComponent } from './component/index'
 export { App } from './app'

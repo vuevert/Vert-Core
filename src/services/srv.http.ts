@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Injectable } from '../decorator/deco.injection'
 
 const DEFAULT_TIMEOUT = 5000
 
@@ -11,7 +10,6 @@ const GLOBAL_RESPONSE_INTERCEPTORS: IGlobalInterceptor[] = []
  *
  * @class Http
  */
-@Injectable()
 class Http {
   private _$http: AxiosInstance
   private get $http (): AxiosInstance {
