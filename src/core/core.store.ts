@@ -1,6 +1,4 @@
-import Vuex from 'vuex'
-
-const { Store } = Vuex
+import Vuex, { Store } from 'vuex'
 
 export {
   Store,

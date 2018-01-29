@@ -1,9 +1,8 @@
-import Vue, { ComponentOptions } from 'vue'
-import { Store } from 'vuex'
-
-import { THookFunction, TRootComponent, TService } from '../types/index'
+import { THookFunction, TRootComponent, TService } from '../types'
 import { isDefined, isFunction } from '../utils/util.type-detect'
 import { Router } from './core.router'
+import { Store } from './core.store'
+import { ComponentOptions, Vue } from './core.vue'
 
 /**
  * App is the basic unit for a project.
@@ -50,6 +49,10 @@ export class App {
       }
     }
 
+    if (isDefined(this._router)) {
+      Object.assign(option, { router: this._router })
+    }
+
     if (isDefined(this._store)) {
       Object.assign(option, { store: this._store })
     }
@@ -92,7 +95,7 @@ export interface IAppOption {
   element: string | HTMLElement
   name: string
   rootComponent: TRootComponent
-  router: Router
+  router?: Router
   services?: TService[]
   store?: Store<any>
 

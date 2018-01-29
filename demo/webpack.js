@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FriendlyErrorPlugin = require('friendly-errors-webpack-plugin')
 
 const babelLoader = {
   loader: 'babel-loader',
@@ -18,11 +19,14 @@ module.exports = {
     index: resolve('./demo/app.index/index.ts')
   },
 
+  devtool: "eval-source-map",
+
   devServer: {
     host: '0.0.0.0',
     compress: true,
     port: 8080,
-    contentBase: resolve('./demo/static')
+    contentBase: resolve('./demo/static'),
+    quiet: true
   },
 
   resolve: {
@@ -30,7 +34,7 @@ module.exports = {
 
     alias: {
       'vue-enterprise': resolve('./src'),
-      'vue$': 'vue/dist/vue.common.js'
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
 
@@ -62,7 +66,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: resolve('./demo/app.index/index.html')
-    })
+    }),
+
+    new FriendlyErrorPlugin()
   ]
 }
 

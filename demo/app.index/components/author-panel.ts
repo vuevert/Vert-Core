@@ -4,11 +4,11 @@ import { Author } from '../service'
 @Component({
   providers: [Author]
 })
-export default class RootComponent extends AppComponent {
+export default class AuthorPanel extends AppComponent {
   authorList: string[] = []
 
   async fetchAuthorList () {
-    const list = await this.authorSrv.fetchList()
+    const list = await this.authorService.fetchList()
     this.authorList = list
   }
 
@@ -16,7 +16,7 @@ export default class RootComponent extends AppComponent {
     await this.fetchAuthorList()
   }
 
-  constructor (public authorSrv: Author) {
+  constructor (public authorService: Author) {
     super()
   }
 }

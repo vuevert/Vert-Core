@@ -1,5 +1,6 @@
-import Vue from 'vue'
+import Vue, { ComponentOptions } from 'vue'
 
 export {
+  ComponentOptions,
   Vue
 }
