@@ -1,3 +1,6 @@
-import Router from 'vue-router'
+import Router, { NavigationGuard } from 'vue-router'
 
-export { Router }
+export {
+  NavigationGuard,
+  Router
+}

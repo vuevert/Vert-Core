@@ -1,7 +1,8 @@
-import { Component } from 'vue'
 import { componentFactory } from 'vue-class-component/lib/component'
 import { Inject, Prop, Provide, Watch } from 'vue-property-decorator'
 import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
+import { NavigationGuard } from '../core/core.router'
+import { Component, ComponentOptions } from '../core/core.vue'
 import { createInjectedConstructor } from '../decorator/deco.injector'
 
 let defaultComponentID = 1
@@ -40,6 +41,10 @@ interface IComponentOption {
   template?: string
   name?: string
   providers?: any[]
+
+  beforeRouteEnter?: NavigationGuard
+  beforeRouteLeave?: NavigationGuard
+  beforeRouteUpdate?: NavigationGuard
 }
 
 export {

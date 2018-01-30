@@ -16,7 +16,6 @@ import { Router } from './core.router'
 import { Store, Vuex } from './core.store'
 import { Vue } from './core.vue'
 
-Vue.use(Router)
 Vue.use(Vuex)
 
 export { App } from './core.app'

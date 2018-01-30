@@ -60,15 +60,15 @@ const appIndex = new App({
 appIndex.start()
 ```
 
-### AppComponent
+### AppComponent 是您的组件
 
-TODO: ...
+TODO: ... 
 
 ### 内部服务
 
 TODO: ...
 
-### 最佳的方式来创建一个基于 Class 的服务，并方便的在 AppComponent 中使用
+### 最佳的方式来创建一个基于 Class 的服务，并方便地在 AppComponent 中使用
 
 如果您在项目中已经以 `Class` 的方式创建了一个服务，您可以将这个类注入至 `AppComponent` 当中，程序将帮您自动在目标组件中创建类实例。
 

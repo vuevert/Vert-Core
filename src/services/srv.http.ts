@@ -58,11 +58,12 @@ class Http {
    *
    * @param {string} url
    * @param {AxiosRequestConfig} [config]
+   * @template T
    * @returns
    * @memberof Http
    */
-  get (url: string, config?: AxiosRequestConfig) {
-    return this.$http.get(url, config)
+  get <T = any> (url: string, config?: AxiosRequestConfig) {
+    return this.$http.get<T>(url, config)
   }
 
   /**
@@ -71,11 +72,12 @@ class Http {
    * @param {string} url
    * @param {*} [data]
    * @param {AxiosRequestConfig} [config]
+   * @template T
    * @returns
    * @memberof Http
    */
-  post (url: string, data?: any, config?: AxiosRequestConfig) {
-    return this.$http.post(url, data, config)
+  post <T = any> (url: string, data?: any, config?: AxiosRequestConfig) {
+    return this.$http.post<T>(url, data, config)
   }
 
   /**

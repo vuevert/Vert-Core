@@ -7,4 +7,4 @@
   </div>
 </template>
 
-<script lang="ts" src="./welcome.ts"></script>
+<script lang="ts" src="./root-component.ts"></script>

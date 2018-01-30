@@ -7,7 +7,7 @@ import { THookFunction, TRootComponent, TService } from '../types'
 import { isDefined, isFunction } from '../utils/util.type-detect'
 import { Router } from './core.router'
 import { Store } from './core.store'
-import { ComponentOptions, Vue } from './core.vue'
+import { ComponentOptions, PluginFunction, PluginObject, Vue } from './core.vue'
 
 /**
  * App is the basic unit for a project.
@@ -18,6 +18,10 @@ import { ComponentOptions, Vue } from './core.vue'
  * @class App
  */
 export class App {
+  static use <T = any> (plugin: PluginObject<T> | PluginFunction<T>, options?: T) {
+    Vue.use(plugin, options)
+  }
+
   private _element: string | HTMLElement
   private _name: string
   private _store: Store<any>
@@ -38,7 +42,7 @@ export class App {
   ) {
     const option: ComponentOptions<Vue> = {
       name: this.name,
-      template: createViewModelTemplate(`v-${this.name}`),
+      template: createViewModelTemplate(`${this.name}`),
       components: {
         'root-component': RootComponent
       },
@@ -78,7 +82,7 @@ export class App {
     option.services = option.services || []
 
     this._element = option.element
-    this._name = option.name
+    this._name = option.name || 'default_app'
     this._router = option.router
     this._store = option.store
 
@@ -98,7 +102,7 @@ export class App {
  */
 export interface IAppOption {
   element: string | HTMLElement
-  name: string
+  name?: string
   rootComponent: TRootComponent
   router?: Router
   services?: TService[]

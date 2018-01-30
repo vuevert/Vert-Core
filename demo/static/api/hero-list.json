@@ -1,0 +1,35 @@
+{
+  "status": 200,
+  "data": [
+    {
+      "name": "John Smith",
+      "level": 16,
+      "type": "Warrior",
+      "hp": 100,
+      "mp": 20,
+      "attack": 80
+    }, {
+      "name": "Jimmy Parker",
+      "level": 12,
+      "type": "Priest",
+      "hp": 60,
+      "mp": 110,
+      "attack": 10
+    }, {
+      "name": "Eric Cartman",
+      "level": 14,
+      "type": "Rabbi",
+      "hp": 50,
+      "mp": 130,
+      "attack": 95
+    }, {
+      "name": "LancerComet",
+      "level": 1,
+      "type": "Neet",
+      "hp": 10,
+      "mp": 10,
+      "attack": 5
+    }
+  ],
+  "message": "OK"
+}

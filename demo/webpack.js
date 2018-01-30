@@ -16,7 +16,13 @@ const babelLoader = {
 
 module.exports = {
   entry: {
-    index: resolve('./demo/app.index/index.ts')
+    'tour-of-hero': resolve('./demo/app.tour-of-hero/index.ts'),
+    welcome: resolve('./demo/app.welcome/index.ts')
+  },
+
+  output: {
+    path: '/',
+    filename: '[name].js'
   },
 
   devtool: "eval-source-map",
@@ -64,8 +70,15 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: resolve('./demo/app.index/index.html')
+      filename: 'welcome.html',
+      template: resolve('./demo/app.welcome/index.html'),
+      chunks: ['welcome']
+    }),
+
+    new HtmlWebpackPlugin({
+      filename: 'tour-of-hero.html',
+      template: resolve('./demo/app.tour-of-hero/index.html'),
+      chunks: ['tour-of-hero']
     }),
 
     new FriendlyErrorPlugin()
