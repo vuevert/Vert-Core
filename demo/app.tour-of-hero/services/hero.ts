@@ -1,10 +1,17 @@
+import { Data } from '../../../src/data'
+
 class Hero {
+  static create (param: IHero): Hero {
+    return Data.createTypeSecuredInstance(Hero, param)
+  }
+
   name: string
   level: number
   type: string
   hp: number
   mp: number
   attack: number
+
   constructor (param: IHero) {
     this.name = param.name
     this.level = param.level

@@ -21,6 +21,8 @@
   - 将 Vue-Enterprise 作为类库使用.
   
  - [x] 提供诸如 Http、LocalStorage、Logger 等内部服务.
+ 
+ - [x] 可创建类型安全实例.
 
 ## 使用指南
 
@@ -154,4 +156,52 @@ class Student {
 const tom = new Student()
 tom.study.doHomework()
 tom.study.learnEnglish()
+```
+
+### 创建类型安全的 Class 实例
+
+对于系统中的关键数据，`类型安全`是程序稳定运行的基础保障，您可以使用 `vue-enterprise/data` 模块中的内置方法来创建类型安全实例.
+
+类型安全的实例在进行属性赋值时会对比数据类型，若数据类型出现差异则忽略赋值操作，保留上一次的正确数据。
+
+注：您可能需要在不支持 `Proxy` 的浏览器中引入 Polyfill.
+
+```typescript
+// 项目中定义了一个 Student 类.
+
+import { Data } from 'vue-enterprise/data'
+
+class Student {
+  // Data 类中的静态方法 createTypeSecuredInstance 可以创建类型安全的类型实例.
+  // 这里使用 Student 的静态方法封装创建操作.
+  static create (param?: IStudent): Student {
+    return Data.createTypeSecuredInstance(Student, param)
+  }
+
+  name: string = ''
+  age: number = 0
+
+  constructor (param?: IStudent) {
+    if (param) {
+      this.name = param.name
+      this.age = param.age
+    }
+  }
+}
+
+interface IStudent {
+  name: string
+  age: any
+}
+
+// 使用静态方法创建一个 Student 实例，这个实例将不接受错误的类型赋值。
+const johnSmith = Student.create({
+  name: 'John Smith', age: 20
+})
+
+johnSmith.age = 21  // age: 21
+johnSmith.name = 'Smithy'  // name: 'Smithy'
+johnSmith.age = '22'  // Wow, age can not be a string!
+                      // And there will be a warning in console.
+console.log(johnSmith.age)  // 21
 ```

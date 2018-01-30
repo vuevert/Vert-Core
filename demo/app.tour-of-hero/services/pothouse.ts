@@ -7,7 +7,7 @@ import { Hero } from './hero'
 class Pothouse {
   async findAllHeroes () {
     const { data } = await this.http.get('/api/hero-list.json')
-    const heroes: Hero[] = data.data
+    const heroes: Hero[] = data.data.map(item => Hero.create(item))
     await store.dispatch('setAllHeroes', heroes)
   }
 

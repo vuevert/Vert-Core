@@ -4,7 +4,7 @@
  */
 
 import { THookFunction, TRootComponent, TService } from '../types'
-import { isDefined, isFunction } from '../utils/util.type-detect'
+import { Utils } from '../utils/'
 import { Router } from './core.router'
 import { Store } from './core.store'
 import { ComponentOptions, PluginFunction, PluginObject, Vue } from './core.vue'
@@ -48,21 +48,21 @@ export class App {
       },
       provide: this._serviceInstances,
       created () {
-        isFunction(created) && created(this)
+        Utils.isFunction(created) && created(this)
       },
       mounted () {
-        isFunction(mounted) && mounted(this)
+        Utils.isFunction(mounted) && mounted(this)
       },
       beforeDestroy () {
-        isFunction(beforeDestroy) && beforeDestroy(this)
+        Utils.isFunction(beforeDestroy) && beforeDestroy(this)
       }
     }
 
-    if (isDefined(this._router)) {
+    if (Utils.isDefined(this._router)) {
       Object.assign(option, { router: this._router })
     }
 
-    if (isDefined(this._store)) {
+    if (Utils.isDefined(this._store)) {
       Object.assign(option, { store: this._store })
     }
 

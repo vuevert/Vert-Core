@@ -27,6 +27,8 @@ There should not be much pain when you using it. If you feel bad about it, just 
 
  - [x] Provide internal services such as Http, LocalStorage, Logger, ect.
  
+ - [x] Ability to create type-secured class instance.
+ 
 ## How to use it
 
 You can use Vue-Enterprise in two ways:
@@ -170,3 +172,6 @@ const tom = new Student()
 tom.study.doHomework()
 tom.study.learnEnglish()
 ```
+
+### Create type-secured class instance.
+

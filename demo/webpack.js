@@ -6,7 +6,13 @@ const babelLoader = {
   loader: 'babel-loader',
   options: {
     "presets": [
-      ["env", { "modules": false }]
+      ["env", {
+        "modules": false,
+        "useBuiltIns": "usage",
+        "targets": {
+          "browsers": ["ie >= 9", "chrome >= 30", "firefox >= 30"]
+        }
+      }]
     ],
     "plugins": [
       "transform-runtime"
