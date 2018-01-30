@@ -9,8 +9,10 @@ export default class AuthorPanel extends AppComponent {
   authorList: string[] = []
 
   async fetchAuthorList () {
+    this.logger.info('Start to fetch author list...')
     const list = await this.authorService.fetchList()
     this.authorList = list
+    this.logger.info('Author list fetching successfully.')
   }
 
   async created () {
