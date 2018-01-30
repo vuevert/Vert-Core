@@ -1,3 +1,8 @@
+/**
+ * App is the basic unit for a project.
+ * An app stands for a single html page.
+ */
+
 import { THookFunction, TRootComponent, TService } from '../types'
 import { isDefined, isFunction } from '../utils/util.type-detect'
 import { Router } from './core.router'

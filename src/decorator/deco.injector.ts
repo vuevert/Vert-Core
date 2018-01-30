@@ -10,7 +10,10 @@
  */
 function Inject (...Providers): any {
   return function (targetClass: any) {
-    const providers = Providers.map(Item => new Item())
+    const providers = Providers.map(Provider => {
+      const providerName = Provider.prototype.constructor.name
+      return createProviderInstance(Provider, providerName)
+    })
     return createInjectedConstructor(targetClass, ...providers)
   }
 }
@@ -47,9 +50,17 @@ function injectFactory<T extends TConstructor> (
   targetClass: T, Providers: { [name: string]: TConstructor} = {}
 ): T {
   Object.keys(Providers).forEach(providerName => {
-    targetClass.prototype[providerName] = new Providers[providerName]()
+    const Provider = Providers[providerName]
+    const callerName = Provider.prototype.constructor.name
+    targetClass.prototype[providerName] = createProviderInstance(Provider, callerName)
   })
   return targetClass
+}
+
+function createProviderInstance (Provider: TConstructor, callerName: string = '') {
+  const provider = new Provider()
+  provider['$callerName'] = callerName
+  return provider
 }
 
 type TConstructor = new (...args) => any

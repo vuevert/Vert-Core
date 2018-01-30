@@ -1,2 +1,0 @@
-describe('Log Service testing.', () => {
-})

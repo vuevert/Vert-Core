@@ -1,8 +1,9 @@
 import { AppComponent, Component } from '../../../src/app-component'
+import { Logger } from '../../../src/services'
 import { Author } from '../service'
 
 @Component({
-  providers: [Author]
+  providers: [Author, Logger]
 })
 export default class AuthorPanel extends AppComponent {
   authorList: string[] = []
@@ -16,7 +17,10 @@ export default class AuthorPanel extends AppComponent {
     await this.fetchAuthorList()
   }
 
-  constructor (public authorService: Author) {
+  constructor (
+    public authorService: Author,
+    public logger: Logger
+  ) {
     super()
   }
 }

@@ -14,7 +14,7 @@ class LocalStorage {
    * @return {string}
    */
   getItem (keyName: string): string {
-    return window.localStorage.getItem(keyName)
+    return localStorage.getItem(keyName)
   }
 
   /**
@@ -24,7 +24,7 @@ class LocalStorage {
    * @param {string} data
    */
   setItem (keyName: string, data: string) {
-    window.localStorage.setItem(keyName, data)
+    localStorage.setItem(keyName, data)
   }
 }
 

@@ -17,15 +17,15 @@ There should not be much pain when you using it. If you feel bad about it, just 
 
  - [x] Divide project into app modules (html page).
  
- - [ ] Service, Utils, Const, Store, Router.
+ - [x] Have its own design pattern for designing service and utils.
+ 
+ - [x] Store (Vuex), Router (Vue-Router).
  
  - [ ] Two different ways to use Vue-Enterprise:
    - As a template.
    - As a library.
 
- - [x] Service must be written in Class and imported by using DI.
-
- - [x] Provide internal services such as http, localStorage, ect.
+ - [x] Provide internal services such as Http, LocalStorage, Logger, ect.
  
 ## How to use it
 
@@ -35,7 +35,15 @@ You can use Vue-Enterprise in two ways:
 
 2. Download this project as the template. Everything is prepared by us. Brand new start.
 
-## Quick Start
+## Guide
+
+### Initialize an app.
+
+Your app will be made up of one or several pages, we call every single page the `App`.
+
+If your app is a single-page-app, there will only be one `App` instance.
+
+This example shows how to create an app instance to initialize your web app.
 
 ```html
 <!-- View of your app. -->
@@ -64,35 +72,29 @@ const appIndex = new App({
   rootComponent: RootComponent
 })
 
-appIndex.boot()
+appIndex.start()
 ```
 
-## Guide
+### App Component.
 
-### Initialize an app.
-
-Your app will be made up of one or several pages, we call every single page the `App`.
-
-If your app is a single-page-app, there will only be one `App` instance.
-
-Create a instance to bootstrap your web app. Checkout "Quick Start" for more information.
+TODO: ...
 
 ### Internal services.
 
 TODO: ...
 
-### Create a class-based service and use it in AppComponent or normal Class.
+### Create a class-based service and use it in AppComponent.
 
-If you want to create a service by using the class, you can use `Injector` to inject this class to your component or other class.
-
-Vue-Enterprise provides the decorators to help you to do some `Dependency Injection` and `Inversion of Control` work:
+If you want to create a service by using the class, you can inject it to any AppComponent. Vue-Enterprise will help you to create an instance of your service automatically.
 
 ```typescript
 // services.ts
 // This is your custom service.
 
+import { Inject } from 'vue-enterprise/decorator'
 import { Http } from 'vue-enterprise/services'
 
+@Inject(Http)
 class User {
   async getUserInfoById (id: number) {
     const result = { data: null, error: null }
@@ -143,7 +145,9 @@ export default class RootComponent extends AppComponent {
 
 ### Dependency Injection decorator
 
-You can use `Inject` decorator to inject a class to another class:
+You may have noticed that there is a decorator called `Inject` that decorates the class `User`.
+
+The decorator `Inject` is designed to inject one class to another, and get an instance in automatic:
 
 ```typescript
 import { Inject } from 'vue-enterprise/decorator'
@@ -161,4 +165,8 @@ class Student {
     // this.study.doHomework()
   }
 }
+
+const tom = new Student()
+tom.study.doHomework()
+tom.study.learnEnglish()
 ```
