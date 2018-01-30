@@ -5,9 +5,9 @@ import Pothouse from './components/pothouse.vue'
 import Welcome from './components/welcome.vue'
 import RootComponent from './root-component.vue'
 
-App.use(Router)
-
 import { store } from './store'
+
+App.use(Router)
 
 const router = new Router({
   routes: [
