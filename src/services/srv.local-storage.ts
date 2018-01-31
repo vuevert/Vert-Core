@@ -7,6 +7,8 @@
  * @class LocalStorage
  */
 class LocalStorage {
+  private prefix: string = 'hime_storage_'
+
   /**
    * Get target item from local storage.
    *
@@ -14,6 +16,7 @@ class LocalStorage {
    * @return {string}
    */
   getItem (keyName: string): string {
+    keyName = this.prefix + keyName
     return localStorage.getItem(keyName)
   }
 
@@ -24,8 +27,11 @@ class LocalStorage {
    * @param {string} data
    */
   setItem (keyName: string, data: string) {
+    keyName = this.prefix + keyName
     localStorage.setItem(keyName, data)
   }
+
+  // TODO: Value that will be expired.
 }
 
 export {

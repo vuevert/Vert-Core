@@ -22,8 +22,9 @@ const babelLoader = {
 
 module.exports = {
   entry: {
+    'multi-apps-in-spa': resolve('./demo/app.multi-apps-in-spa'),
     'tour-of-hero': resolve('./demo/app.tour-of-hero/index.ts'),
-    welcome: resolve('./demo/app.welcome/index.ts')
+    'welcome': resolve('./demo/app.welcome/index.ts')
   },
 
   output: {
@@ -85,6 +86,12 @@ module.exports = {
       filename: 'tour-of-hero.html',
       template: resolve('./demo/app.tour-of-hero/index.html'),
       chunks: ['tour-of-hero']
+    }),
+
+    new HtmlWebpackPlugin({
+      filename: 'multi-apps-in-spa.html',
+      template: resolve('./demo/app.multi-apps-in-spa/index.html'),
+      chunks: ['multi-apps-in-spa']
     }),
 
     new FriendlyErrorPlugin()

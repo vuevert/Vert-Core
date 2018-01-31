@@ -17,7 +17,7 @@ test('Type-Secured data should work.', () => {
 
 class Student {
   static create (param?: IStudent): Student {
-    return Data.createTypeSecuredInstance(Student, param)
+    return Data.createTypeSafetyInstance(Student, param)
   }
 
   name: string = ''

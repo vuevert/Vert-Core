@@ -3,7 +3,7 @@ import { Inject, Prop, Provide, Watch } from 'vue-property-decorator'
 import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
 import { NavigationGuard } from '../core/core.router'
 import { Component, ComponentOptions } from '../core/core.vue'
-import { createInjectedConstructor } from '../decorator/deco.injector'
+import {createInjectedConstructor, createProviderInstance, TProviders} from '../decorator/deco.injector'
 
 let defaultComponentID = 1
 
@@ -23,12 +23,9 @@ function Component (options) {
       name: componentName
     }, (options || {}))
 
-    const dependencies = (
-      (options as IComponentOption).providers || []
-    ).map(Provider => new Provider())
+    const Providers = (options as IComponentOption).providers || []
 
-    const Constructor = createInjectedConstructor(targetClass, ...dependencies)
-
+    const Constructor = createInjectedConstructor(targetClass, Providers)
     const ComponentConstructor = componentFactory(Constructor, options)
     return ComponentConstructor
   }
@@ -40,7 +37,7 @@ interface IComponentOption {
   filters?: { [key: string]: typeof Function }
   template?: string
   name?: string
-  providers?: any[]
+  providers?: TProviders
 
   beforeRouteEnter?: NavigationGuard
   beforeRouteLeave?: NavigationGuard

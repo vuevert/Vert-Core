@@ -2,7 +2,7 @@ import { Data } from '../../../src/data'
 
 class Hero {
   static create (param: IHero): Hero {
-    return Data.createTypeSecuredInstance(Hero, param)
+    return Data.createTypeSafetyInstance(Hero, param)
   }
 
   name: string

@@ -1,5 +1,5 @@
 class Data {
-  static createTypeSecuredInstance <T> (Constructor: new (...args) => any, ...args): T {
+  static createTypeSafetyInstance <T> (Constructor: new (...args) => any, ...args): T {
     const obj = new Constructor(...args)
     return new Proxy(obj, {
       set (target, keyName, value, proxy) {

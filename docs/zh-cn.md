@@ -17,12 +17,20 @@
  - [x] Store (Vuex), Router (Vue-Router).
  
  - [ ] 两种使用方式：
-  - 使用 Vue-Enterprise 的模板.
-  - 将 Vue-Enterprise 作为类库使用.
+
+   - 使用 Vue-Enterprise 的模板.
+
+   - 将 Vue-Enterprise 作为类库使用.
+
+ - [ ] 服务区分基础 (Basic) 和业务 (Business) 服务.
+
+ - [ ] 区分服务类型（Class, Factory, Value）
   
  - [x] 提供诸如 Http、LocalStorage、Logger 等内部服务.
+
+ - [ ] 插件系统.
  
- - [x] 可创建类型安全实例.
+ - [x] 可创建运行时的类型安全实例.
 
 ## 使用指南
 

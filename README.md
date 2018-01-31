@@ -22,12 +22,20 @@ There should not be much pain when you using it. If you feel bad about it, just 
  - [x] Store (Vuex), Router (Vue-Router).
  
  - [ ] Two different ways to use Vue-Enterprise:
+   
    - As a template.
+
    - As a library.
 
+ - Divide services into base service and business service.
+
+ - Service type: Class, Factory, Value.
+
  - [x] Provide internal services such as Http, LocalStorage, Logger, ect.
+
+ - [ ] Plugin system.
  
- - [x] Ability to create type-secured class instance.
+ - [x] Ability to create type-safety class instance while running.
  
 ## How to use it
 
@@ -173,5 +181,5 @@ tom.study.doHomework()
 tom.study.learnEnglish()
 ```
 
-### Create type-secured class instance.
+### Create type-safety class instance.
 
