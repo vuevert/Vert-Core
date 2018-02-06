@@ -22,9 +22,9 @@
 
    - 将 Vue-Enterprise 作为类库使用.
 
- - [ ] 服务区分基础 (Basic) 和业务 (Business) 服务.
+ - [ ] 服务区分角色类型 (基础服务 Basic 和业务服务 Business) .
 
- - [ ] 区分服务类型（Class, Factory, Value）
+ - [x] 区分服务代码类型 (Factory, Service).
   
  - [x] 提供诸如 Http、LocalStorage、Logger 等内部服务.
 
@@ -78,6 +78,26 @@ TODO: ...
 
 TODO: ...
 
+### 创建自定义服务
+
+#### 服务类型
+
+您在业务中不可避免的会创建业务服务，建议您稍稍留心一下服务的组织方式.
+
+业务服务建议分为以下两种类型：
+
+ - 基于不可实例化的静态类的服务 (Factory)：
+ 
+ - 基于可实例化类的服务 (Service)：
+ 
+#### 业务角色
+
+您编写的业务应当分为两种角色：
+
+ - 基础服务：
+ 
+ - 业务服务：
+
 ### 最佳的方式来创建一个基于 Class 的服务，并方便地在 AppComponent 中使用
 
 如果您在项目中已经以 `Class` 的方式创建了一个服务，您可以将这个类注入至 `AppComponent` 当中，程序将帮您自动在目标组件中创建类实例。
@@ -86,10 +106,11 @@ TODO: ...
 // services.ts
 // 这是您的业务服务.
 
-import { Inject } from 'vue-enterprise/decorator'
+import { Inject, Injectable } from 'vue-enterprise/decorator'
 import { Http } from 'vue-enterprise/services'
 
 @Inject(Http)
+@Injectable
 class User {
   async getUserInfoById (id: number) {
     const result = { data: null, error: null }
@@ -145,8 +166,9 @@ export default class RootComponent extends AppComponent {
 此装饰器的用途是将一个类注入到另一个类中并自动获取一个类型实例：
 
 ```typescript
-import { Inject } from 'vue-enterprise/decorator'
+import { Inject, Injectable } from 'vue-enterprise/decorator'
 
+@Injectable
 class Study {
   learnEnglish () {}
   doHomework () {}
@@ -165,6 +187,8 @@ const tom = new Student()
 tom.study.doHomework()
 tom.study.learnEnglish()
 ```
+
+请注意，需要注入至其它 Class 中的 Class 需要被 `Injectable` 装饰.
 
 ### 创建类型安全的 Class 实例
 

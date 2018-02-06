@@ -1,3 +1,5 @@
+import { Injectable } from '../../decorator'
+
 let nextJobs = []
 let jobTimer = null
 
@@ -10,6 +12,7 @@ let tickPromise = null
  * @description
  * Timer provides a set of functions to use timer-related function.
  */
+@Injectable
 class Timer {
   setTimeout (callback: () => void, timeout: number = 1) {
     return setTimeout(callback, timeout)

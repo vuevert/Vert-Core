@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import { App, Store } from '../../src/core'
 import App01 from './app1/index.vue'
 import App02 from './app2/index.vue'

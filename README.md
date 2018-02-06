@@ -101,10 +101,11 @@ If you want to create a service by using the class, you can inject it to any App
 // services.ts
 // This is your custom service.
 
-import { Inject } from 'vue-enterprise/decorator'
+import { Inject, Service } from 'vue-enterprise/decorator'
 import { Http } from 'vue-enterprise/services'
 
 @Inject(Http)
+@Service
 class User {
   async getUserInfoById (id: number) {
     const result = { data: null, error: null }
@@ -160,8 +161,9 @@ You may have noticed that there is a decorator called `Inject` that decorates th
 The decorator `Inject` is designed to inject one class to another, and get an instance in automatic:
 
 ```typescript
-import { Inject } from 'vue-enterprise/decorator'
+import { Inject, Service } from 'vue-enterprise/decorator'
 
+@Service
 class Study {
   learnEnglish () {}
   doHomework () {}

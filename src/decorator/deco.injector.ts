@@ -1,3 +1,5 @@
+import { appConfig } from '../config'
+
 const instanceCache = []
 
 /**
@@ -67,15 +69,14 @@ function createProviderInstance (Provider: TProvider) {
     _Provider = Provider
   }
 
-  // 当 args.length < 1 时使用缓存.
-  // if (_args.length < 1) {
-  //   const cache = findInstanceFromCache(_Provider)
-  //   if (!cache) {
-  //     instance = createInstanceCache(_Provider)
-  //   }
-  // } else {
-  //   instance = createInstance(_Provider, _args)
-  // }
+  if (process.env.NODE_ENV === 'development') {
+    if (_Provider['$$isInjectable'] !== true) {
+      throw new TypeError(
+        `[${appConfig.name}] Class "${_Provider.name}" can't be injected because it is non-injectable. ` +
+        `Please decorate it with "Service" before injection.`
+      )
+    }
+  }
 
   const instance = createInstance(_Provider, _args)
   return instance
@@ -112,6 +113,8 @@ function createInstanceCache (Provider: TConstructor) {
 
 function createInstance (Provider: TConstructor, args: any[]) {
   const instance = new Provider(...args)
-  instance['$providerName'] = Provider.prototype.constructor.name
+  Object.defineProperty(instance, '$$providerName', {
+    value: Provider.prototype.constructor.name
+  })
   return instance
 }

@@ -1,5 +1,8 @@
+import { Injectable } from '../../decorator'
+
 const logPool: ILog[] = []
 
+@Injectable
 class Logger {
   debug (...content) {
     if (process.env.NODE_ENV === 'development') {

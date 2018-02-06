@@ -3,7 +3,7 @@ import { LocalStorage } from './srv.local-storage'
 beforeAll(() => {
   global['localStorage'] = {
     storage: {
-      MOCKING_DATA: 'WOW'
+      hime_storage_MOCKING_DATA: 'WOW'
     },
 
     getItem (keyName: string) {

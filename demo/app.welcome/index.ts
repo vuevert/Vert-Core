@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import { App } from '../../src/core'
 import RootComponent from './root-component.vue'
 

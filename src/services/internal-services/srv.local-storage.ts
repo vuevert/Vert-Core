@@ -1,3 +1,5 @@
+import { Injectable } from '../../decorator'
+
 /**
  * Internal service: LocalStorage
  *
@@ -6,6 +8,7 @@
  *
  * @class LocalStorage
  */
+@Injectable
 class LocalStorage {
   private prefix: string = 'hime_storage_'
 

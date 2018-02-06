@@ -8,7 +8,7 @@ const babelLoader = {
     "presets": [
       ["env", {
         "modules": false,
-        "useBuiltIns": "usage",
+        "useBuiltIns": "entry",
         "targets": {
           "browsers": ["ie >= 9", "chrome >= 30", "firefox >= 30"]
         }
@@ -55,7 +55,15 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            ts: [
+              babelLoader,
+              'ts-loader'
+            ]
+          }
+        }
       },
       {
         test: /\.js$/,
