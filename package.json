@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config ./demo/webpack.js",
-    "test": "jest --runInBand --watch"
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.17.1",

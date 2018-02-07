@@ -1,6 +1,5 @@
 import { appConfig } from '../config'
 import { injectableIndicator } from './deco.injectable'
-import {Logger} from "../services";
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
@@ -16,7 +15,8 @@ function Factory (target: any) {
     }
 
     if (isProd) {
-
+      console.error(errorMsg)
+      return
     }
   }
 

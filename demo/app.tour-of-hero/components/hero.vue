@@ -19,7 +19,16 @@
     <div class="attack">
       <span>Attack: {{hero.attack}}</span>
     </div>
+    <router-link to="/pothouse">
+      <button class="back-button">Back</button>
+    </router-link>
   </div>
 </template>
+
+<style scoped>
+  .back-button {
+    margin-top: 10px;
+  }
+</style>
 
 <script lang="ts" src="./hero.ts"></script>

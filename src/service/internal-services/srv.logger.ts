@@ -1,8 +1,10 @@
-import { Injectable } from '../../decorator'
+import { Inject, Injectable } from '../../decorator'
+import { LocalStorage } from './srv.local-storage'
 
 const logPool: ILog[] = []
 
 @Injectable
+@Inject(LocalStorage)
 class Logger {
   debug (...content) {
     if (process.env.NODE_ENV === 'development') {
@@ -43,6 +45,8 @@ class Logger {
       return logPool
     }
   }
+
+  constructor (public localStorage: LocalStorage) {}
 }
 
 enum LogLevel {

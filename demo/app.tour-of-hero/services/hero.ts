@@ -1,5 +1,7 @@
 import { Data } from '../../../src/data'
+import { Injectable } from '../../../src/decorator'
 
+@Injectable
 class Hero {
   static create (param: IHero): Hero {
     return Data.createTypeSafetyInstance(Hero, param)
