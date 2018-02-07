@@ -1,5 +1,5 @@
 import { componentFactory } from 'vue-class-component/lib/component'
-import { Inject, Prop, Provide, Watch } from 'vue-property-decorator'
+import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
 import { NavigationGuard } from '../core/core.router'
 import { Component } from '../core/core.vue'
@@ -46,8 +46,8 @@ interface IComponentOption {
 
 export {
   Component,
-  Inject,
   Prop,
-  Provide,
+  VueInject,
+  VueProvide,
   Watch
 }

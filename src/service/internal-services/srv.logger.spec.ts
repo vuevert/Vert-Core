@@ -1,9 +1,11 @@
+import { Injector } from '../../decorator'
 import { Logger, LogLevel } from './srv.logger'
 
 describe('Log Service testing.', () => {
   let logger: Logger
   beforeAll(() => {
-    logger = new Logger()
+    const injector = Injector.create(Logger)
+    logger = injector.get(Logger)
   })
 
   test('Info logger should work.', () => {
