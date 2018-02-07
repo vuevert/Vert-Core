@@ -8,6 +8,7 @@ import { Injectable } from '../../decorator'
  *
  * @class LocalStorage
  */
+
 @Injectable
 class LocalStorage {
   private prefix: string = 'hime_storage_'

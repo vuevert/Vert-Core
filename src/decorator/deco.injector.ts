@@ -1,120 +1,44 @@
-import { appConfig } from '../config'
+import { TConstructor } from '../types'
+import { createProviderInstance, getConstructorFromProvider, TProvider, TProviders } from './deco.inject'
 
-const instanceCache = []
+class Injector {
+  static create (...Providers: TProviders): Injector {
+    const injector = new Injector()
 
-/**
- * Inject decorator for class.
- *
- * @description
- * Provide ability to use other class in DI-way.
- *
- * @param Providers
- * @return {(target: any) => any}
- * @constructor
- */
-function Inject (...Providers): any {
-  return function (targetClass: any) {
-    return createInjectedConstructor(targetClass, Providers)
-  }
-}
+    Providers.forEach(Provider => {
+      let instance = injector.getInstanceFromCache(Provider)
+      if (!instance) {
+        instance = createProviderInstance(Provider)
+        injector.saveToCache(Provider, instance)
+      }
+    })
 
-/**
- * Class a class that has already been injected.
- *
- * @param {*} targetClass
- * @param {TProviders} Providers
- * @return {*}
- */
-function createInjectedConstructor (targetClass: any, Providers: TProviders): any {
-  const providers = Providers.map(createProviderInstance)
-  const Constructor: any = function () {
-    return new targetClass(...providers)
-  }
-  Constructor.prototype = targetClass.prototype
-  return Constructor
-}
-
-/**
- * Inject factory function.
- *
- * @param {T} targetClass
- * @param {any[]} Providers
- * @return {T}
- */
-function injectFactory<T extends TConstructor> (
-  targetClass: T,
-  Providers: { [name: string]: TProvider } = {}
-): T {
-  Object.keys(Providers).forEach(providerName => {
-    const Provider = Providers[providerName]
-    targetClass.prototype[providerName] = createProviderInstance(Provider)
-  })
-  return targetClass
-}
-
-/**
- * Create provider instance.
- *
- * @param {TProvider} Provider
- * @return {any}
- */
-function createProviderInstance (Provider: TProvider) {
-  let _Provider = null
-  let _args = []
-
-  if (Array.isArray(Provider)) {
-    _Provider = Provider[0]
-    _args = Provider[1]
-  } else {
-    _Provider = Provider
+    return injector
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    if (_Provider['$$isInjectable'] !== true) {
-      throw new TypeError(
-        `[${appConfig.name}] Class "${_Provider.name}" can't be injected because it is non-injectable. ` +
-        `Please decorate it with "Service" before injection.`
-      )
+  protected cache: Array<[TConstructor, any]> = []
+
+  protected getInstanceFromCache (Provider: TProvider) {
+    const [_Provider] = getConstructorFromProvider(Provider)
+
+    for (const item of this.cache) {
+      const [$Provider, $instance] = item
+      if ($Provider === _Provider) {
+        return $instance
+      }
     }
   }
 
-  const instance = createInstance(_Provider, _args)
-  return instance
-}
+  protected saveToCache (Provider: TProvider, instance: any) {
+    const [_Provider] = getConstructorFromProvider(Provider)
+    this.cache.push([_Provider, instance])
+  }
 
-type TConstructor = new (...args) => any
-type TProvider = TConstructor | [TConstructor, any[]]
-type TProviders = TProvider[]
+  get <T> (Provider: new (...args) => T): T {
+    return this.getInstanceFromCache(Provider as any)
+  }
+}
 
 export {
-  Inject,
-  createInjectedConstructor,
-  createProviderInstance,
-  injectFactory,
-  TConstructor,
-  TProviders
-}
-
-function findInstanceFromCache (Provider: TConstructor) {
-  for (const cacheItem of instanceCache) {
-    const [Constructor, cache] = cacheItem
-    if (Constructor === Provider) {
-      return cache
-    }
-  }
-}
-
-function createInstanceCache (Provider: TConstructor) {
-  const instance = new Provider()
-  const cacheItem = [Provider, instance]
-  instanceCache.push(cacheItem)
-  return instance
-}
-
-function createInstance (Provider: TConstructor, args: any[]) {
-  const instance = new Provider(...args)
-  Object.defineProperty(instance, '$$providerName', {
-    value: Provider.prototype.constructor.name
-  })
-  return instance
+  Injector
 }

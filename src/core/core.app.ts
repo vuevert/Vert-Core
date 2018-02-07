@@ -101,7 +101,7 @@ export class App {
  * @interface IAppPage
  */
 export interface IAppOption {
-  element: string | HTMLElement
+  element?: string | HTMLElement
   name?: string
   rootComponent: TRootComponent
   router?: Router

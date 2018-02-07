@@ -1,16 +1,16 @@
-import { UnInjectable } from './deco.uninjectable'
+import { Factory } from './deco.factory'
 
-describe('UnInjectable testing.', () => {
-  test('UnInjectable decorator should work.', () => {
+describe('Factory testing.', () => {
+  test('Factory decorator should work.', () => {
     expect.assertions(1)
 
-    @UnInjectable
+    @Factory
     abstract class App {
       static version: number = 10
     }
 
     try {
-      @UnInjectable
+      @Factory
       class App2 {
         version: number = 10
         getVersion () {

@@ -1,3 +1,4 @@
-export { Inject } from './deco.injector'
+export { Inject } from './deco.inject'
 export { Injectable } from './deco.injectable'
-export { UnInjectable } from './deco.uninjectable'
+export { Injector } from './deco.injector'
+export { Factory } from './deco.factory'

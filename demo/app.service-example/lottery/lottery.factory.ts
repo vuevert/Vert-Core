@@ -1,6 +1,6 @@
-import { UnInjectable } from '../../../../src/decorator'
+import { Factory } from '../../../src/decorator'
 
-@UnInjectable
+@Factory
 abstract class LotteryFactory {
   static createLottery () {
     return {

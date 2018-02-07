@@ -3,7 +3,7 @@ import { Inject, Prop, Provide, Watch } from 'vue-property-decorator'
 import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
 import { NavigationGuard } from '../core/core.router'
 import { Component } from '../core/core.vue'
-import { createInjectedConstructor, TProviders } from '../decorator/deco.injector'
+import { createInjectedConstructor, TProviders } from '../decorator/deco.inject'
 
 let defaultComponentID = 1
 
