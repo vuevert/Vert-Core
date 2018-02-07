@@ -1,5 +1,5 @@
 const appConfig = {
-  name: 'Vue-Enterprise',
+  name: 'Vert',
   author: 'LancerComet'
 }
 

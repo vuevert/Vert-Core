@@ -1,6 +1,6 @@
-# Vue-Enterprise
+# Vert
 
-`Vue-Enterprise` 是针对基于 Vue 的中大型项目的一系列最佳实践与约束的工具集合，它将帮助您对项目进行统一、合理、高效的规划与工程管理。Vue-Enterprise 拥有一套自己的设计模式与开发范式，并提供了一些额外的 API 来帮助您完成您的设计工作。
+`Vert` 是针对基于 Vue 的中大型项目的一系列最佳实践与约束的工具集合，它将帮助您对项目进行统一、合理、高效的规划与工程管理。Vert 拥有一套自己的设计模式与开发范式，并提供了一些额外的 API 来帮助您完成您的设计工作。
 
 在使用此工具时如果您感到困难和痛苦，这说明您的项目目前还没有达到需要使用此工具的程度和规模，请立刻停止使用。
 
@@ -18,9 +18,9 @@
  
  - [ ] 两种使用方式：
 
-   - 使用 Vue-Enterprise 的模板.
+   - 使用 Vert 的模板.
 
-   - 将 Vue-Enterprise 作为类库使用.
+   - 将 Vert 作为类库使用.
 
  - [ ] 服务区分角色类型 (基础服务 Basic 和业务服务 Business) .
 
@@ -58,7 +58,7 @@
 // 创建一个 App 实例来初始化一个页面。
 // 项目入口文件.
 
-import { App } from 'vue-enterprise/core'
+import { App } from 'Vert/core'
 import RootComponent from './root-component/index.vue'
 
 const appIndex = new App({
@@ -76,7 +76,7 @@ TODO: ...
 
 ### 内部服务
 
-TODO: ...
+
 
 ### 创建自定义服务
 
@@ -86,9 +86,9 @@ TODO: ...
 
 业务服务建议分为以下两种类型：
 
- - 基于不可实例化的静态类的服务 (Factory)：
+ - 基于不可实例化的静态类的服务 (Factory)：此类型的服务应当为一个抽象类 (abstract) 并使用 `@Factory` 进行装饰.
  
- - 基于可实例化类的服务 (Service)：
+ - 基于可实例化类的服务 (Service)：此类型的服务应当为一个可以实例化的普通类并使用 `@Injectable` 进行装饰.
  
 #### 业务角色
 
@@ -106,8 +106,8 @@ TODO: ...
 // services.ts
 // 这是您的业务服务.
 
-import { Inject, Injectable } from 'vue-enterprise/decorator'
-import { Http } from 'vue-enterprise/services'
+import { Inject, Injectable } from 'Vert/decorator'
+import { Http } from 'Vert/services'
 
 @Inject(Http)
 @Injectable
@@ -136,7 +136,7 @@ export {
 ```typescript
 // root-component.ts
 
-import { AppComponent, Component } from 'vue-enterprise/app-component'
+import { AppComponent, Component } from 'Vert/app-component'
 import { User } from './services.ts'
 
 @Component({
@@ -166,7 +166,7 @@ export default class RootComponent extends AppComponent {
 此装饰器的用途是将一个类注入到另一个类中并自动获取一个类型实例：
 
 ```typescript
-import { Inject, Injectable } from 'vue-enterprise/decorator'
+import { Inject, Injectable } from 'Vert/decorator'
 
 @Injectable
 class Study {
@@ -192,7 +192,7 @@ tom.study.learnEnglish()
 
 ### 创建类型安全的 Class 实例
 
-对于系统中的关键数据，`类型安全`是程序稳定运行的基础保障，您可以使用 `vue-enterprise/data` 模块中的内置方法来创建类型安全实例.
+对于系统中的关键数据，`类型安全`是程序稳定运行的基础保障，您可以使用 `Vert/data` 模块中的内置方法来创建类型安全实例.
 
 类型安全的实例在进行属性赋值时会对比数据类型，若数据类型出现差异则忽略赋值操作，保留上一次的正确数据。
 
@@ -201,7 +201,7 @@ tom.study.learnEnglish()
 ```typescript
 // 项目中定义了一个 Student 类.
 
-import { Data } from 'vue-enterprise/data'
+import { Data } from 'Vert/data'
 
 class Student {
   // Data 类中的静态方法 createTypeSecuredInstance 可以创建类型安全的类型实例.

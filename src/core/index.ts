@@ -1,5 +1,5 @@
 /**
- * Vue Enterprise.
+ * Vert.
  *
  * @description
  * This is a type of best practice for building a large scale web application which is based on vue.

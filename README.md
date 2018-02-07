@@ -1,11 +1,11 @@
-# Vue Enterprise
+# Vert
 
 ## Introduction
 
 This is a type of best practice for building a middle or large scale web application which is based on vue. 
 It will ease your pain when you face a huge project.
 
-Vue-Enterprise provides its own design pattern with several extra APIs, so maybe you should obey its rules and build your project in its design pattern.
+Vert provides its own design pattern with several extra APIs, so maybe you should obey its rules and build your project in its design pattern.
 
 There should not be much pain when you using it. If you feel bad about it, just do not use it.
 
@@ -21,7 +21,7 @@ There should not be much pain when you using it. If you feel bad about it, just 
  
  - [x] Store (Vuex), Router (Vue-Router).
  
- - [ ] Two different ways to use Vue-Enterprise:
+ - [ ] Two different ways to use Vert:
    
    - As a template.
 
@@ -39,9 +39,9 @@ There should not be much pain when you using it. If you feel bad about it, just 
  
 ## How to use it
 
-You can use Vue-Enterprise in two ways:
+You can use Vert in two ways:
 
-1. Install Vue-Enterprise as a npm package and import to your project. You only use its api, and everything else is under your control.
+1. Install Vert as a npm package and import to your project. You only use its api, and everything else is under your control.
 
 2. Download this project as the template. Everything is prepared by us. Brand new start.
 
@@ -73,7 +73,7 @@ This example shows how to create an app instance to initialize your web app.
 // Bootstrap a project by creating a new instance of "App"
 // in entry file.
 
-import { App } from 'vue-enterprise/core'
+import { App } from 'Vert/core'
 import RootComponent from './root-component/index.vue'
 
 const appIndex = new App({
@@ -95,14 +95,14 @@ TODO: ...
 
 ### Create a class-based service and use it in AppComponent.
 
-If you want to create a service by using the class, you can inject it to any AppComponent. Vue-Enterprise will help you to create an instance of your service automatically.
+If you want to create a service by using the class, you can inject it to any AppComponent. Vert will help you to create an instance of your service automatically.
 
 ```typescript
 // services.ts
 // This is your custom service.
 
-import { Inject, Service } from 'vue-enterprise/decorator'
-import { Http } from 'vue-enterprise/services'
+import { Inject, Service } from 'Vert/decorator'
+import { Http } from 'Vert/services'
 
 @Inject(Http)
 @Service
@@ -131,7 +131,7 @@ export {
 ```typescript
 // root-component.ts
 
-import { AppComponent, Component } from 'vue-enterprise/app-component'
+import { AppComponent, Component } from 'Vert/app-component'
 import { User } from './services.ts'
 
 @Component({
@@ -161,7 +161,7 @@ You may have noticed that there is a decorator called `Inject` that decorates th
 The decorator `Inject` is designed to inject one class to another, and get an instance in automatic:
 
 ```typescript
-import { Inject, Service } from 'vue-enterprise/decorator'
+import { Inject, Service } from 'Vert/decorator'
 
 @Service
 class Study {
