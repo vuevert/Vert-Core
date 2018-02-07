@@ -2,7 +2,10 @@ import { Factory } from './deco.factory'
 
 describe('Factory testing.', () => {
   test('Factory decorator should work.', () => {
-    expect.assertions(1)
+    // Error won't be thrown in production environment.
+    expect.assertions(
+      process.env.NODE_ENV === 'development' ? 1 : 0
+    )
 
     @Factory
     abstract class App {

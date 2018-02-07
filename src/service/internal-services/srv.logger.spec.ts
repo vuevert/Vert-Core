@@ -36,7 +36,7 @@ describe('Log Service testing.', () => {
   })
 
   test('Logger count should be 3.', () => {
-    const logs = logger.$getLogs()
+    const logs = logger.getLogs()
     expect(logs.length).toEqual(3)
   })
 })
