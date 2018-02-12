@@ -63,3 +63,5 @@ typings/
 # IDEs.
 .idea/
 
+# JS.
+*.js

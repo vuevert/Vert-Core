@@ -6,16 +6,17 @@
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
   },
-  "directories": {
-    "doc": "doc",
-    "lib": "lib"
-  },
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config ./demo/webpack.js",
     "build": "webpack --config ./build/webpack.build.conf.js",
     "test": "jest"
   },
+  "files": [
+    "*.js",
+    "doc/",
+    "lib/"
+  ],
   "dependencies": {
     "axios": "0.17.1",
     "babel-plugin-transform-runtime": "6.23.0",
@@ -55,10 +56,6 @@
   "keywords": [
     "Framework",
     "Vue"
-  ],
-  "files": [
-    "src",
-    "types/*.d.ts"
   ],
   "jest": {
     "globals": {
