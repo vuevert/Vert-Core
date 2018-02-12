@@ -2,7 +2,6 @@
   "name": "@blink-common/vert",
   "version": "1.0.0",
   "description": "This is an idea about building an enterprise framework based on Vue.",
-  "private": true,
   "author": {
     "name": "LancerComet",
     "email": "chw644@hotmail.com"

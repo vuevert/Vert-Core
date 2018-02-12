@@ -63,5 +63,3 @@ typings/
 # IDEs.
 .idea/
 
-# Bundled JS Files.
-*.js
