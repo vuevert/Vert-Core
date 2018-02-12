@@ -6,6 +6,10 @@
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
   },
+  "directories": {
+    "doc": "doc",
+    "lib": "lib"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config ./demo/webpack.js",
