@@ -1,5 +1,7 @@
 # Vert
 
+[![Build Status](https://travis-ci.com/LancerComet/vue-enterprise.svg?token=5zYzqd8cwqrVEG6tvNJs&branch=master)](https://travis-ci.com/LancerComet/vue-enterprise)
+
 ## Introduction
 
 Vert is a library that is designed for manage and build middle or large scale projects which are based on Vue. Vert has it own best practice and design pattern, and comes with several APIs to help you to do some 
