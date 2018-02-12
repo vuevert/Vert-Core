@@ -28,9 +28,11 @@ module.exports = {
   },
 
   output: {
-    path: resolve('./lib'),
+    path: resolve('./'),
     filename: '[name].js',
-    chunkFilename: '[name].[id].[chunkhash].js'
+    chunkFilename: '[name].[id].[chunkhash].js',
+    library: 'vert',
+    libraryTarget: 'umd'
   },
 
   resolve: {
@@ -61,7 +63,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': 'process.env.NODE_ENV'
-    })
+    }),
+
+    new webpack.optimize.UglifyJsPlugin()
   ]
 }
 

@@ -1,0 +1,10 @@
+.jest/
+build/
+demo/
+node_modules/
+.babelrc
+.editorconfig
+.travis.yml
+index.d.ts
+tsconfig.json
+tslint.json

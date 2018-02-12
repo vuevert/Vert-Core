@@ -1,6 +1,6 @@
 # Vert
 
-[![Build Status](https://travis-ci.com/LancerComet/vue-enterprise.svg?token=5zYzqd8cwqrVEG6tvNJs&branch=master)](https://travis-ci.com/LancerComet/vue-enterprise)
+[![Build Status](https://travis-ci.com/LancerComet/Vert.svg?token=5zYzqd8cwqrVEG6tvNJs&branch=master)](https://travis-ci.com/LancerComet/vue-enterprise)
 
 ## Introduction
 

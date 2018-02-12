@@ -1,3 +1,3 @@
-<template lang="pug">
-  div.service-example
+<template>
+  <div class="service-example"></div>
 </template>
