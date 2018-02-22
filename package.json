@@ -1,7 +1,8 @@
 {
   "name": "@bilibili-live/vert",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This is an idea about building an enterprise framework based on Vue.",
+  "private": true,
   "author": {
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
@@ -54,10 +55,10 @@
     "webpack": "3.10.0",
     "webpack-dev-server": "2.11.1"
   },
-  "typings": "./index.d.ts",
   "keywords": [
     "Framework",
-    "Vue"
+    "Vue",
+    "Vert"
   ],
   "jest": {
     "globals": {
