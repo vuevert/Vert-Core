@@ -65,3 +65,4 @@ typings/
 
 # JS.
 *.js
+*.map
