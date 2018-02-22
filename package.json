@@ -1,6 +1,6 @@
 {
   "name": "@bilibili-live/vert",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This is an idea about building an enterprise framework based on Vue.",
   "author": {
     "name": "LancerComet",

@@ -28,7 +28,7 @@ module.exports = {
   },
 
   output: {
-    path: resolve('./lib'),
+    path: resolve('./'),
     filename: '[name].js',
     chunkFilename: '[name].[id].[chunkhash].js',
     library: 'vert',
