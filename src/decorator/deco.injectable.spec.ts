@@ -10,5 +10,6 @@ describe('Injectable testing.', () => {
     const app = new App()
     expect(app.version).toEqual(10)
     expect(App['$$isInjectable']).toEqual(true)
+    expect(App['$$noCache']).toEqual(false)
   })
 })

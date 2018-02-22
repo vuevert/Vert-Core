@@ -1,41 +1,43 @@
-import { TConstructor } from '../types'
-import { createProviderInstance, getConstructorFromProvider, TProvider, TProviders } from './deco.inject'
+/*
+ * Injector use its own cache system.
+ * Provider shipped with cache should be duplicated: it is stored in both "injector cache" and "inject cache".
+ * The own cache system is designed for non-caching instance - it will be store in here.
+ */
+
+import { createProviderInstance, TProviders } from './deco.inject'
+import { ProviderCache } from './utils/provider-cache'
 
 class Injector {
+  protected providerCache: ProviderCache = new ProviderCache()
+
+  /**
+   * Create a new class injector.
+   *
+   * @param {TProviders} Providers
+   * @return {Injector}
+   */
   static create (...Providers: TProviders): Injector {
     const injector = new Injector()
 
     Providers.forEach(Provider => {
-      let instance = injector.getInstanceFromCache(Provider)
+      let instance = injector.providerCache.getInstanceFromCache(Provider)
       if (!instance) {
         instance = createProviderInstance(Provider)
-        injector.saveToCache(Provider, instance)
+        injector.providerCache.saveToCache(Provider, instance)
       }
     })
 
     return injector
   }
 
-  protected cache: Array<[TConstructor, any]> = []
-
-  protected getInstanceFromCache (Provider: TProvider) {
-    const [_Provider] = getConstructorFromProvider(Provider)
-
-    for (const item of this.cache) {
-      const [$Provider, $instance] = item
-      if ($Provider === _Provider) {
-        return $instance
-      }
-    }
-  }
-
-  protected saveToCache (Provider: TProvider, instance: any) {
-    const [_Provider] = getConstructorFromProvider(Provider)
-    this.cache.push([_Provider, instance])
-  }
-
+  /**
+   * Get target instance from injector by providing provider.
+   *
+   * @param {{new(...args): T}} Provider
+   * @return {T}
+   */
   get <T> (Provider: new (...args) => T): T {
-    return this.getInstanceFromCache(Provider as any)
+    return this.providerCache.getInstanceFromCache(Provider)
   }
 }
 

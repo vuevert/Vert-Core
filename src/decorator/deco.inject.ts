@@ -1,9 +1,12 @@
 import { appConfig } from '../config'
 import { TConstructor } from '../types'
-import { injectableIndicator } from './deco.injectable'
+import { injectableIndicator, noCacheIndicator } from './deco.injectable'
+import { ProviderCache } from './utils/provider-cache'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NODE_ENV === 'production'
+
+const providerCache: ProviderCache = new ProviderCache()
 
 /**
  * Inject decorator for class.
@@ -79,23 +82,31 @@ function createProviderInstance (Provider: TProvider) {
     }
   }
 
-  const instance = createInstanceExec(_Provider, _args)
+  // Class will share same instance by default.
+  // If no caching is required, return a new instance.
+  let instance = null
+  if (_Provider[noCacheIndicator]) {
+    instance = createInstanceExec(_Provider, _args)
+  } else {
+    const cachedInstance = providerCache.getInstanceFromCache(_Provider)
+    if (!cachedInstance) {
+      instance = createInstanceExec(_Provider, _args)
+      providerCache.saveToCache(_Provider, instance)
+    } else {
+      instance = cachedInstance
+    }
+  }
+
   return instance
 }
 
-type TProvider = TConstructor | [TConstructor, any[]]
-type TProviders = TProvider[]
-
-export {
-  Inject,
-  createInjectedConstructor,
-  createProviderInstance,
-  injectFactory,
-  getConstructorFromProvider,
-  TProvider,
-  TProviders
-}
-
+/**
+ * Create instance executing function.
+ *
+ * @param {TConstructor} Provider
+ * @param {any[]} args
+ * @return {any}
+ */
 function createInstanceExec (Provider: TConstructor, args: any[]) {
   const instance = new Provider(...args)
   Object.defineProperty(instance, '$$providerName', {
@@ -103,6 +114,20 @@ function createInstanceExec (Provider: TConstructor, args: any[]) {
   })
   return instance
 }
+
+export {
+  Inject,
+  createInjectedConstructor,
+  createProviderInstance,
+  injectFactory,
+  getConstructorFromProvider,
+  getInstanceFromCache,
+  TProvider,
+  TProviders
+}
+
+type TProvider = TConstructor | [TConstructor, any[]]
+type TProviders = TProvider[]
 
 /**
  * Get the constructor function from TProvider param.
@@ -136,4 +161,14 @@ function getConstructorFromProvider (Provider: TProvider): [TConstructor, any[]]
   }
 
   return [_Provider, _args]
+}
+
+/**
+ * Get instance from cache.
+ *
+ * @param {TProvider} Provider
+ * @return {any}
+ */
+function getInstanceFromCache (Provider: TProvider) {
+  return providerCache.getInstanceFromCache(Provider)
 }

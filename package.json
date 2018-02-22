@@ -8,6 +8,7 @@
     "email": "chw644@hotmail.com"
   },
   "license": "MIT",
+  "types": "./index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --config ./demo/webpack.js",
     "build": "tsc",
