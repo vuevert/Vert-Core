@@ -1,6 +1,6 @@
 {
   "name": "@bilibili-live/vert",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This is an idea about building an enterprise framework based on Vue.",
   "author": {
     "name": "LancerComet",
@@ -23,7 +23,6 @@
     "reflect-metadata": "0.1.12",
     "vue": "2.5.13",
     "vue-class-component": "6.1.2",
-    "vue-loader": "13.7.0",
     "vue-property-decorator": "6.0.0",
     "vue-router": "3.0.1",
     "vue-template-compiler": "2.5.13",
@@ -48,6 +47,7 @@
     "ts-loader": "3.3.0",
     "typescript": "2.6.2",
     "vue-jest": "1.4.0",
+    "vue-loader": "13.7.0",
     "vue-test-utils": "1.0.0-beta.11",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.11.1"
