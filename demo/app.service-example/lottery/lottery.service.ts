@@ -1,4 +1,4 @@
-import { Injectable } from '../../../src/injection/index'
+import { Injectable } from '@vert/core/injection'
 
 @Injectable
 class LotteryService {

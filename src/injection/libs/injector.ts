@@ -5,7 +5,7 @@
  */
 
 import { TProviders } from '../../types'
-import { createInstance } from './utils'
+import { InjectionUtils } from '../../utils/injection-utils'
 
 class Injector {
   /**
@@ -54,7 +54,7 @@ class Injector {
 
   constructor (...Providers: TProviders) {
     Providers.forEach(Provider => {
-      this.set(Provider, createInstance(Provider))
+      this.set(Provider, InjectionUtils.createProviderInstance(Provider))
     })
   }
 }

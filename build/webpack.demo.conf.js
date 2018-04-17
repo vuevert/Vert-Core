@@ -48,9 +48,8 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.ts'],
-
     alias: {
-      'vert': resolve('./src'),
+      '@vert/core': resolve('./src'),
       'vue$': 'vue/dist/vue.esm.js'
     }
   },

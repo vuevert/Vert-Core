@@ -1,12 +1,4 @@
-import { Data } from '../../../src/data'
-import { Injectable } from '../../../src/injection/index'
-
-@Injectable
 class Hero {
-  static create (param: IHero): Hero {
-    return Data.createTypeSafetyInstance(Hero, param)
-  }
-
   name: string
   level: number
   type: string

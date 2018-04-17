@@ -4,7 +4,7 @@
  * and there will not be any problem that is caused by npm-package-version-problem.
  */
 
-import { Vue } from '../core/core.vue'
+import Vue from 'vue'
 
 class AppComponent extends Vue {
   // ...

@@ -1,4 +1,4 @@
-import { AppComponent, Component } from '../../src/app-component'
+import { AppComponent, Component } from '@vert/core/app-component'
 
 @Component
 export default class RootComponent extends AppComponent {

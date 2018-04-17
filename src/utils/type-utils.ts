@@ -1,10 +1,10 @@
-class Utils {
+class TypeUtils {
   static isUndefined (target: any): boolean {
     return typeof target === 'undefined'
   }
 
   static isDefined (target: any): boolean {
-    return !Utils.isUndefined(target)
+    return !TypeUtils.isUndefined(target)
   }
 
   static isFunction (target: any): boolean {
@@ -13,5 +13,5 @@ class Utils {
 }
 
 export {
-  Utils
+  TypeUtils
 }

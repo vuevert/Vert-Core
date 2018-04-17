@@ -10,18 +10,4 @@
  * @licence MIT
  */
 
-import 'reflect-metadata'
-
-import { Router } from './core.router'
-import { Store, Vuex } from './core.store'
-import { Vue } from './core.vue'
-
-Vue.use(Vuex)
-
 export { App } from './core.app'
-export {
-  Router,
-  Store,
-  Vue,
-  Vuex
-}
