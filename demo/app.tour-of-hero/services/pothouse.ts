@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '../../../src/decorator'
+import { Inject, Injectable } from '../../../src/injection/index'
 import { Http } from '../../../src/service'
 import { store } from '../store'
 import { Hero } from './hero'

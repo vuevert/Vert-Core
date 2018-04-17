@@ -1,4 +1,4 @@
-import { Injector } from '../../decorator'
+import { Injector } from '../../injection/index'
 import { Qs } from './srv.qs'
 
 describe('QS Service testing.', () => {

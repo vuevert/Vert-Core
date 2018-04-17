@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '../../decorator'
+import { Inject, Injectable } from '../../injection/index'
 import { LocalStorage } from './srv.local-storage'
 
 @Injectable

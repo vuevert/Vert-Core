@@ -1,4 +1,4 @@
-import { Injectable } from '../../../src/decorator'
+import { Injectable } from '../../../src/injection/index'
 
 @Injectable
 class LotteryService {

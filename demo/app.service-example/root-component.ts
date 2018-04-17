@@ -1,6 +1,5 @@
 import { AppComponent, Component } from '../../src/app-component'
 
-import { LotteryFactory } from './lottery/lottery.factory'
 import { LotteryService } from './lottery/lottery.service'
 
 @Component({
@@ -12,7 +11,7 @@ export class RootComponent extends AppComponent {
   }
 
   get lotteryCount () {
-    return LotteryFactory.createLottery().count
+    return this.lotteryService.count
   }
 
   constructor (public lotteryService: LotteryService) {

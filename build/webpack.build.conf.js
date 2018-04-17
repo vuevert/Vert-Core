@@ -22,7 +22,7 @@ module.exports = {
     'app-component': resolve('./src/app-component/index.ts'),
     'core': resolve('./src/core/index.ts'),
     'data': resolve('./src/data/index.ts'),
-    'decorator': resolve('./src/decorator/index.ts'),
+    'injection': resolve('./src/injection/index.ts'),
     'event-bus': resolve('./src/event-bus/index.ts'),
     'service': resolve('./src/service/index.ts')
   },

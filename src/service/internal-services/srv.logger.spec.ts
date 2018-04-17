@@ -1,4 +1,4 @@
-import { Injector } from '../../decorator'
+import { Injector } from '../../injection/index'
 import { Logger, LogLevel } from './srv.logger'
 
 describe('Log Service testing.', () => {
