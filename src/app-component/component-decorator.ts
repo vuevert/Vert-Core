@@ -3,7 +3,8 @@ import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-pro
 import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
 import { NavigationGuard } from '../core/core.router'
 import { Component } from '../core/core.vue'
-import { createInjectedConstructor, TProviders } from '../injection/libs/inject'
+import { createInjectedConstructor } from '../injection/libs/inject'
+import { TProviders } from '../types'
 
 let defaultComponentID = 1
 

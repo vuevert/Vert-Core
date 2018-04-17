@@ -7,18 +7,17 @@
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
   },
-  "license": "MIT",
   "types": "./index.d.ts",
+  "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config ./demo/webpack.js",
+    "dev": "webpack-dev-server --config ./build/webpack.demo.conf.js",
     "build": "tsc",
     "bundle": "webpack --config ./build/webpack.build.conf.js",
     "test": "jest"
   },
   "files": [
     "*.js",
-    "doc/",
-    "lib/"
+    "doc/"
   ],
   "dependencies": {
     "axios": "0.17.1",
@@ -48,10 +47,10 @@
     "jest-serializer-vue": "0.3.0",
     "regenerator-runtime": "0.11.1",
     "ts-jest": "22.0.1",
-    "ts-loader": "3.3.0",
-    "typescript": "2.6.2",
+    "ts-loader": "3.5.0",
+    "typescript": "2.8.1",
     "vue-jest": "1.4.0",
-    "vue-loader": "13.7.0",
+    "vue-loader": "14.2.2",
     "vue-test-utils": "1.0.0-beta.11",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.11.1"

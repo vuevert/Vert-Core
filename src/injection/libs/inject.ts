@@ -1,5 +1,6 @@
 import { TProviders } from '../../types'
 import { globalInjector } from '../data/global-injector'
+import { injectableIndicator } from './injectable'
 import { Injector } from './injector'
 import { createInstance } from './utils'
 
@@ -31,7 +32,7 @@ function Inject (...Providers): any {
  * @return {*}
  */
 function createInjectedConstructor (targetClass: any, Providers: TProviders): any {
-  const providers = []
+  const providerInstances = []
   Providers.forEach(Provider => {
     let instance = globalInjector.get(Provider) ||
       localProviderCache.get(Provider)
@@ -39,12 +40,27 @@ function createInjectedConstructor (targetClass: any, Providers: TProviders): an
       instance = createInstance(Provider)
       localProviderCache.set(Provider, instance)
     }
-    providers.push(instance)
+    providerInstances.push(instance)
   })
+
+  // New constructor.
   const Constructor: any = function () {
-    return new targetClass(...providers)
+    return new targetClass(...providerInstances)
   }
+
   Constructor.prototype = targetClass.prototype
+
+  // Mark it injectable.
+  Object.defineProperty(Constructor, injectableIndicator, {
+    configurable: false,
+    value: true
+  })
+
+  Object.defineProperty(Constructor, 'name', {
+    configurable: false,
+    value: targetClass.name
+  })
+
   return Constructor
 }
 
