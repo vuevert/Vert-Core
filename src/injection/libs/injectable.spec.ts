@@ -1,4 +1,4 @@
-import { Injectable } from './deco.injectable'
+import { Injectable } from './injectable'
 
 describe('Injectable testing.', () => {
   test('Injectable decorator should work.', () => {

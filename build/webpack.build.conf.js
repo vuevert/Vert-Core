@@ -22,13 +22,13 @@ module.exports = {
     'app-component': resolve('./src/app-component/index.ts'),
     'core': resolve('./src/core/index.ts'),
     'data': resolve('./src/data/index.ts'),
-    'decorator': resolve('./src/decorator/index.ts'),
+    'injection': resolve('./src/injection/index.ts'),
     'event-bus': resolve('./src/event-bus/index.ts'),
     'service': resolve('./src/service/index.ts')
   },
 
   output: {
-    path: resolve('./lib'),
+    path: resolve('./'),
     filename: '[name].js',
     chunkFilename: '[name].[id].[chunkhash].js',
     library: 'vert',
@@ -36,7 +36,11 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
+    alias: {
+      '@vert/core': resolve('./src'),
+      'vue$': 'vue/dist/vue.esm.js'
+    }
   },
 
   module: {

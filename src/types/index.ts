@@ -21,9 +21,14 @@ type TService = new (...args) => any
  */
 type TConstructor = new (...args) => any
 
+type TProvider = TConstructor
+type TProviders = TProvider[]
+
 export {
   TConstructor,
   THookFunction,
   TRootComponent,
-  TService
+  TService,
+  TProvider,
+  TProviders
 }

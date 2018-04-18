@@ -1,5 +1,5 @@
-import { Injectable } from './deco.injectable'
-import { Injector } from './deco.injector'
+import { Injectable } from './injectable'
+import { Injector } from './injector'
 
 describe('Injector test.', () => {
   it('Injector should work.', () => {

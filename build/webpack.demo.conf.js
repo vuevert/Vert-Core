@@ -20,9 +20,13 @@ const babelLoader = {
   }
 }
 
+const tsLoader = {
+  loader: 'ts-loader'
+}
+
 module.exports = {
   entry: {
-    'multi-apps-in-spa': resolve('./demo/app.multi-apps-in-spa'),
+    'multi-apps-in-spa': resolve('./demo/app.multi-apps-in-spa/index.ts'),
     'tour-of-hero': resolve('./demo/app.tour-of-hero/index.ts'),
     'welcome': resolve('./demo/app.welcome/index.ts')
   },
@@ -32,7 +36,7 @@ module.exports = {
     filename: '[name].js'
   },
 
-  devtool: "eval-source-map",
+  devtool: 'eval-source-map',
 
   devServer: {
     host: '0.0.0.0',
@@ -43,10 +47,9 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts', '.vue', '.json'],
-
+    extensions: ['.js', '.ts'],
     alias: {
-      'vert': resolve('./src'),
+      '@vert/core': resolve('./src'),
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
@@ -60,7 +63,7 @@ module.exports = {
           loaders: {
             ts: [
               babelLoader,
-              'ts-loader'
+              tsLoader
             ]
           }
         }
@@ -76,7 +79,7 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           babelLoader,
-          'ts-loader'
+          tsLoader
         ],
         exclude: /node_modules/
       }

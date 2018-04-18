@@ -1,4 +1,4 @@
-import { AppComponent, Component } from '../../../src/app-component'
+import { AppComponent, Component } from '@vert/core/app-component'
 
 @Component({
   beforeRouteEnter (to, from, next) {
@@ -6,7 +6,7 @@ import { AppComponent, Component } from '../../../src/app-component'
     next(path !== '/pothouse' ? '/pothouse' : undefined)
   }
 })
-export default class Hero extends AppComponent {
+export default class HeroComponent extends AppComponent {
   get heroName () {
     return this.$route.params.name
   }

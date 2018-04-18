@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Injectable } from '../../decorator'
+import { Injectable } from '../../injection'
 
 const DEFAULT_TIMEOUT = 5000
 

@@ -1,4 +1,4 @@
-import { App } from '../../src/core'
+import { App } from '@vert/core/core'
 import RootComponent from './root-component.vue'
 
 const app = new App({

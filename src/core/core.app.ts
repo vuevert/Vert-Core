@@ -3,11 +3,13 @@
  * An app stands for a single html page.
  */
 
+import Vue, { ComponentOptions } from 'vue'
+import Router from 'vue-router'
+import { Store } from 'vuex'
+
+import { globalInjector } from '../injection/data/internal-injectors'
 import { THookFunction, TRootComponent, TService } from '../types'
-import { Utils } from '../utils/'
-import { Router } from './core.router'
-import { Store } from './core.store'
-import { ComponentOptions, PluginFunction, PluginObject, Vue } from './core.vue'
+import { TypeUtils } from '../utils/type-utils'
 
 /**
  * App is the basic unit for a project.
@@ -18,8 +20,8 @@ import { ComponentOptions, PluginFunction, PluginObject, Vue } from './core.vue'
  * @class App
  */
 export class App {
-  static use <T = any> (plugin: PluginObject<T> | PluginFunction<T>, options?: T) {
-    Vue.use(plugin, options)
+  static addSingleton <T> (Provider: new (...args) => T, instance: T) {
+    globalInjector.set(Provider, instance)
   }
 
   private _element: string | HTMLElement
@@ -48,21 +50,21 @@ export class App {
       },
       provide: this._serviceInstances,
       created () {
-        Utils.isFunction(created) && created(this)
+        TypeUtils.isFunction(created) && created(this)
       },
       mounted () {
-        Utils.isFunction(mounted) && mounted(this)
+        TypeUtils.isFunction(mounted) && mounted(this)
       },
       beforeDestroy () {
-        Utils.isFunction(beforeDestroy) && beforeDestroy(this)
+        TypeUtils.isFunction(beforeDestroy) && beforeDestroy(this)
       }
     }
 
-    if (Utils.isDefined(this._router)) {
+    if (TypeUtils.isDefined(this._router)) {
       Object.assign(option, { router: this._router })
     }
 
-    if (Utils.isDefined(this._store)) {
+    if (TypeUtils.isDefined(this._store)) {
       Object.assign(option, { store: this._store })
     }
 

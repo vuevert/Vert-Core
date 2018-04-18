@@ -64,4 +64,5 @@ typings/
 .idea/
 
 # JS.
-*.js
+./*.js
+*.map

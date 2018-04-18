@@ -1,19 +1,20 @@
-import { Inject, Injectable } from '../../../src/decorator'
-import { Http } from '../../../src/service'
-import { store } from '../store'
-import { Hero } from './hero'
+import { Injectable } from '@vert/core/injection'
+import { Http } from '@vert/core/service'
 
-@Inject(Http)
+import { Hero } from '../models/hero'
+import { store } from '../store'
+
 @Injectable
 class Pothouse {
   async findAllHeroes () {
     const { data } = await this.http.get('/api/hero-list.json')
-    const heroes: Hero[] = data.data.map(item => Hero.create(item))
+    const heroes: Hero[] = data.data.map(item => new Hero(item))
     await store.dispatch('setAllHeroes', heroes)
   }
 
-  constructor (private http: Http) {
-  }
+  constructor (
+    private http?: Http,
+  ) {}
 }
 
 export {

@@ -1,5 +1,5 @@
-import { AppComponent, Component } from '../../../src/app-component'
+import { AppComponent, Component } from '@vert/core/app-component'
 
 @Component
-export default class Welcome extends AppComponent {
+export default class WelcomeComponent extends AppComponent {
 }

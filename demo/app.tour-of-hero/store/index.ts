@@ -1,6 +1,9 @@
-import { Store } from '../../../src/core'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-const store = new Store({
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
   state: {
     heroes: []
   },

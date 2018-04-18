@@ -1,11 +1,10 @@
-import { AppComponent, Component } from '../../../src/app-component'
-import { Hero } from '../services/hero'
+import { AppComponent, Component } from '@vert/core/app-component'
+
+import { Hero } from '../models/hero'
 import { Pothouse } from '../services/pothouse'
 
-@Component({
-  providers: [Pothouse]
-})
-export default class extends AppComponent {
+@Component
+export default class PothouseComponent extends AppComponent {
   get heroes (): Hero[] {
     return this.$store.getters.getAllHeroes
   }
@@ -16,5 +15,6 @@ export default class extends AppComponent {
 
   constructor (private pothouse: Pothouse) {
     super()
+    console.log(this.pothouse)
   }
 }

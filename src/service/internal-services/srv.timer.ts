@@ -1,4 +1,4 @@
-import { Injectable } from '../../decorator'
+import { Injectable } from '../../injection/index'
 
 let nextJobs = []
 let jobTimer = null
