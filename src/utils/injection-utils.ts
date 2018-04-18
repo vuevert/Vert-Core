@@ -14,15 +14,15 @@ abstract class InjectionUtils {
    */
   static checkInjectable (target: any): boolean {
     // Target must be signed with "$$isInjectable"
-    if (target[injectableIndicator] !== true) {
-      const errorMsg = `[${appConfig.name}] Class "${target.name}" can't be injected because it is non-injectable. ` +
+    if (!target[injectableIndicator]) {
+      console.error(
+        `[${appConfig.name}] Class "${target.name}" can't be injected because it is non-injectable. ` +
         `Please decorate it with "Service" before injection.`
-
-      console.error(errorMsg)
+      )
       return false
-    } else {
-      return true
     }
+
+    return true
   }
 
   /**

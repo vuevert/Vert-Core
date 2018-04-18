@@ -20,4 +20,3 @@ export {
   injectableIndicator,
   Injectable
 }
-

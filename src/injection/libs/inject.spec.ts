@@ -13,8 +13,8 @@ describe('Injector testing.', () => {
   }
 
   test('Inject decorator should work for normal class.', () => {
-    @Inject(Arm, Eye)
     @Injectable
+    @Inject(Arm, Eye)
     class Human {
       constructor (public arm?: Arm, public eye?: Eye) {
       }
