@@ -22,9 +22,7 @@ module.exports = {
     'app-component': resolve('./src/app-component/index.ts'),
     'core': resolve('./src/core/index.ts'),
     'data': resolve('./src/data/index.ts'),
-    'injection': resolve('./src/injection/index.ts'),
-    'event-bus': resolve('./src/event-bus/index.ts'),
-    'service': resolve('./src/service/index.ts')
+    'injection': resolve('./src/injection/index.ts')
   },
 
   output: {
@@ -40,6 +38,26 @@ module.exports = {
     alias: {
       '@vert/core': resolve('./src'),
       'vue$': 'vue/dist/vue.esm.js'
+    }
+  },
+
+  externals: {
+    vue: {
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      root: 'Vue'
+    },
+
+    'vue-router': {
+      commonjs: 'vue-router',
+      commonjs2: 'vue-router',
+      root: 'VueRouter'
+    },
+
+    vuex: {
+      commonjs: 'vuex',
+      commonjs2: 'vuex',
+      root: 'Vuex'
     }
   },
 
