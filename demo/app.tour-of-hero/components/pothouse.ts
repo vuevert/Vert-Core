@@ -4,7 +4,7 @@ import { Hero } from '../models/hero'
 import { Pothouse } from '../services/pothouse'
 
 @Component
-export default class extends AppComponent {
+export default class PothouseComponent extends AppComponent {
   get heroes (): Hero[] {
     return this.$store.getters.getAllHeroes
   }

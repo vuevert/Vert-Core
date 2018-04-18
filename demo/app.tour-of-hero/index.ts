@@ -1,9 +1,9 @@
 import 'babel-polyfill'
+import './startup'
 
 import { App } from '@vert/core/core'
+import Vue from 'vue'
 import Router from 'vue-router'
-
-import './startup'
 
 import Hero from './components/hero.vue'
 import Pothouse from './components/pothouse.vue'
@@ -11,6 +11,8 @@ import Welcome from './components/welcome.vue'
 import RootComponent from './root-component.vue'
 
 import { store } from './store'
+
+Vue.use(Router)
 
 const router = new Router({
   routes: [
