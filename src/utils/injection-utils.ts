@@ -52,25 +52,28 @@ abstract class InjectionUtils {
    * @return {*}
    */
   static createInjectedConstructor (targetClass: any, Providers: TProviders): any {
-    const providerInstances = []
-    Providers.forEach(Provider => {
-      if (!InjectionUtils.checkInjectable(Provider)) {
-        providerInstances.push(undefined)
-        return
-      }
-
-      let instance = globalInjector.get(Provider) ||
-        autoInjector.get(Provider)
-      if (!instance) {
-        instance = InjectionUtils.createProviderInstance(Provider)
-        autoInjector.set(Provider, instance)
-      }
-      providerInstances.push(instance)
-    })
-
     // New constructor.
     const Constructor: any = function () {
-      return new targetClass(...providerInstances)
+      const providers = []
+
+      for (const Provider of Providers) {
+        if (!InjectionUtils.checkInjectable(Provider)) {
+          providers.push(undefined)
+          return
+        }
+
+        let instance = globalInjector.get(Provider) ||
+          autoInjector.get(Provider)
+
+        if (!instance) {
+          instance = InjectionUtils.createProviderInstance(Provider)
+          autoInjector.set(Provider, instance)
+        }
+
+        providers.push(instance)
+      }
+
+      return new targetClass(...providers)
     }
 
     Constructor.prototype = targetClass.prototype
