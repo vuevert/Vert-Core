@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { appConfig } from '../config/index'
 import { autoInjector, globalInjector } from '../injection/data/internal-injectors'
 import { injectableIndicator } from '../injection/libs/injectable'
