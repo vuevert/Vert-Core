@@ -7,14 +7,15 @@
     "email": "chw644@hotmail.com"
   },
   "types": "./index.d.ts",
+  "main": "./lib/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config ./build/webpack.build.conf.js",
+    "build": "node ./build/webpack.build.conf.js",
     "test": "jest"
   },
   "files": [
-    "*.js",
-    "doc/"
+    "doc/",
+    "lib/"
   ],
   "dependencies": {
     "reflect-metadata": "0.1.12",
@@ -40,11 +41,14 @@
     "ts-jest": "22.0.1",
     "ts-loader": "3.5.0",
     "typescript": "2.8.1",
+    "vue": "^2.5.16",
     "vue-jest": "1.4.0",
-    "vue-loader": "14.2.2",
+    "vue-router": "^3.0.1",
     "vue-test-utils": "1.0.0-beta.11",
+    "vuex": "^3.0.1",
     "webpack": "3.10.0",
-    "webpack-dev-server": "2.11.1"
+    "webpack-dev-server": "2.11.1",
+    "webpack-merge": "4.1.2"
   },
   "keywords": [
     "Framework",

@@ -1,5 +1,5 @@
-import { InjectionUtils } from '../../utils/injection-utils'
-import { ReflectionUtils } from '../../utils/reflection-utils'
+import { InjectionUtils } from '../utils/injection-utils'
+import { ReflectionUtils } from '../utils/reflection-utils'
 
 const injectableIndicator = '$$isInjectable'
 

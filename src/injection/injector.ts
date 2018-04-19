@@ -4,8 +4,8 @@
  * The own cache system is designed for non-caching instance - it will be store in here.
  */
 
-import { TProviders } from '../../types'
-import { InjectionUtils } from '../../utils/injection-utils'
+import { TProviders } from '../types/index'
+import { InjectionUtils } from '../utils/injection-utils'
 
 class Injector {
   /**

@@ -1,4 +1,4 @@
-import { InjectionUtils } from '../../utils/injection-utils'
+import { InjectionUtils } from '../utils/injection-utils'
 
 /**
  * Inject decorator for class.
