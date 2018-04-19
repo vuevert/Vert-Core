@@ -28,8 +28,8 @@ const minifyConfig = merge(baseConfig, {
 })
 
 webpack(minifyConfig, function (err, stats) {
-  if (err || stats.hasErrors()) {
-    console.error(err)
+  if (err) {
+    console.error('[Error]', err)
     return
   }
 

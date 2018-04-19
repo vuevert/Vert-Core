@@ -6,7 +6,7 @@ import {
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
-import Router from 'vue-router'
+import Router, { Route } from 'vue-router'
 import { Store } from 'vuex'
 
 declare namespace Vert {
@@ -18,9 +18,10 @@ declare namespace Vert {
    * This class will make all of your cooperator to extend same component constructor
    * and there will not be any problem that is caused by npm-package-version-problem.
    */
-  export class AppComponent<S = Store, R = Router> extends Vue {
+  export class AppComponent<S = Store, R = Route, RT = Router> extends Vue {
     $store: S
     $route: R
+    $router: RT
   }
 
   // Component Decorator.
@@ -64,13 +65,13 @@ declare namespace Vert {
    *
    * @class App
    */
-  export class App <R = any, S = any> {
+  export class App <RT = Router, S = Store> {
     static addSingleton<T>(Provider: new (...args) => T, instance: T)
 
     private _element: string | HTMLElement
     private _name: string
     private _store: S
-    private _router: R
+    private _router: RT
     private _viewModel: Vue
 
     private _serviceInstances: { [srvName: string]: TService }
@@ -93,7 +94,7 @@ declare namespace Vert {
      */
     start()
 
-    constructor(option: IAppOption<R, S>)
+    constructor(option: IAppOption<RT, S>)
   }
 
   /**
@@ -101,11 +102,11 @@ declare namespace Vert {
    *
    * @interface IAppPage
    */
-  export interface IAppOption<R = any, S = any> {
+  export interface IAppOption<RT = any, S = any> {
     element?: string | HTMLElement
     name?: string
     rootComponent: TRootComponent
-    router?: R
+    router?: RT
     services?: TService[]
     store?: S
 
