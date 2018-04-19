@@ -154,7 +154,7 @@ declare namespace Vert {
    * @return {any}
    * @constructor
    */
-  export function Injectable (targetClass: TConstructor): any
+  export function Injectable (targetClass?: TConstructor): any
 
   /**
    * Standalone injector class.
@@ -179,7 +179,7 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @return {T}
      */
-    get <T> (Provider: TProvider): T
+    get <T> (Provider: new (...args: any[]) => T): T
 
     /**
      * Whether it holds target provider.
