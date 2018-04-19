@@ -1,6 +1,6 @@
 {
   "name": "@vert/core",
-  "version": "0.1.7",
+  "version": "0.1.0",
   "description": "Build an OOP application which is based on Vue.",
   "author": {
     "name": "LancerComet",
