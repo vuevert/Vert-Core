@@ -12,15 +12,18 @@ type TRootComponent = CombinedVueInstance<any, any, any, any, any>
 type THookFunction = (viewModel?: Vue) => void
 
 /**
- * Service type.
- */
-type TService = new (...args) => any
-
-/**
  * Constructor type.
  */
-type TConstructor = new (...args) => any
+type TConstructor = new (...args: any[]) => any
 
+/**
+ * Service type.
+ */
+type TService = TConstructor
+
+/**
+ * Provider type.
+ */
 type TProvider = TConstructor
 type TProviders = TProvider[]
 

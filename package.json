@@ -11,6 +11,7 @@
     "type": "git"
   },
   "main": "./lib/index.js",
+  "module": "./src/index.ts",
   "types": "./types/index.d.ts",
   "typings": "./types/index.d.ts",
   "license": "MIT",

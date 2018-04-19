@@ -211,14 +211,14 @@ declare namespace Vert {
   type THookFunction = (viewModel?: Vue) => void
 
   /**
-   * Service type.
-   */
-  type TService = new (...args: any[]) => any
-
-  /**
    * Constructor type.
    */
   type TConstructor = new (...args: any[]) => any
+
+    /**
+   * Service type.
+   */
+  type TService = TConstructor
 
   /**
    * Provider type.
