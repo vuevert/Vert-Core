@@ -95,7 +95,7 @@ export class App<R = any, S = any> {
  *
  * @interface IAppPage
  */
-export interface IAppOption<R = any, S = any> {
+export interface IAppOption<R, S> {
   element?: string | HTMLElement
   name?: string
   rootComponent: TRootComponent

@@ -1,13 +1,13 @@
 /* tslint:disable */
 
 import {
-  Prop as _Prop, Inject, Provide, Watch as _Watch
+  Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch
 } from 'vue-property-decorator/lib/vue-property-decorator'
 
-import Vue, { ComponentOptions } from 'vue'
-import {CombinedVueInstance} from 'vue/types/vue'
-import {InjectionUtils} from '../src/utils/injection-utils'
-import {ReflectionUtils} from '../src/utils/reflection-utils'
+import Vue from 'vue'
+import { CombinedVueInstance } from 'vue/types/vue'
+import Router from 'vue-router'
+import { Store } from 'vuex'
 
 declare namespace Vert {
   // App-Component.
@@ -18,8 +18,9 @@ declare namespace Vert {
    * This class will make all of your cooperator to extend same component constructor
    * and there will not be any problem that is caused by npm-package-version-problem.
    */
-  export class AppComponent extends Vue {
-    // ...
+  export class AppComponent<S = Store, R = Router> extends Vue {
+    $store: S
+    $route: R
   }
 
   // Component Decorator.
@@ -48,7 +49,7 @@ declare namespace Vert {
   }
 
   export const Prop: typeof _Prop
-  export const VueInject: typeof Inject
+  export const VueInject: typeof _Inject
   export const VueProvider: typeof Provide
   export const Watch: typeof _Watch
 
