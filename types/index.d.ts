@@ -154,7 +154,7 @@ declare namespace Vert {
    * @return {any}
    * @constructor
    */
-  export function Injectable (targetClass?: TConstructor): any
+  export function Injectable (targetClass: TConstructor): any
 
   /**
    * Standalone injector class.
