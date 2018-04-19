@@ -1,35 +1,27 @@
 {
   "name": "@vert/core",
-  "version": "0.1.7",
-  "description": "This is an idea about building an enterprise framework based on Vue.",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Build an OOP application which is based on Vue.",
   "author": {
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
   },
-  "types": "./index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config ./build/webpack.demo.conf.js",
-    "build": "tsc",
-    "bundle": "webpack --config ./build/webpack.build.conf.js",
+    "build": "node ./build/webpack.build.conf.js",
     "test": "jest"
   },
   "files": [
-    "*.js",
-    "doc/"
+    "doc/",
+    "lib/"
   ],
   "dependencies": {
-    "axios": "0.17.1",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "qs": "6.5.1",
     "reflect-metadata": "0.1.12",
-    "vue": "2.5.13",
     "vue-class-component": "6.1.2",
-    "vue-property-decorator": "6.0.0",
-    "vue-router": "3.0.1",
-    "vue-template-compiler": "2.5.13",
-    "vuex": "3.0.1"
+    "vue-property-decorator": "6.0.0"
   },
   "devDependencies": {
     "@types/jest": "22.0.1",
@@ -38,8 +30,10 @@
     "babel-jest": "22.1.0",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
     "babel-polyfill": "6.26.0",
     "babel-preset-stage-2": "6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "0.28.9",
     "friendly-errors-webpack-plugin": "1.6.1",
     "html-webpack-plugin": "2.30.1",
@@ -48,12 +42,16 @@
     "regenerator-runtime": "0.11.1",
     "ts-jest": "22.0.1",
     "ts-loader": "3.5.0",
+    "ts-loader-decleration": "^0.10.4",
     "typescript": "2.8.1",
+    "vue": "^2.0.0",
     "vue-jest": "1.4.0",
-    "vue-loader": "14.2.2",
     "vue-test-utils": "1.0.0-beta.11",
+    "vue-router": "^3.0.0",
+    "vuex": "^3.0.0",
     "webpack": "3.10.0",
-    "webpack-dev-server": "2.11.1"
+    "webpack-dev-server": "2.11.1",
+    "webpack-merge": "4.1.2"
   },
   "keywords": [
     "Framework",

@@ -1,4 +1,4 @@
-import { Injector } from '../libs/injector'
+import { Injector } from '../injector'
 
 // Global injector holds all instances which are created and injected manually.
 const globalInjector = Injector.create()

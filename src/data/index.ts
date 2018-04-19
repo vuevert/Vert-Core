@@ -9,7 +9,7 @@ try {
 } catch (error) {
   isSupportProxy = false
   if (process.env.NODE_ENV === 'development') {
-    console.warn('[Warn] Your browser doesn\'t support Proxy.')
+    console.warn('[@Vert/core] Your browser doesn\'t support Proxy.')
   }
 }
 

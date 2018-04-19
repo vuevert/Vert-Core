@@ -1,8 +1,6 @@
 import { Component } from 'vue'
 import { componentFactory } from 'vue-class-component/lib/component'
 import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
-import { NavigationGuard } from 'vue-router'
-import { AsyncComponent, DirectiveFunction, DirectiveOptions } from 'vue/types/options'
 
 import { TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
@@ -42,16 +40,16 @@ function Component (options) {
 }
 
 interface IComponentOption {
-  components?: { [key: string]: Component<any, any, any, any> | AsyncComponent<any, any, any, any> }
-  directives?: { [key: string]: DirectiveFunction | DirectiveOptions }
+  components?: { [key: string]: any  }
+  directives?: { [key: string]: any }
   filters?: { [key: string]: typeof Function }
   template?: string
   name?: string
   providers?: TProviders
 
-  beforeRouteEnter?: NavigationGuard
-  beforeRouteLeave?: NavigationGuard
-  beforeRouteUpdate?: NavigationGuard
+  beforeRouteEnter?: any
+  beforeRouteLeave?: any
+  beforeRouteUpdate?: any
 }
 
 export {
@@ -59,5 +57,6 @@ export {
   Prop,
   VueInject,
   VueProvide,
-  Watch
+  Watch,
+  IComponentOption
 }

@@ -1,5 +1,0 @@
-export { Http } from './internal-services/srv.http'
-export { LocalStorage } from './internal-services/srv.local-storage'
-export { Logger } from './internal-services/srv.logger'
-export { Qs } from './internal-services/srv.qs'
-export { Timer } from './internal-services/srv.timer'
