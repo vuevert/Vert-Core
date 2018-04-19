@@ -1,12 +1,9 @@
-/*
- * Injector use its own cache system.
- * Provider shipped with cache should be duplicated: it is stored in both "injector cache" and "inject cache".
- * The own cache system is designed for non-caching instance - it will be store in here.
- */
-
-import { TProviders } from '../types/index'
+import { TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 
+/**
+ * Standalone injector class.
+ */
 class Injector {
   /**
    * Create a new class injector.
@@ -18,6 +15,9 @@ class Injector {
     return new Injector(...Providers)
   }
 
+  /**
+   * Provider storage.
+   */
   private map = new WeakMap()
 
   /**

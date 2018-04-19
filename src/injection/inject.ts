@@ -17,5 +17,5 @@ function Inject (...Providers): any {
 }
 
 export {
-  Inject,
+  Inject
 }

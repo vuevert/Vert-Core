@@ -1,6 +1,4 @@
 import Vue, { ComponentOptions } from 'vue'
-import Router from 'vue-router'
-import { Store } from 'vuex'
 
 import { globalInjector } from '../injection/data/internal-injectors'
 import { THookFunction, TRootComponent, TService } from '../types'
@@ -14,21 +12,21 @@ import { TypeUtils } from '../utils/type-utils'
  *
  * @class App
  */
-export class App {
+export class App<R = any, S = any> {
   static addSingleton <T> (Provider: new (...args) => T, instance: T) {
     globalInjector.set(Provider, instance)
   }
 
   private _element: string | HTMLElement
   private _name: string
-  private _store: Store<any>
-  private _router: Router
+  private _store: S
+  private _router: R
   private _viewModel: Vue
 
   private _serviceInstances: {[srvName: string]: TService} = {}
 
   get name (): string { return this._name }
-  get store (): Store<any> { return this._store }
+  get store () { return this._store }
   get viewModel (): Vue { return this._viewModel }
 
   private initViewModel (
@@ -75,7 +73,7 @@ export class App {
     this._viewModel.$mount(this._element)
   }
 
-  constructor (option: IAppOption) {
+  constructor (option: IAppOption<R, S>) {
     option.services = option.services || []
 
     this._element = option.element
@@ -97,13 +95,13 @@ export class App {
  *
  * @interface IAppPage
  */
-export interface IAppOption {
+export interface IAppOption<R = any, S = any> {
   element?: string | HTMLElement
   name?: string
   rootComponent: TRootComponent
-  router?: Router
+  router?: R
   services?: TService[]
-  store?: Store<any>
+  store?: S
 
   created?: THookFunction
   mounted?: THookFunction

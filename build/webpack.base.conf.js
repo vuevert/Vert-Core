@@ -1,6 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
-const { TSDeclerationsPlugin } = require('ts-loader-decleration')
 
 const babelConfig = {
   "presets": [
@@ -20,15 +18,14 @@ const babelConfig = {
 
 module.exports = {
   entry: {
-    'index': resolve('./src/index.ts'),
+    index: resolve('./src/index.ts')
   },
 
   output: {
     path: resolve('./lib'),
     filename: '[name].js',
-    chunkFilename: '[name].[id].[chunkhash].js',
-    library: 'vert',
-    libraryTarget: 'umd'
+    library: 'Vert',
+    libraryTarget: 'commonjs2'
   },
 
   resolve: {
@@ -80,17 +77,7 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  },
-
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-
-    new TSDeclerationsPlugin({
-      main: './index.d.ts'
-    })
-  ]
+  }
 }
 
 function resolve (filePath) {
