@@ -17,5 +17,8 @@ webpack([baseConfig, minifyConfig], function (err, stats) {
     return
   }
 
-  console.log(stats)
+  console.log(stats.toString({
+    chunks: false,
+    colors: true
+  }))
 })

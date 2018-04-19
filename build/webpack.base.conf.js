@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const { TSDeclerationsPlugin } = require('ts-loader-decleration')
 
 const babelConfig = {
   "presets": [
@@ -72,7 +73,9 @@ module.exports = {
             loader: 'babel-loader',
             options: babelConfig
           },
-          'ts-loader'
+          {
+            loader: 'ts-loader'
+          }
         ],
         exclude: /node_modules/
       }
@@ -81,7 +84,11 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': 'process.env.NODE_ENV'
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+
+    new TSDeclerationsPlugin({
+      main: './index.d.ts'
     })
   ]
 }

@@ -63,5 +63,8 @@ typings/
 # IDEs.
 .idea/
 
-# JS.
+# Sourcemaps.
 *.map
+
+# Dist.
+lib/

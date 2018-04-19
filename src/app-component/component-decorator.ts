@@ -59,5 +59,6 @@ export {
   Prop,
   VueInject,
   VueProvide,
-  Watch
+  Watch,
+  IComponentOption
 }

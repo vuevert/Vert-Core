@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
@@ -9,6 +10,7 @@
     "target": "es2015",
     "sourceMap": true,
     "outDir": "./lib",
+    "declarationDir": "./types",
     "lib": [
       "dom",
       "es5",
