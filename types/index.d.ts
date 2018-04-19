@@ -1,13 +1,9 @@
 /* tslint:disable */
 
-import {
-  Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch
-} from 'vue-property-decorator/lib/vue-property-decorator'
+import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-property-decorator'
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
-import Router, { Route } from 'vue-router'
-import { Store } from 'vuex'
 
 declare namespace Vert {
   // App-Component.
@@ -18,10 +14,7 @@ declare namespace Vert {
    * This class will make all of your cooperator to extend same component constructor
    * and there will not be any problem that is caused by npm-package-version-problem.
    */
-  export class AppComponent<S = Store, R = Route, RT = Router> extends Vue {
-    $store: S
-    $route: R
-    $router: RT
+  export class AppComponent extends Vue {
   }
 
   // Component Decorator.
@@ -30,8 +23,7 @@ declare namespace Vert {
   /**
    * Decorate a class into the component.
    */
-  export function Component (options: IComponentOption): (target: any) => any
-  export function Component (targetClass: new (...args) => any)
+  export function Component (options?: IComponentOption): any
 
   /**
    * Component param interface.
@@ -65,19 +57,28 @@ declare namespace Vert {
    *
    * @class App
    */
-  export class App <RT = Router, S = Store> {
-    static addSingleton<T>(Provider: new (...args) => T, instance: T)
+  export class App {
+    /**
+     * Add a singleton to app.
+     *
+     * @static
+     * @template T
+     * @param {new (...args: any[]) => T} Provider
+     * @param {T} instance
+     * @memberof App
+     */
+    static addSingleton<T>(Provider: new (...args: any[]) => T, instance: T): void
 
     private _element: string | HTMLElement
     private _name: string
-    private _store: S
-    private _router: RT
+    private _store: any
+    private _router: any
     private _viewModel: Vue
 
     private _serviceInstances: { [srvName: string]: TService }
 
     name: string
-    store: S
+    store: any
     viewModel: Vue
 
     private initViewModel(
@@ -92,9 +93,9 @@ declare namespace Vert {
      *
      * @memberof App
      */
-    start()
+    start(): void
 
-    constructor(option: IAppOption<RT, S>)
+    constructor(option: IAppOption)
   }
 
   /**
@@ -102,13 +103,13 @@ declare namespace Vert {
    *
    * @interface IAppPage
    */
-  export interface IAppOption<RT = any, S = any> {
+  export interface IAppOption {
     element?: string | HTMLElement
     name?: string
     rootComponent: TRootComponent
-    router?: RT
+    router?: any
     services?: TService[]
-    store?: S
+    store?: any
 
     created?: THookFunction
     mounted?: THookFunction
@@ -129,7 +130,7 @@ declare namespace Vert {
      * @param args
      * @return {T}
      */
-    static createTypeSafetyInstance <T> (Constructor: new (...args) => any, ...args): T
+    static createTypeSafetyInstance <T> (Constructor: TConstructor, ...args: any[]): T
   }
 
   // Injection.
@@ -144,7 +145,7 @@ declare namespace Vert {
    * @return {(target: any) => any}
    * @constructor
    */
-  export function Inject (...Providers): any
+  export function Inject (...Providers: TProviders): any
 
   /**
    * Injectable decorator.
@@ -153,7 +154,7 @@ declare namespace Vert {
    * @return {any}
    * @constructor
    */
-  export function Injectable (targetClass: any): any
+  export function Injectable (targetClass: TConstructor): any
 
   /**
    * Standalone injector class.
@@ -178,7 +179,7 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @return {T}
      */
-    get <T> (Provider: new (...args) => T): T
+    get <T> (Provider: TProvider): T
 
     /**
      * Whether it holds target provider.
@@ -194,7 +195,7 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @param {T} instance
      */
-    set <T> (Provider: new (...args) => T, instance: T)
+    set <T> (Provider: new (...args: any[]) => T, instance: T): void
 
     constructor (...Providers: TProviders)
   }
@@ -212,12 +213,12 @@ declare namespace Vert {
   /**
    * Service type.
    */
-  type TService = new (...args) => any
+  type TService = new (...args: any[]) => any
 
   /**
    * Constructor type.
    */
-  type TConstructor = new (...args) => any
+  type TConstructor = new (...args: any[]) => any
 
   /**
    * Provider type.
