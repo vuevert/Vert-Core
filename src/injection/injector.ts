@@ -56,7 +56,14 @@ class Injector {
   constructor (...Providers: TProviders) {
     for (const Provider of Providers) {
       const dependencies = ReflectionUtils.getProvidersFromParams(Provider)
-        .map(Dependency => InjectionUtils.createProviderInstance(Dependency))
+        .map(Dependency => {
+          let provider = this.get(Dependency)
+          if (!provider) {
+            provider = InjectionUtils.createProviderInstance(Dependency)
+            this.set(Dependency, provider)
+          }
+          return provider
+        })
       const provider = InjectionUtils.createProviderInstance(Provider, dependencies)
       this.set(Provider, provider)
     }
