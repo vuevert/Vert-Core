@@ -2,7 +2,7 @@ import { Component } from 'vue'
 import { componentFactory } from 'vue-class-component/lib/component'
 import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 
-import { TProviders } from '../types'
+import { TConstructor, TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
 
@@ -11,30 +11,30 @@ let defaultComponentID = 1
 /**
  * Decorate a class into the component.
  */
-function Component (options: IComponentOption): (target: any) => any
-function Component (targetClass: new (...args) => any)
-function Component (options) {
-  if (typeof options === 'function') {
-    const Providers = ReflectionUtils.getProvidersFromParams(options)
-    const Constructor = InjectionUtils.createInjectedConstructor(options, Providers)
+function Component (options: IComponentOption): (targetClass: TConstructor) => any
+function Component (targetClass: TConstructor): any
+function Component (param: any) {
+  if (typeof param === 'function') {
+    const Providers = ReflectionUtils.getProvidersFromParams(param)
+    const Constructor = InjectionUtils.createInjectedConstructor(param, Providers)
     return componentFactory(Constructor, {})
   }
 
-  return function (targetClass) {
-    options = options || {}
+  return function (targetClass: TConstructor) {
+    param = param || {}
 
     const componentName = targetClass.prototype.constructor.name ||
       'AppComponent_' + defaultComponentID++
 
-    options = Object.assign({
+    param = Object.assign({
       name: componentName
-    }, options)
+    }, param)
 
-    const Providers = (options as IComponentOption).providers ||
+    const Providers = (param as IComponentOption).providers ||
       ReflectionUtils.getProvidersFromParams(targetClass)
 
     const Constructor = InjectionUtils.createInjectedConstructor(targetClass, Providers)
-    const ComponentConstructor = componentFactory(Constructor, options)
+    const ComponentConstructor = componentFactory(Constructor, param)
     return ComponentConstructor
   }
 }
@@ -47,9 +47,9 @@ interface IComponentOption {
   name?: string
   providers?: TProviders
 
-  beforeRouteEnter?: any
-  beforeRouteLeave?: any
-  beforeRouteUpdate?: any
+  beforeRouteEnter?: (to: any, form: any, next: any) => void
+  beforeRouteLeave?: (to: any, form: any, next: any) => void
+  beforeRouteUpdate?: (to: any, form: any, next: any) => void
 }
 
 export {

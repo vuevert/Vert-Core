@@ -1,5 +1,6 @@
 import { TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
+import { ReflectionUtils } from '../utils/reflection-utils'
 
 /**
  * Standalone injector class.
@@ -53,9 +54,12 @@ class Injector {
   }
 
   constructor (...Providers: TProviders) {
-    Providers.forEach(Provider => {
-      this.set(Provider, InjectionUtils.createProviderInstance(Provider))
-    })
+    for (const Provider of Providers) {
+      const dependencies = ReflectionUtils.getProvidersFromParams(Provider)
+        .map(Dependency => InjectionUtils.createProviderInstance(Dependency))
+      const provider = InjectionUtils.createProviderInstance(Provider, dependencies)
+      this.set(Provider, provider)
+    }
   }
 }
 

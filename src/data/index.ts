@@ -1,3 +1,5 @@
+import { TConstructor } from '../types'
+
 let isSupportProxy = true
 
 try {
@@ -14,10 +16,13 @@ try {
 }
 
 class Data {
-  static createTypeSafetyInstance <T> (Constructor: new (...args) => any, ...args): T {
+  static createTypeSafetyInstance <T> (Constructor: TConstructor, ...args: any[]): T {
     const obj = new Constructor(...args)
 
     if (!isSupportProxy) {
+
+
+
       return obj
     }
 

@@ -8,6 +8,9 @@ import Vue from 'vue'
 
 class AppComponent extends Vue {
   // ...
+  $store?: any
+  $route?: any
+  $router?: any
 }
 
 export {
