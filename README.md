@@ -4,8 +4,7 @@
 
 ## Introduction
 
-Vert is a library that is designed for manage and build middle or large scale projects which are based on Vue. Vert has it own best practice and design pattern, and comes with several APIs to help you to do some 
-software engineering stuff. Maybe you will think it is something like `Angular + Vue` if you have ever used both of them.
+Vert is a library which is designed for building an OOP application which is based on Vue. It provides some function and decorators to help you to build an oop application. Generally speaking, it is something like "Angular in Vue".
 
 If you feel bad about it, please just stop - it is not the time to use Vert for your project.
 
