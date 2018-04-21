@@ -1,28 +1,37 @@
-import 'reflect-metadata'
-
-import { appConfig } from '../config/index'
-import { autoInjector, globalInjector } from '../injection/data/internal-injectors'
-import { injectableIndicator } from '../injection/injectable'
-import { TConstructor, TProviders } from '../types/index'
+import { globalInjector, registeredProviders } from '../injection/data/internal-injectors'
+import { TConstructor, TProvider, TProviders } from '../types'
 
 abstract class InjectionUtils {
   /**
-   * Check whether target is injectable.
+   * Check whether target has been registered.
    *
    * @param target
    * @return {boolean}
    */
-  static checkInjectable (target: any): boolean {
-    // Target must be signed with "$$isInjectable"
-    if (!target[injectableIndicator]) {
-      console.error(
-        `[${appConfig.name}] Class "${target.name}" can't be injected because it is non-injectable. ` +
-        `Please decorate it with "Service" before injection.`
-      )
-      return false
-    }
+  static checkProviderIsRegistered (target: TProvider): boolean {
+    return registeredProviders.has(target)
+  }
 
-    return true
+  /**
+   * Mark a provider registered.
+   *
+   * @param Provider
+   */
+  static registerProvider (Provider: TProvider) {
+    registeredProviders.set(Provider, true)
+  }
+
+  /**
+   * Create a instance of a provider and save to global injector.
+   *
+   * @param {TProvider} Provider
+   * @param {*} instance
+   */
+  static saveToGlobalInjector (Provider: TProvider, instance?: any) {
+    if (!instance) {
+      instance = InjectionUtils.createProviderInstance(Provider)
+    }
+    globalInjector.set(Provider, instance)
   }
 
   /**
@@ -33,15 +42,13 @@ abstract class InjectionUtils {
    * @return {any}
    */
   static createProviderInstance (Provider: TConstructor, args: any[] = []) {
-    if (!InjectionUtils.checkInjectable(Provider)) {
+    if (!InjectionUtils.checkProviderIsRegistered(Provider)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[@vert/core] Provider "${Provider.name}" is not registered.`)
+      }
       return
     }
-
-    const instance = new Provider(...args)
-    Object.defineProperty(instance, '$$providerName', {
-      value: Provider.prototype.constructor.name
-    })
-    return instance
+    return new Provider(...args)
   }
 
   /**
@@ -51,25 +58,22 @@ abstract class InjectionUtils {
    * @param {TProviders} Providers
    * @return {*}
    */
-  static createInjectedConstructor (targetClass: any, Providers: TProviders): any {
-    // New constructor.
+  static createInjectedConstructor (targetClass: TConstructor, Providers: TProviders): any {
+    // Return a new constructor.
+    // This new constructor has no params so you can not get any info by using 'design:paramtypes'.
     const Constructor: any = function () {
       const providers = []
 
       for (const Provider of Providers) {
-        if (!InjectionUtils.checkInjectable(Provider)) {
+        if (!InjectionUtils.checkProviderIsRegistered(Provider)) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[@vert/core] Provider "${Provider.name}" is not registered.`)
+          }
           providers.push(undefined)
-          return
+          continue
         }
 
-        let instance = globalInjector.get(Provider) ||
-          autoInjector.get(Provider)
-
-        if (!instance) {
-          instance = InjectionUtils.createProviderInstance(Provider)
-          autoInjector.set(Provider, instance)
-        }
-
+        const instance = globalInjector.get(Provider) || undefined
         providers.push(instance)
       }
 
@@ -78,9 +82,6 @@ abstract class InjectionUtils {
 
     Constructor.prototype = targetClass.prototype
 
-    // Mark it injectable.
-    InjectionUtils.setInjectable(Constructor)
-
     Object.defineProperty(Constructor, 'name', {
       writable: true,
       configurable: true,
@@ -88,19 +89,6 @@ abstract class InjectionUtils {
     })
 
     return Constructor
-  }
-
-  /**
-   * Mark a class injectable.
-   *
-   * @param target
-   */
-  static setInjectable (target: any) {
-    Object.defineProperty(target, injectableIndicator, {
-      configurable: false,
-      value: true,
-      writable: false
-    })
   }
 }
 

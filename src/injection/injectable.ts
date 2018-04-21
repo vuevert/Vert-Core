@@ -1,22 +1,15 @@
+import { TProvider } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
-import { ReflectionUtils } from '../utils/reflection-utils'
-
-const injectableIndicator = '$$isInjectable'
 
 /**
  * Injectable decorator.
- *
- * @param targetClass
- * @return {any}
- * @constructor
  */
-function Injectable (targetClass: any): any {
-  InjectionUtils.setInjectable(targetClass)
-  const Providers = ReflectionUtils.getProvidersFromParams(targetClass)
-  return InjectionUtils.createInjectedConstructor(targetClass, Providers)
+function Injectable (): any {
+  return function (Provider: TProvider) {
+    InjectionUtils.registerProvider(Provider)
+  }
 }
 
 export {
-  injectableIndicator,
   Injectable
 }

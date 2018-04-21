@@ -14,8 +14,7 @@ declare namespace Vert {
    * This class will make all of your cooperator to extend same component constructor
    * and there will not be any problem that is caused by npm-package-version-problem.
    */
-  export class AppComponent extends Vue {
-  }
+  export const AppComponent: typeof Vue
 
   // Component Decorator.
   // ==============================
@@ -23,7 +22,8 @@ declare namespace Vert {
   /**
    * Decorate a class into the component.
    */
-  export function Component (options?: IComponentOption): any
+  export function Component (options: IComponentOption): (targetClass: TConstructor) => any
+  export function Component (targetClass: TConstructor): any
 
   /**
    * Component param interface.
@@ -36,9 +36,9 @@ declare namespace Vert {
     name?: string
     providers?: TProviders
 
-    beforeRouteEnter?: any
-    beforeRouteLeave?: any
-    beforeRouteUpdate?: any
+    beforeRouteEnter?: (to: any, form: any, next: any) => void
+    beforeRouteLeave?: (to: any, form: any, next: any) => void
+    beforeRouteUpdate?: (to: any, form: any, next: any) => void
   }
 
   export const Prop: typeof _Prop
@@ -136,25 +136,13 @@ declare namespace Vert {
   // Injection.
   // ==============================
   /**
-   * Inject decorator for class.
-   *
-   * @description
-   * Provide ability to use other class in DI-way.
-   *
-   * @param Providers
-   * @return {(target: any) => any}
-   * @constructor
-   */
-  export function Inject (...Providers: TProviders): any
-
-  /**
    * Injectable decorator.
    *
    * @param targetClass
    * @return {any}
    * @constructor
    */
-  export function Injectable (targetClass: TConstructor): any
+  export function Injectable (): any
 
   /**
    * Standalone injector class.
@@ -179,7 +167,7 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @return {T}
      */
-    get <T> (Provider: TProvider): T
+    get <T> (Provider: new (...args: any[]) => T): T
 
     /**
      * Whether it holds target provider.
@@ -211,14 +199,14 @@ declare namespace Vert {
   type THookFunction = (viewModel?: Vue) => void
 
   /**
-   * Service type.
-   */
-  type TService = new (...args: any[]) => any
-
-  /**
    * Constructor type.
    */
   type TConstructor = new (...args: any[]) => any
+
+    /**
+   * Service type.
+   */
+  type TService = TConstructor
 
   /**
    * Provider type.

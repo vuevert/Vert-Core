@@ -1,8 +1,10 @@
 import Vue, { ComponentOptions } from 'vue'
 
-import { globalInjector } from '../injection/data/internal-injectors'
 import { THookFunction, TRootComponent, TService } from '../types'
+import { InjectionUtils } from '../utils/injection-utils'
 import { TypeUtils } from '../utils/type-utils'
+
+let appId = 1
 
 /**
  * App is the basic unit for a project.
@@ -12,15 +14,15 @@ import { TypeUtils } from '../utils/type-utils'
  *
  * @class App
  */
-export class App<R = any, S = any> {
-  static addSingleton <T> (Provider: new (...args) => T, instance: T) {
-    globalInjector.set(Provider, instance)
+export class App {
+  static addSingleton <T> (Provider: new (...args: any[]) => T, instance: T) {
+    InjectionUtils.saveToGlobalInjector(Provider, instance)
   }
 
-  private _element: string | HTMLElement
+  private _element?: string | HTMLElement
   private _name: string
-  private _store: S
-  private _router: R
+  private _store?: any
+  private _router?: any
   private _viewModel: Vue
 
   private _serviceInstances: {[srvName: string]: TService} = {}
@@ -31,9 +33,9 @@ export class App<R = any, S = any> {
 
   private initViewModel (
     RootComponent: TRootComponent,
-    created: THookFunction,
-    mounted: THookFunction,
-    beforeDestroy: THookFunction
+    created?: THookFunction,
+    mounted?: THookFunction,
+    beforeDestroy?: THookFunction
   ) {
     const option: ComponentOptions<Vue> = {
       name: this.name,
@@ -43,13 +45,13 @@ export class App<R = any, S = any> {
       },
       provide: this._serviceInstances,
       created () {
-        TypeUtils.isFunction(created) && created(this)
+        TypeUtils.isFunction(created) && created(this as Vue)
       },
       mounted () {
-        TypeUtils.isFunction(mounted) && mounted(this)
+        TypeUtils.isFunction(mounted) && mounted(this as Vue)
       },
       beforeDestroy () {
-        TypeUtils.isFunction(beforeDestroy) && beforeDestroy(this)
+        TypeUtils.isFunction(beforeDestroy) && beforeDestroy(this as Vue)
       }
     }
 
@@ -73,11 +75,11 @@ export class App<R = any, S = any> {
     this._viewModel.$mount(this._element)
   }
 
-  constructor (option: IAppOption<R, S>) {
+  constructor (option: IAppOption) {
     option.services = option.services || []
 
     this._element = option.element
-    this._name = option.name || 'default_app'
+    this._name = option.name || 'DefaultApp' + appId++
     this._router = option.router
     this._store = option.store
 
@@ -95,13 +97,13 @@ export class App<R = any, S = any> {
  *
  * @interface IAppPage
  */
-export interface IAppOption<R, S> {
+export interface IAppOption {
   element?: string | HTMLElement
   name?: string
   rootComponent: TRootComponent
-  router?: R
+  router?: any
   services?: TService[]
-  store?: S
+  store?: any
 
   created?: THookFunction
   mounted?: THookFunction
@@ -109,9 +111,6 @@ export interface IAppOption<R, S> {
 }
 
 function createViewModelTemplate (id: string): string {
-  return `
-  <div id="${id}">
-    <root-component></root-component>
-  </div>
+  return `<div id="${id}"><root-component></root-component></div>
   `
 }
