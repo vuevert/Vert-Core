@@ -12,10 +12,6 @@ If you feel bad about it, please just stop - it is not the time to use Vert for 
 
 Currently documentation files are stored in `docs/` folder and they are under heavy construction.
 
-## Development
-
-Please note that Vert is shipped with **source code** from `src/` folder, `package.json` in root folder is marked as **private**.
-
 ## License
 
-MIT @ LancerComet
+MIT
