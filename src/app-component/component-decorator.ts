@@ -45,7 +45,6 @@ interface IComponentOption {
   filters?: { [key: string]: typeof Function }
   template?: string
   name?: string
-  providers?: TProviders
 
   beforeRouteEnter?: (to: any, form: any, next: any) => void
   beforeRouteLeave?: (to: any, form: any, next: any) => void
