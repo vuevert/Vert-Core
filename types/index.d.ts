@@ -105,7 +105,7 @@ declare namespace Vert {
   export interface IAppOption {
     element?: string | HTMLElement
     name?: string
-    rootComponent: TRootComponent
+    RootComponent: TRootComponent
     router?: any
     services?: TService[]
     store?: any

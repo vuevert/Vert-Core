@@ -6,7 +6,7 @@ import { TConstructor, TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
 
-let defaultComponentID = 1
+let componentId = 1
 
 /**
  * Decorate a class into the component.
@@ -24,15 +24,13 @@ function Component (param: any) {
     param = param || {}
 
     const componentName = targetClass.prototype.constructor.name ||
-      'AppComponent_' + defaultComponentID++
+      'AppComponent_' + componentId++
 
     param = Object.assign({
       name: componentName
     }, param)
 
-    const Providers = (param as IComponentOption).providers ||
-      ReflectionUtils.getProvidersFromParams(targetClass)
-
+    const Providers = ReflectionUtils.getProvidersFromParams(targetClass)
     const Constructor = InjectionUtils.createInjectedConstructor(targetClass, Providers)
     const ComponentConstructor = componentFactory(Constructor, param)
     return ComponentConstructor

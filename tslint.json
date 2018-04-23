@@ -13,6 +13,7 @@
     "member-ordering": false,
     "no-console": false,
     "no-string-literal": false,
+    "no-shadowed-variable": false,
     "no-angle-bracket-type-assertion": false,
     "no-unused-expression": [true, "allow-fast-null-checks"],
     "no-var-requires": false,
