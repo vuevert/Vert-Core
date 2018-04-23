@@ -3,7 +3,7 @@
 import { Injectable } from './injectable'
 import { Injector } from './injector'
 
-describe('Injector and injectable test.', () => {
+describe('Injection test.', () => {
   it('Injector should work.', () => {
     @Injectable()
     class A {
@@ -51,4 +51,32 @@ describe('Injector and injectable test.', () => {
 
     expect(c1.a === a1).toEqual(true)
   })
+
+  // it('Auto injection should work.', () => {
+  //   @Injectable()
+  //   class A {
+  //     name = 'a'
+  //   }
+  //
+  //   @Injectable()
+  //   class B {
+  //     name = 'b'
+  //     constructor (
+  //       public a: A
+  //     ) {}
+  //   }
+  //
+  //   @Injectable()
+  //   class C {
+  //     name = 'c'
+  //     constructor (
+  //       public a?: A,
+  //       public b?: B
+  //     ) {}
+  //   }
+  //
+  //   const c = new C()
+  //   expect(c.a).toBeDefined()
+  //   expect(c.b).toBeDefined()
+  // })
 })

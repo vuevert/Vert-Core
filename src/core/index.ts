@@ -72,7 +72,9 @@ export class App {
    * @memberof App
    */
   start () {
-    this._viewModel.$mount(this._element)
+    if (this._element) {
+      this._viewModel.$mount(this._element)
+    }
   }
 
   constructor (option: IAppOption) {
@@ -84,7 +86,7 @@ export class App {
     this._store = option.store
 
     this.initViewModel(
-      option.rootComponent,
+      option.RootComponent,
       option.created,
       option.mounted,
       option.beforeDestroy
@@ -100,7 +102,7 @@ export class App {
 export interface IAppOption {
   element?: string | HTMLElement
   name?: string
-  rootComponent: TRootComponent
+  RootComponent: TRootComponent
   router?: any
   services?: TService[]
   store?: any

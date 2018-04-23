@@ -34,7 +34,6 @@ declare namespace Vert {
     filters?: { [key: string]: typeof Function }
     template?: string
     name?: string
-    providers?: TProviders
 
     beforeRouteEnter?: (to: any, form: any, next: any) => void
     beforeRouteLeave?: (to: any, form: any, next: any) => void
@@ -106,7 +105,7 @@ declare namespace Vert {
   export interface IAppOption {
     element?: string | HTMLElement
     name?: string
-    rootComponent: TRootComponent
+    RootComponent: TRootComponent
     router?: any
     services?: TService[]
     store?: any

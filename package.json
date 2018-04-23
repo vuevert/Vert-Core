@@ -18,6 +18,7 @@
   "scripts": {
     "build": "node ./build/webpack.build.conf.js",
     "test": "jest",
+    "test-watch": "jest --watch",
     "prepublish": "npm run build"
   },
   "files": [
