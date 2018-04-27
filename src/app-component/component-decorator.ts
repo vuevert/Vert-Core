@@ -51,6 +51,8 @@ function Component (param: any) {
  * "__decorators__" is defined in vue-class-component, and it holds all customized decorators' data
  * such as @Prop, @Watch, .ect.
  *
+ * @link https://github.com/vuejs/vue-class-component/blob/master/src/component.ts#L59
+ *
  * @param {*} targetClass
  * @param {*} Constructor
  */
