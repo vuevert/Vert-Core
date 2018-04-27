@@ -1,7 +1,7 @@
 {
   "name": "@vert/core",
   "version": "0.1.4",
-  "description": "Build an OOP application which is based on Vue.",
+  "description": "Library to build OOP applications which are based on Vue.",
   "author": {
     "name": "LancerComet",
     "email": "chw644@hotmail.com"
