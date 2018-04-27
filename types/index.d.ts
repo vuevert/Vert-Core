@@ -42,7 +42,7 @@ declare namespace Vert {
 
   export const Prop: typeof _Prop
   export const VueInject: typeof _Inject
-  export const VueProvider: typeof Provide
+  export const VueProvide: typeof Provide
   export const Watch: typeof _Watch
 
   // Core.
