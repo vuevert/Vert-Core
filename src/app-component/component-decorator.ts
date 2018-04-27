@@ -17,6 +17,12 @@ function Component (param: any) {
   if (typeof param === 'function') {
     const Providers = ReflectionUtils.getProvidersFromParams(param)
     const Constructor = InjectionUtils.createInjectedConstructor(param, Providers)
+
+    // Keep targetClass.__decorators__.
+    // "__decorators__" is defined in vue-class-component, and it holds all customized decorators' data
+    // such as @Prop, @Watch, .ect.
+    keepDecorators(param, Constructor)
+
     return componentFactory(Constructor, {})
   }
 
@@ -32,8 +38,25 @@ function Component (param: any) {
 
     const Providers = ReflectionUtils.getProvidersFromParams(targetClass)
     const Constructor = InjectionUtils.createInjectedConstructor(targetClass, Providers)
+
+    keepDecorators(targetClass, Constructor)
+
     const ComponentConstructor = componentFactory(Constructor, param)
     return ComponentConstructor
+  }
+}
+
+/**
+ * Function to keep targetClass.__decorators__.
+ * "__decorators__" is defined in vue-class-component, and it holds all customized decorators' data
+ * such as @Prop, @Watch, .ect.
+ *
+ * @param {*} targetClass
+ * @param {*} Constructor
+ */
+function keepDecorators (targetClass: any, Constructor: any) {
+  if (targetClass['__decorators__']) {
+    Constructor['__decorators__'] = targetClass['__decorators__']
   }
 }
 
