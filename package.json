@@ -17,7 +17,7 @@
   "license": "MIT",
   "scripts": {
     "build": "node ./build/webpack.build.conf.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "test-watch": "jest --watch",
     "prepublish": "npm run build"
   },
@@ -94,15 +94,19 @@
       "\\.(css|less)$": "<rootDir>/.jest/style-mock.js",
       "vue$": "vue/dist/vue.common.js"
     },
-    "mapCoverage": true,
     "setupFiles": [
       "<rootDir>/.jest/setup.js"
     ],
     "coverageDirectory": "<rootDir>/.coverage-report",
     "collectCoverageFrom": [
-      "**/*.{js,jsx,ts,tsx,vue}",
+      "src/**/*.{js,jsx,ts,tsx,vue}",
+      "!src/index.ts",
       "!**/*.d.ts",
+      "!**/*.spec.ts",
       "!**/node_modules/**"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!vue-class-component).+\\.js$"
     ]
   }
 }

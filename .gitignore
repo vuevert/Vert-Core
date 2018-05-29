@@ -68,3 +68,6 @@ typings/
 
 # Dist.
 lib/
+
+# Coverage report.
+.coverage-report/

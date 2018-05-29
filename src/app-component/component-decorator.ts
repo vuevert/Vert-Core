@@ -63,7 +63,7 @@ function keepDecorators (targetClass: any, Constructor: any) {
 }
 
 interface IComponentOption {
-  components?: { [key: string]: any  }
+  components?: { [key: string]: any }
   directives?: { [key: string]: any }
   filters?: { [key: string]: typeof Function }
   template?: string
