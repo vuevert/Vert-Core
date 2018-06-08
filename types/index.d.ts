@@ -66,7 +66,7 @@ declare namespace Vert {
      * @param {T} instance
      * @memberof App
      */
-    static addSingleton<T>(Provider: new (...args: any[]) => T, instance: T): void
+    static addSingleton<T> (Provider: new (...args: any[]) => T, instance: T): void
 
     private _element: string | HTMLElement
     private _name: string
@@ -92,7 +92,7 @@ declare namespace Vert {
      *
      * @memberof App
      */
-    start(): void
+    start (): void
 
     constructor(option: IAppOption)
   }

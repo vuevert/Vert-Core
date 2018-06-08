@@ -78,7 +78,7 @@ const app = new App({
   RootComponent
 })
 
-app.init()
+app.start()
 ```
 
 Then, let's create a service to provide `name` for `RootComponent`:
@@ -151,7 +151,7 @@ import { EmployeeService } from './service.employee'
 export default class RootComponent extends AppComponent {
   name: string = ''
 
-  private getJackData () {
+  async private getJackData () {
     const { data, error } = await this.employeeSrv.getEmployee('jack')
     if (!error) {
       this.name = data.name
@@ -203,7 +203,7 @@ const app = new App({
   RootComponent
 })
 
-app.init()
+app.start()
 ```
 
 That's it! Have a nice try!
