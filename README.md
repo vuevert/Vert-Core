@@ -74,7 +74,7 @@ export default class RootComponent extends AppComponent {
 }
 ```
 
-Now in the entry file of the project (such as `index.ts`, `main.ts` or `app.ts`), we need to create an instance of `App`:
+Now in the entry file (such as `index.ts`, `main.ts` or `app.ts`), we need to create an instance of `App`:
 
 ```typescript
 // index.ts
@@ -192,13 +192,14 @@ Finally, let's create a file `startup.ts` (anything you like) to register our se
 import { App, Injector } from '@vert/core'
 import { EmployeeService, Http } from './service.employee'
 
-const injector = Injector.create(EmployeeService, Http)
-injector.forEach(Service => {
+const Services = [EmployeeService, Http]
+const injector = Injector.create(...Services)
+Services.forEach((Service: any) => {
   App.addSingleton(Service, injector.get(Service))
 })
 ```
 
-And import it in `index.ts`:
+And import `startup.ts in `index.ts`:
 
 ```typescript
 // index.ts
