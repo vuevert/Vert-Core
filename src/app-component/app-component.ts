@@ -8,7 +8,6 @@ import Vue from 'vue'
 
 class AppComponent extends Vue {
   // TODO: Find some way to remove these props.
-  $store?: any
   $route?: any
   $router?: any
 }
