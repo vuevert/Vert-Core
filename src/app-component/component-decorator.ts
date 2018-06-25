@@ -1,5 +1,6 @@
 import { Component } from 'vue'
 import { componentFactory } from 'vue-class-component/lib/component'
+import VueCompDecorator from 'vue-class-component/lib/index'
 import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 
 import { TConstructor, TProviders } from '../types'
@@ -7,6 +8,20 @@ import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
 
 let componentId = 1
+
+// Nuxt support.
+VueCompDecorator.registerHooks([
+  'beforeRouteEnter',
+  'beforeRouteLeave',
+  'asyncData',
+  'fetch',
+  'head',
+  'middleware',
+  'layout',
+  'transition',
+  'scrollToTop',
+  'validate'
+])
 
 /**
  * Decorate a class into the component.

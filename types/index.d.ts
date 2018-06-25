@@ -1,11 +1,19 @@
 /* tslint:disable */
 
 import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-property-decorator'
+import { State as _State, Getter as _Getter, Action as _Action, Mutation as _Mutation, namespace as _namespace } from 'vuex-class'
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 
 declare namespace Vert {
+  // Vuex-class decorators.
+  export const State: typeof _State
+  export const Getter: typeof _Getter
+  export const Action: typeof _Action
+  export const Mutation: typeof _Mutation
+  export const namespace: typeof _namespace
+
   // App-Component.
   // ==============================
 
