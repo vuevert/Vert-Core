@@ -12,12 +12,15 @@ let componentId = 1
 // Nuxt support.
 VueCompDecorator.registerHooks([
   'beforeRouteEnter',
+  'beforeRouteUpdate',
   'beforeRouteLeave',
   'asyncData',
   'fetch',
   'head',
-  'middleware',
   'layout',
+  'meta',
+  'middleware',
+  'title',
   'transition',
   'scrollToTop',
   'validate'
