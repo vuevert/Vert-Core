@@ -12,16 +12,16 @@ Vert is the library to build applications which are based on Vue in OOP.
  - Build Vue apps in OOP, use Angular-like grammar.
  - Pure TypeScript Experience.
  - Decorator class as Service (@Injectable).
- - Inject a decorated class into Vue component or class (DI).
+ - Inject decorated class into Vue component class or normal class (DI).
  - Easy to do IOC stuff.
  - Built-in service ([@vert/services](https://github.com/LancerComet/Vert-Services)).
- - Available in Nuxt.js. 
+ - Available for both [Vue-SSR](https://ssr.vuejs.org) and [Nuxt.js](https://github.com/nuxt/nuxt.js).
 
 ## Introduction
 
-Vert is a library which is designed for building application which is based on Vue in OOP. It provides some function and decorators to help you to build an oop application. Generally speaking, it is something like "Angular in Vue".
+Vert is a library which is designed for building applications that are based on Vue in OOP. It provides some function and decorators to help you to achieve that goal. In General, it turns Vue into Angular.
 
-If you feel bad about it, please just stop - it is not the time to use Vert for your project.
+If you don't feel that good about it, please just stop - we are not here.
 
 ## Quick start
 
