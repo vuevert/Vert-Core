@@ -1,6 +1,6 @@
 # Vert
 
-Vert is the library to build applications which are based on Vue in OOP.
+Vert is the library to build Vue applications in OOP.
 
 [![npm version](https://badge.fury.io/js/%40vert%2Fcore.svg)](https://badge.fury.io/js/%40vert%2Fcore)
 [![Build Status](https://travis-ci.org/LancerComet/Vert-Core.svg?branch=master)](https://github.com/LancerComet/Vert-Core)
@@ -16,6 +16,13 @@ Vert is the library to build applications which are based on Vue in OOP.
  - Easy to do IOC stuff.
  - Built-in service ([@vert/services](https://github.com/LancerComet/Vert-Services)).
  - Available for both [Vue-SSR](https://ssr.vuejs.org) and [Nuxt.js](https://github.com/nuxt/nuxt.js).
+
+## Demo
+
+You can check these out:
+
+ - [vert-vue-ssr-template](https://github.com/LancerComet/vert-vue-ssr-template)
+ - [vert-demo](https://github.com/LancerComet/Vert-Demo)
 
 ## Introduction
 
@@ -226,7 +233,7 @@ Currently documentation files are stored in `docs/` folder and they are under he
 
 ## Take care of yourself
 
-It's a very early version, so just take care of yourself.
+I have done several projects with this tool, but however it is a very early version, so take care of yourself, leave me a issue if there is a bug.
 
 ## License
 
