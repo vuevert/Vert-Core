@@ -1,7 +1,6 @@
 /* tslint:disable */
 
-import { Injectable } from './injectable'
-import { Injector } from './injector'
+import { Injectable, Injector } from '../lib'
 
 describe('Injection test.', () => {
   it('Injector should work.', () => {

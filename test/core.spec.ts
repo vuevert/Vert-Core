@@ -1,4 +1,4 @@
-import { App } from './'
+import { App } from '../lib'
 
 describe('Core Nodule test.', () => {
   it('Should create an app without error.', () => {

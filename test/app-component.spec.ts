@@ -1,6 +1,6 @@
-import { App } from '../'
-import { AppComponent } from './app-component'
-import { Component } from './component-decorator'
+/* tslint:disable */
+
+import { AppComponent, Component } from '../lib'
 
 describe('App Component test.', () => {
   @Component({

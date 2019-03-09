@@ -1,4 +1,4 @@
-import { Data } from './index'
+import { Data } from '../lib'
 
 test('Type-Secured data should work.', () => {
   const lancerComet = Student.create({

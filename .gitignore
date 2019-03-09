@@ -71,3 +71,6 @@ lib/
 
 # Coverage report.
 .coverage-report/
+
+# RollUp.
+.rpt2_cache/

@@ -1,0 +1,14 @@
+.jest/
+.rpt2_cache/
+build/
+doc/
+lib/
+.editorconfig
+.gitignore
+.gitlab-ci.yml
+.travis.yml
+babel.config.js
+jest.config.js
+rollup.config.js
+tsconfig.json
+tslint.json

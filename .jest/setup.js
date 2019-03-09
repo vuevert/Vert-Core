@@ -1,2 +1,5 @@
 import Vue from 'vue'
-Vue.config.productionTip = false
+
+module.exports = function () {
+  Vue.config.productionTip = false
+}
