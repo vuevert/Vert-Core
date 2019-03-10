@@ -67,7 +67,7 @@ typings/
 *.map
 
 # Dist.
-lib/
+dist/
 
 # Coverage report.
 .coverage-report/
