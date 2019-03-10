@@ -9,8 +9,6 @@
  * @licence MIT
  */
 
-import 'reflect-metadata'
-
 export { AppComponent } from './app-component/app-component'
 export { Component, Prop, VueInject, VueProvide, Watch } from './app-component/component-decorator'
 export { App } from './core'

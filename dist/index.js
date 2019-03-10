@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('reflect-metadata'), require('vue'), require('vuex')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'reflect-metadata', 'vue', 'vuex'], factory) :
-    (global = global || self, factory(global.Vert = {}, null, global.vue, global.vuex));
-}(this, function (exports, reflectMetadata, Vue, vuex) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('vuex')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'vue', 'vuex'], factory) :
+    (global = global || self, factory(global.Vert = {}, global.vue, global.vuex));
+}(this, function (exports, Vue, vuex) { 'use strict';
 
     Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 

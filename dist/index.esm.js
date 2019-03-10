@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import Vue from 'vue';
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 
