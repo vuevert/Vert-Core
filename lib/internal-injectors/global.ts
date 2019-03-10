@@ -1,21 +1,11 @@
 import { Injector } from '../injection/injector'
-import { TProvider } from '../types'
+import { TConstructor } from '../types'
 
 /**
  * Singleton injector holds all singleton instance.
  */
 abstract class GlobalInjector {
   private static readonly injector = Injector.create()
-
-  /**
-   * Check whether target has been registered.
-   *
-   * @param target
-   * @return {boolean}
-   */
-  static has (target: TProvider): boolean {
-    return GlobalInjector.injector.has(target)
-  }
 
   /**
    * Get target instance from injector by providing provider.
@@ -28,23 +18,30 @@ abstract class GlobalInjector {
   }
 
   /**
-   * Create a instance of a provider and save to global injector.
+   * Register target as singleton provider into global injector.
    *
-   * @param {TProvider} Provider
-   * @param {*} instance
+   * @param Provider
    */
-  static saveToInjector (Provider: TProvider, instance: any) {
-    if (!GlobalInjector.has(Provider)) {
-      throw new Error(`[@vert/core] Provider "${Provider.name}" is not registered.`)
-    }
+  static addSingleton (Provider: TConstructor) {
+    GlobalInjector.injector.addSingleton(Provider)
+  }
 
-    if (!instance) {
-      throw new TypeError('[@vert/core] Instance must be provided.')
-    }
+  /**
+   * Register target as scoped provider into global injector.
+   *
+   * @param Provider
+   */
+  static addScoped (Provider: TConstructor) {
+    GlobalInjector.injector.addScoped(Provider)
+  }
 
-    if (!GlobalInjector.has(Provider)) {
-      GlobalInjector.injector.set(Provider, instance)
-    }
+  /**
+   * Check whether injector has registered this provider.
+   *
+   * @param Provider
+   */
+  static has (Provider: TConstructor) {
+    return GlobalInjector.injector.has(Provider)
   }
 }
 

@@ -1,9 +1,6 @@
-/* tslint:disable:no-shadowed-variable */
-import 'reflect-metadata'
-
-import { TConstructor, TProvider, TProviders } from '../types'
-import { InjectionUtils } from '../utils/injection-utils'
+import { TConstructor } from '../types'
 import { ReflectionUtils } from '../utils/reflection-utils'
+import { checkIsInjected } from './injectable'
 
 /**
  * Standalone injector class.
@@ -12,31 +9,63 @@ class Injector {
   /**
    * Create a new class injector.
    *
-   * @param {TProviders} Providers
    * @return {Injector}
    */
-  static create (...Providers: TProviders): Injector {
-    return new Injector(...Providers)
+  static create (): Injector {
+    return new Injector()
   }
 
   /**
-   * Provider storage.
+   * Check whether a class is injected.
+   *
+   * @param Provider
    */
-  private readonly map = new WeakMap()
+  private static checkIsInjected (Provider: TConstructor) {
+    if (!checkIsInjected(Provider)) {
+      throw new Error(`[@ver/core] "${Provider.name}" is not an injected class.`)
+    }
+  }
 
   /**
-   * Create instance.
+   * This map keeps singleton provider and its instance.
+   */
+  private readonly singletonMap = new WeakMap()
+
+  /**
+   * This map keeps scoped provider.
+   */
+  private readonly scopedMap = new WeakMap()
+
+  /**
+   * Register target as singleton provider.
    *
    * @param {TConstructor} Provider
-   * @param {any[]} args
-   * @return {any}
    */
-  private createProviderInstance (Provider: TConstructor, args: any[] = []) {
-    return new Provider(...args)
+  addSingleton (Provider: TConstructor): this {
+    Injector.checkIsInjected(Provider)
+
+    if (this.scopedMap.has(Provider)) {
+      throw new Error(`[@vert/core] "${Provider.name}" has been registered as scoped provider.`)
+    }
+
+    this.singletonMap.set(Provider, null)
+    return this
   }
 
-  addSingleton <T> (Provider: new (...args) => T, instance: T) {
-    // TODO: Addsingleton
+  /**
+   * Register target as scoped provider.
+   *
+   * @param {TConstructor} Provider
+   */
+  addScoped <T> (Provider: TConstructor): this {
+    Injector.checkIsInjected(Provider)
+
+    if (this.singletonMap.has(Provider)) {
+      throw new Error(`[@vert/core] "${Provider.name}" has been registered as singleton provider.`)
+    }
+
+    this.scopedMap.set(Provider, null)
+    return this
   }
 
   /**
@@ -46,65 +75,48 @@ class Injector {
    * @return {T}
    */
   get <T> (Provider: new (...args) => T): T {
-    const injectedDependencies = ReflectionUtils
-      .getProvidersFromParams(Provider)
-
-    if (!injectedDependencies.length) {
-      return this.map.get(Provider)
+    const isSingletonProvider = this.singletonMap.has(Provider)
+    const isScopedProvider = this.scopedMap.has(Provider)
+    if (!isSingletonProvider && !isScopedProvider) {
+      return null
     }
 
-    const dependencies = []
-    injectedDependencies.forEach(Dependency => {
-      dependencies.push(this.get(Dependency))
-    })
+    switch (true) {
+      case isSingletonProvider: {
+        let instance = this.singletonMap.get(Provider)
+        if (!instance) {
+          const dependencyInstance = ReflectionUtils
+            .getProvidersFromParams(Provider)
+            .map(item => this.get(item))
+          instance = new Provider(...dependencyInstance)
+          this.singletonMap.set(Provider, instance)
+        }
+        return instance
+      }
 
-    return new Provider(...dependencies)
-  }
+      case isScopedProvider: {
+        const dependencyInstance = ReflectionUtils
+          .getProvidersFromParams(Provider)
+          .map(item => this.get(item))
+        const instance = new Provider(...dependencyInstance)
+        return instance
+      }
 
-  /**
-   * Whether it holds target provider.
-   *
-   * @param Provider
-   * @return {boolean}
-   */
-  has (Provider: any): boolean {
-    return this.map.has(Provider)
-  }
-
-  /**
-   * Set a provider instance to cache,
-   *
-   * @param {{new(...args): T}} Provider
-   * @param {T} instance
-   */
-  set <T> (Provider: new (...args) => T, instance: T) {
-    if (!this.has(Provider)) {
-      this.map.set(Provider, instance)
+      default:
+        return null
     }
   }
 
   /**
-   * Register provider to this injector.
+   * Check whether injector has registered this provider.
    *
-   * @param Provider
+   * @param target
    */
-  private registerProviders (Provider: TProvider) {
-    const injectedDependencies = ReflectionUtils
-      .getProvidersFromParams(Provider)
-
-    if (injectedDependencies.length) {
-      injectedDependencies.forEach(item => this.registerProviders(item))
-    }
-
-    let instance = this.get(Provider)
-    if (!instance) {
-      instance = new Provider()
-      this.set(Provider, instance)
-    }
+  has (target: TConstructor): boolean {
+    return this.scopedMap.has(target) || this.singletonMap.has(target)
   }
 
-  private constructor (...Providers: TProviders) {
-    Providers.forEach(Item => this.registerProviders(Item))
+  private constructor () {
   }
 }
 

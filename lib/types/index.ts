@@ -1,10 +1,9 @@
-import Vue from 'vue'
-import { CombinedVueInstance } from 'vue/types/vue'
+import Vue, { Component } from 'vue'
 
 /**
  * Root component type.
  */
-type TRootComponent = CombinedVueInstance<any, any, any, any, any>
+type TRootComponent = Component
 
 /**
  * Hook function type.
@@ -17,21 +16,13 @@ type THookFunction = (viewModel?: Vue) => void
 type TConstructor = new (...args: any[]) => any
 
 /**
- * Service type.
- */
-type TService = TConstructor
-
-/**
  * Provider type.
  */
-type TProvider = TConstructor
-type TProviders = TProvider[]
+type TProviders = TConstructor[]
 
 export {
   TConstructor,
   THookFunction,
   TRootComponent,
-  TService,
-  TProvider,
   TProviders
 }

@@ -1,5 +1,6 @@
 import { GlobalInjector } from '../internal-injectors/global'
 import { TConstructor, TProviders } from '../types'
+import { Logger } from './logger'
 
 abstract class InjectionUtils {
   /**
@@ -14,19 +15,16 @@ abstract class InjectionUtils {
     // This new constructor has no params so you can not get any info by using 'design:paramtypes'.
     const Constructor: any = function () {
       const providers = []
-
-      for (const Provider of Providers) {
+      Providers.forEach(Provider => {
         if (!GlobalInjector.has(Provider)) {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`[@vert/core] Provider "${Provider.name}" is not registered.`)
-          }
+          Logger.warn(`Provider "${Provider.name}" hasn't been registered in global.`)
           providers.push(undefined)
-          continue
+          return
         }
 
-        const instance = GlobalInjector.get(Provider) || undefined
+        const instance = GlobalInjector.get(Provider)
         providers.push(instance)
-      }
+      })
 
       return new targetClass(...providers)
     }

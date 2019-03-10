@@ -1,7 +1,7 @@
 import Vue, { ComponentOptions } from 'vue'
 
 import { GlobalInjector } from '../internal-injectors/global'
-import { THookFunction, TRootComponent, TService } from '../types'
+import { TConstructor, THookFunction, TRootComponent } from '../types'
 import { TypeUtils } from '../utils/type-utils'
 
 let appId = 1
@@ -15,8 +15,26 @@ let appId = 1
  * @class App
  */
 export class App {
-  static addSingleton <T> (Provider: new (...args: any[]) => T, instance: T) {
-    GlobalInjector.saveToInjector(Provider, instance)
+  /**
+   * Register target as a singleton provider in global.
+   *
+   * @static
+   * @template T
+   * @param {new (...args: any[]) => T} Provider
+   */
+  static addSingleton <T> (Provider: new (...args: any[]) => T) {
+    GlobalInjector.addSingleton(Provider)
+  }
+
+  /**
+   * Register target as a scoped provider in global.
+   *
+   * @static
+   * @template T
+   * @param {new (...args: any[]) => T} Provider
+   */
+  static addScoped <T> (Provider: new (...args: any[]) => T) {
+    GlobalInjector.addScoped(Provider)
   }
 
   private _element?: string | HTMLElement
@@ -25,7 +43,7 @@ export class App {
   private _router?: any
   private _viewModel: Vue
 
-  private _serviceInstances: {[srvName: string]: TService} = {}
+  private _serviceInstances: {[srvName: string]: TConstructor} = {}
 
   get name (): string { return this._name }
   get store () { return this._store }
@@ -39,10 +57,7 @@ export class App {
   ) {
     const option: ComponentOptions<Vue> = {
       name: this.name,
-      template: createViewModelTemplate(`${this.name}`),
-      components: {
-        'root-component': RootComponent
-      },
+      render: h => h(RootComponent),
       provide: this._serviceInstances,
       created () {
         TypeUtils.isFunction(created) && created(this as Vue)
@@ -104,7 +119,7 @@ export interface IAppOption {
   name?: string
   RootComponent: TRootComponent
   router?: any
-  services?: TService[]
+  services?: TConstructor[]
   store?: any
 
   created?: THookFunction
@@ -112,7 +127,3 @@ export interface IAppOption {
   beforeDestroy?: THookFunction
 }
 
-function createViewModelTemplate (id: string): string {
-  return `<div id="${id}"><root-component></root-component></div>
-  `
-}

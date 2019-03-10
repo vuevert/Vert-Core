@@ -379,49 +379,84 @@
         return ReflectionUtils;
     }());
 
-    /* tslint:disable:no-shadowed-variable */
+    var INJECTED_FLAG = 'Vert:Injected';
+    var INJECTED_PARAMS_METADATA_KEY = 'Vert:ParamTypes';
+    /**
+     * Injectable decorator.
+     */
+    function Injectable() {
+        return function (Provider) {
+            var types = Reflect.getMetadata('design:paramtypes', Provider);
+            Reflect.defineMetadata(INJECTED_FLAG, true, Provider);
+            Reflect.defineMetadata(INJECTED_PARAMS_METADATA_KEY, types, Provider);
+        };
+    }
+    /**
+     * Check whether a class is injected.
+     *
+     * @param target
+     */
+    function checkIsInjected(target) {
+        return Reflect.getMetadata(INJECTED_FLAG, target) === true;
+    }
+
     /**
      * Standalone injector class.
      */
     var Injector = /** @class */ (function () {
         function Injector() {
-            var Providers = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                Providers[_i] = arguments[_i];
-            }
-            var _this = this;
             /**
-             * Provider storage.
+             * This map keeps singleton provider and its instance.
              */
-            this.map = new WeakMap();
-            Providers.forEach(function (Item) { return _this.registerProviders(Item); });
+            this.singletonMap = new WeakMap();
+            /**
+             * This map keeps scoped provider.
+             */
+            this.scopedMap = new WeakMap();
         }
         /**
          * Create a new class injector.
          *
-         * @param {TProviders} Providers
          * @return {Injector}
          */
         Injector.create = function () {
-            var Providers = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                Providers[_i] = arguments[_i];
-            }
-            return new (Injector.bind.apply(Injector, [void 0].concat(Providers)))();
+            return new Injector();
         };
         /**
-         * Create instance.
+         * Check whether a class is injected.
+         *
+         * @param Provider
+         */
+        Injector.checkIsInjected = function (Provider) {
+            if (!checkIsInjected(Provider)) {
+                throw new Error("[@ver/core] \"" + Provider.name + "\" is not an injected class.");
+            }
+        };
+        /**
+         * Register target as singleton provider.
          *
          * @param {TConstructor} Provider
-         * @param {any[]} args
-         * @return {any}
          */
-        Injector.prototype.createProviderInstance = function (Provider, args) {
-            if (args === void 0) { args = []; }
-            return new (Provider.bind.apply(Provider, [void 0].concat(args)))();
+        Injector.prototype.addSingleton = function (Provider) {
+            Injector.checkIsInjected(Provider);
+            if (this.scopedMap.has(Provider)) {
+                throw new Error("[@vert/core] \"" + Provider.name + "\" has been registered as scoped provider.");
+            }
+            this.singletonMap.set(Provider, null);
+            return this;
         };
-        Injector.prototype.addSingleton = function (Provider, instance) {
-            // TODO: Addsingleton
+        /**
+         * Register target as scoped provider.
+         *
+         * @param {TConstructor} Provider
+         */
+        Injector.prototype.addScoped = function (Provider) {
+            Injector.checkIsInjected(Provider);
+            if (this.singletonMap.has(Provider)) {
+                throw new Error("[@vert/core] \"" + Provider.name + "\" has been registered as singleton provider.");
+            }
+            this.scopedMap.set(Provider, null);
+            return this;
         };
         /**
          * Get target instance from injector by providing provider.
@@ -431,54 +466,41 @@
          */
         Injector.prototype.get = function (Provider) {
             var _this = this;
-            var injectedDependencies = ReflectionUtils
-                .getProvidersFromParams(Provider);
-            if (!injectedDependencies.length) {
-                return this.map.get(Provider);
+            var isSingletonProvider = this.singletonMap.has(Provider);
+            var isScopedProvider = this.scopedMap.has(Provider);
+            if (!isSingletonProvider && !isScopedProvider) {
+                return null;
             }
-            var dependencies = [];
-            injectedDependencies.forEach(function (Dependency) {
-                dependencies.push(_this.get(Dependency));
-            });
-            return new (Provider.bind.apply(Provider, [void 0].concat(dependencies)))();
-        };
-        /**
-         * Whether it holds target provider.
-         *
-         * @param Provider
-         * @return {boolean}
-         */
-        Injector.prototype.has = function (Provider) {
-            return this.map.has(Provider);
-        };
-        /**
-         * Set a provider instance to cache,
-         *
-         * @param {{new(...args): T}} Provider
-         * @param {T} instance
-         */
-        Injector.prototype.set = function (Provider, instance) {
-            if (!this.has(Provider)) {
-                this.map.set(Provider, instance);
+            switch (true) {
+                case isSingletonProvider: {
+                    var instance = this.singletonMap.get(Provider);
+                    if (!instance) {
+                        var dependencyInstance = ReflectionUtils
+                            .getProvidersFromParams(Provider)
+                            .map(function (item) { return _this.get(item); });
+                        instance = new (Provider.bind.apply(Provider, [void 0].concat(dependencyInstance)))();
+                        this.singletonMap.set(Provider, instance);
+                    }
+                    return instance;
+                }
+                case isScopedProvider: {
+                    var dependencyInstance = ReflectionUtils
+                        .getProvidersFromParams(Provider)
+                        .map(function (item) { return _this.get(item); });
+                    var instance = new (Provider.bind.apply(Provider, [void 0].concat(dependencyInstance)))();
+                    return instance;
+                }
+                default:
+                    return null;
             }
         };
         /**
-         * Register provider to this injector.
+         * Check whether injector has registered this provider.
          *
-         * @param Provider
+         * @param target
          */
-        Injector.prototype.registerProviders = function (Provider) {
-            var _this = this;
-            var injectedDependencies = ReflectionUtils
-                .getProvidersFromParams(Provider);
-            if (injectedDependencies.length) {
-                injectedDependencies.forEach(function (item) { return _this.registerProviders(item); });
-            }
-            var instance = this.get(Provider);
-            if (!instance) {
-                instance = new Provider();
-                this.set(Provider, instance);
-            }
+        Injector.prototype.has = function (target) {
+            return this.scopedMap.has(target) || this.singletonMap.has(target);
         };
         return Injector;
     }());
@@ -490,15 +512,6 @@
         function GlobalInjector() {
         }
         /**
-         * Check whether target has been registered.
-         *
-         * @param target
-         * @return {boolean}
-         */
-        GlobalInjector.has = function (target) {
-            return GlobalInjector.injector.has(target);
-        };
-        /**
          * Get target instance from injector by providing provider.
          *
          * @param {{new(...args): T}} Provider
@@ -508,24 +521,51 @@
             return GlobalInjector.injector.get(Provider);
         };
         /**
-         * Create a instance of a provider and save to global injector.
+         * Register target as singleton provider into global injector.
          *
-         * @param {TProvider} Provider
-         * @param {*} instance
+         * @param Provider
          */
-        GlobalInjector.saveToInjector = function (Provider, instance) {
-            if (!GlobalInjector.has(Provider)) {
-                throw new Error("[@vert/core] Provider \"" + Provider.name + "\" is not registered.");
-            }
-            if (!instance) {
-                throw new TypeError('[@vert/core] Instance must be provided.');
-            }
-            if (!GlobalInjector.has(Provider)) {
-                GlobalInjector.injector.set(Provider, instance);
-            }
+        GlobalInjector.addSingleton = function (Provider) {
+            GlobalInjector.injector.addSingleton(Provider);
+        };
+        /**
+         * Register target as scoped provider into global injector.
+         *
+         * @param Provider
+         */
+        GlobalInjector.addScoped = function (Provider) {
+            GlobalInjector.injector.addScoped(Provider);
+        };
+        /**
+         * Check whether injector has registered this provider.
+         *
+         * @param Provider
+         */
+        GlobalInjector.has = function (Provider) {
+            return GlobalInjector.injector.has(Provider);
         };
         GlobalInjector.injector = Injector.create();
         return GlobalInjector;
+    }());
+
+    var Logger = /** @class */ (function () {
+        function Logger() {
+        }
+        Logger.warn = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            console.warn.apply(console, ['[@vert/core]'].concat(args));
+        };
+        Logger.error = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            console.error.apply(console, ['[@vert/core]'].concat(args));
+        };
+        return Logger;
     }());
 
     var InjectionUtils = /** @class */ (function () {
@@ -543,18 +583,15 @@
             // This new constructor has no params so you can not get any info by using 'design:paramtypes'.
             var Constructor = function () {
                 var providers = [];
-                for (var _i = 0, Providers_1 = Providers; _i < Providers_1.length; _i++) {
-                    var Provider = Providers_1[_i];
+                Providers.forEach(function (Provider) {
                     if (!GlobalInjector.has(Provider)) {
-                        if (process.env.NODE_ENV === 'development') {
-                            console.warn("[@vert/core] Provider \"" + Provider.name + "\" is not registered.");
-                        }
+                        Logger.warn("Provider \"" + Provider.name + "\" hasn't been registered in global.");
                         providers.push(undefined);
-                        continue;
+                        return;
                     }
-                    var instance = GlobalInjector.get(Provider) || undefined;
+                    var instance = GlobalInjector.get(Provider);
                     providers.push(instance);
-                }
+                });
                 return new (targetClass.bind.apply(targetClass, [void 0].concat(providers)))();
             };
             Constructor.prototype = targetClass.prototype;
@@ -659,8 +696,25 @@
             this._store = option.store;
             this.initViewModel(option.RootComponent, option.created, option.mounted, option.beforeDestroy);
         }
-        App.addSingleton = function (Provider, instance) {
-            GlobalInjector.saveToInjector(Provider, instance);
+        /**
+         * Register target as a singleton provider in global.
+         *
+         * @static
+         * @template T
+         * @param {new (...args: any[]) => T} Provider
+         */
+        App.addSingleton = function (Provider) {
+            GlobalInjector.addSingleton(Provider);
+        };
+        /**
+         * Register target as a scoped provider in global.
+         *
+         * @static
+         * @template T
+         * @param {new (...args: any[]) => T} Provider
+         */
+        App.addScoped = function (Provider) {
+            GlobalInjector.addScoped(Provider);
         };
         Object.defineProperty(App.prototype, "name", {
             get: function () { return this._name; },
@@ -680,10 +734,7 @@
         App.prototype.initViewModel = function (RootComponent, created, mounted, beforeDestroy) {
             var option = {
                 name: this.name,
-                template: createViewModelTemplate("" + this.name),
-                components: {
-                    'root-component': RootComponent
-                },
+                render: function (h) { return h(RootComponent); },
                 provide: this._serviceInstances,
                 created: function () {
                     TypeUtils.isFunction(created) && created(this);
@@ -715,9 +766,6 @@
         };
         return App;
     }());
-    function createViewModelTemplate(id) {
-        return "<div id=\"" + id + "\"><root-component></root-component></div>\n  ";
-    }
 
     var isSupportProxy = true;
     try {
@@ -768,19 +816,6 @@
     }
     function getTypeText(fullTypeString) {
         return fullTypeString.replace(/\[object |\]/g, '');
-    }
-
-    var INJECTED_FLAG = 'Vert:Injected';
-    var INJECTED_PARAMS_METADATA_KEY = 'Vert:ParamTypes';
-    /**
-     * Injectable decorator.
-     */
-    function Injectable() {
-        return function (Provider) {
-            var types = Reflect.getMetadata('design:paramtypes', Provider);
-            Reflect.defineMetadata(INJECTED_FLAG, true, Provider);
-            Reflect.defineMetadata(INJECTED_PARAMS_METADATA_KEY, types, Provider);
-        };
     }
 
     /* tslint:disable */

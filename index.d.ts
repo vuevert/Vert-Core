@@ -5,6 +5,8 @@ import { State as _State, Getter as _Getter, Action as _Action, Mutation as _Mut
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
+import {TConstructor} from "./lib/types";
+import {ReflectionUtils} from "./lib/utils/reflection-utils";
 
 declare namespace Vert {
   // Vuex-class decorators.
@@ -66,34 +68,26 @@ declare namespace Vert {
    */
   export class App {
     /**
-     * Add a singleton to app.
+     * Register target as a singleton provider in global.
      *
      * @static
      * @template T
      * @param {new (...args: any[]) => T} Provider
-     * @param {T} instance
-     * @memberof App
      */
-    static addSingleton<T> (Provider: new (...args: any[]) => T, instance: T): void
+    static addSingleton <T> (Provider: new (...args: any[]) => T)
 
-    private _element: string | HTMLElement
-    private _name: string
-    private _store: any
-    private _router: any
-    private _viewModel: Vue
-
-    private _serviceInstances: { [srvName: string]: TService }
+    /**
+     * Register target as a scoped provider in global.
+     *
+     * @static
+     * @template T
+     * @param {new (...args: any[]) => T} Provider
+     */
+    static addScoped <T> (Provider: new (...args: any[]) => T)
 
     name: string
     store: any
     viewModel: Vue
-
-    private initViewModel(
-      RootComponent: TRootComponent,
-      created: THookFunction,
-      mounted: THookFunction,
-      beforeDestroy: THookFunction
-    )
 
     /**
      * Start up this app.
@@ -102,7 +96,7 @@ declare namespace Vert {
      */
     start (): void
 
-    constructor(option: IAppOption)
+    constructor (option: IAppOption)
   }
 
   /**
@@ -115,7 +109,7 @@ declare namespace Vert {
     name?: string
     RootComponent: TRootComponent
     router?: any
-    services?: TService[]
+    services?: TConstructor[]
     store?: any
 
     created?: THookFunction
@@ -149,15 +143,23 @@ declare namespace Vert {
     /**
      * Create a new class injector.
      *
-     * @param {TProviders} Providers
      * @return {Injector}
      */
-    static create (...Providers: TProviders): Injector
+    static create (): Injector
 
     /**
-     * Provider storage.
+     * Register target as singleton provider.
+     *
+     * @param {TConstructor} Provider
      */
-    private map: WeakMap<any, any>
+    addSingleton (Provider: TConstructor): this
+
+    /**
+     * Register target as scoped provider.
+     *
+     * @param {TConstructor} Provider
+     */
+    addScoped <T> (Provider: TConstructor): this
 
     /**
      * Get target instance from injector by providing provider.
@@ -165,25 +167,16 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @return {T}
      */
-    get <T> (Provider: new (...args: any[]) => T): T
+    get <T> (Provider: new (...args) => T): T
 
     /**
-     * Whether it holds target provider.
+     * Check whether injector has registered this provider.
      *
-     * @param Provider
-     * @return {boolean}
+     * @param target
      */
-    has (Provider: any): boolean
+    has (target: TConstructor): boolean
 
-    /**
-     * Set a provider instance to cache,
-     *
-     * @param {{new(...args): T}} Provider
-     * @param {T} instance
-     */
-    set <T> (Provider: new (...args: any[]) => T, instance: T): void
-
-    constructor (...Providers: TProviders)
+    private constructor ()
   }
 
   /**
@@ -201,16 +194,10 @@ declare namespace Vert {
    */
   type TConstructor = new (...args: any[]) => any
 
-    /**
-   * Service type.
-   */
-  type TService = TConstructor
-
   /**
    * Provider type.
    */
-  type TProvider = TConstructor
-  type TProviders = TProvider[]
+  type TProviders = TConstructor[]
 }
 
 export = Vert

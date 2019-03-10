@@ -1,12 +1,4 @@
-const realBrowser = String(process.env.BROWSER).match(/^(1|true)$/gi)
-const travisLaunchers = {
-  chrome_travis: {
-    base: 'Chrome',
-    flags: [ '--no-sandbox' ]
-  }
-}
-
-const localBrowsers = realBrowser ? Object.keys(travisLaunchers) : [ 'Chrome' ]
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = (config) => {
   config.set({
@@ -28,16 +20,17 @@ module.exports = (config) => {
       clearContext: false
     },
     files: [
+      // { pattern: 'lib/**/*.ts' },
       { pattern: 'test/**/*.spec.ts' }
     ],
     preprocessors: {
+      // 'lib/**/*.ts': ['karma-typescript'],
       'test/**/*.spec.ts': ['karma-typescript']
     },
     reporters: ['spec', 'karma-typescript'],
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: localBrowsers,
-    singleRun: true
+    browsers: ['ChromeHeadless']
   })
 }
