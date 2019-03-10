@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { App } from '../lib'
 
 describe('Core Nodule test.', () => {

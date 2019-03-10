@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { Data } from '../lib'
 
 test('Type-Secured data should work.', () => {

@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('vuex')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'vue', 'vuex'], factory) :
-    (global = global || self, factory(global.Vert = {}, global.Vue, global.vuex));
-}(this, function (exports, Vue, vuex) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('reflect-metadata'), require('vue'), require('vuex')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'reflect-metadata', 'vue', 'vuex'], factory) :
+    (global = global || self, factory(global.Vert = {}, null, global.Vue, global.vuex));
+}(this, function (exports, reflectMetadata, Vue, vuex) { 'use strict';
 
     Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 
@@ -48,12 +48,9 @@
         return AppComponent;
     }(Vue));
 
-    /**
-     * vue-class-component v6.1.2
-     * (c) 2015-2017 Evan You
-     * @license MIT
-     */
-    var hasProto = { __proto__: [] } instanceof Array;
+    /* tslint:disable */
+    var fakeArray = { __proto__: [] };
+    var hasProto = fakeArray instanceof Array;
     function createDecorator(factory) {
         return function (target, key, index) {
             var Ctor = typeof target === 'function'
@@ -65,9 +62,7 @@
             if (typeof index !== 'number') {
                 index = undefined;
             }
-            Ctor.__decorators__.push(function (options) {
-                return factory(options, key, index);
-            });
+            Ctor.__decorators__.push(function (options) { return factory(options, key, index); });
         };
     }
     function isPrimitive(value) {
@@ -79,11 +74,15 @@
             console.warn('[vue-class-component] ' + message);
         }
     }
+
     function collectDataFromConstructor(vm, Component) {
+        // override _init to prevent to init as Vue instance
         var originalInit = Component.prototype._init;
         Component.prototype._init = function () {
             var _this = this;
+            // proxy to actual vm
             var keys = Object.getOwnPropertyNames(vm);
+            // 2.2.0 compat (props are no longer exposed as self properties)
             if (vm.$options.props) {
                 for (var key in vm.$options.props) {
                     if (!vm.hasOwnProperty(key)) {
@@ -94,26 +93,25 @@
             keys.forEach(function (key) {
                 if (key.charAt(0) !== '_') {
                     Object.defineProperty(_this, key, {
-                        get: function () {
-                            return vm[key];
-                        },
-                        set: function (value) {
-                            return vm[key] = value;
-                        },
+                        get: function () { return vm[key]; },
+                        set: function (value) { vm[key] = value; },
                         configurable: true
                     });
                 }
             });
         };
+        // should be acquired class property values
         var data = new Component();
+        // restore original _init to avoid memory leak (#209)
         Component.prototype._init = originalInit;
+        // create plain data object
         var plainData = {};
         Object.keys(data).forEach(function (key) {
             if (data[key] !== undefined) {
                 plainData[key] = data[key];
             }
         });
-        {
+        if (process.env.NODE_ENV !== 'production') {
             if (!(Component.prototype instanceof Vue) && Object.keys(plainData).length > 0) {
                 warn('Component class must inherit Vue or its descendant class ' +
                     'when class property is used.');
@@ -121,6 +119,38 @@
         }
         return plainData;
     }
+
+    // The rational behind the verbose Reflect-feature check below is the fact that there are polyfills
+    // which add an implementation for Reflect.defineMetadata but not for Reflect.getOwnMetadataKeys.
+    // Without this check consumers will encounter hard to track down runtime errors.
+    var reflectionIsSupported = typeof Reflect !== 'undefined' && Reflect.defineMetadata && Reflect.getOwnMetadataKeys;
+    function copyReflectionMetadata(to, from) {
+        forwardMetadata(to, from);
+        Object.getOwnPropertyNames(from.prototype).forEach(function (key) {
+            forwardMetadata(to.prototype, from.prototype, key);
+        });
+        Object.getOwnPropertyNames(from).forEach(function (key) {
+            forwardMetadata(to, from, key);
+        });
+    }
+    function forwardMetadata(to, from, propertyKey) {
+        var metaKeys = propertyKey
+            ? Reflect.getOwnMetadataKeys(from, propertyKey)
+            : Reflect.getOwnMetadataKeys(from);
+        metaKeys.forEach(function (metaKey) {
+            var metadata = propertyKey
+                ? Reflect.getOwnMetadata(metaKey, from, propertyKey)
+                : Reflect.getOwnMetadata(metaKey, from);
+            if (propertyKey) {
+                Reflect.defineMetadata(metaKey, metadata, to, propertyKey);
+            }
+            else {
+                Reflect.defineMetadata(metaKey, metadata, to);
+            }
+        });
+    }
+
+    /* tslint:disable */
     var $internalHooks = [
         'data',
         'beforeCreate',
@@ -134,25 +164,41 @@
         'activated',
         'deactivated',
         'render',
-        'errorCaptured'
+        'errorCaptured',
+        'serverPrefetch' // 2.6
     ];
     function componentFactory(Component, options) {
         if (options === void 0) { options = {}; }
         options.name = options.name || Component._componentTag || Component.name;
+        // prototype props.
         var proto = Component.prototype;
         Object.getOwnPropertyNames(proto).forEach(function (key) {
             if (key === 'constructor') {
                 return;
             }
+            // hooks
             if ($internalHooks.indexOf(key) > -1) {
                 options[key] = proto[key];
                 return;
             }
             var descriptor = Object.getOwnPropertyDescriptor(proto, key);
-            if (typeof descriptor.value === 'function') {
-                (options.methods || (options.methods = {}))[key] = descriptor.value;
+            if (descriptor.value !== void 0) {
+                // methods
+                if (typeof descriptor.value === 'function') {
+                    (options.methods || (options.methods = {}))[key] = descriptor.value;
+                }
+                else {
+                    // typescript decorated data
+                    (options.mixins || (options.mixins = [])).push({
+                        data: function () {
+                            var _a;
+                            return _a = {}, _a[key] = descriptor.value, _a;
+                        }
+                    });
+                }
             }
             else if (descriptor.get || descriptor.set) {
+                // computed properties
                 (options.computed || (options.computed = {}))[key] = {
                     get: descriptor.get,
                     set: descriptor.set
@@ -164,55 +210,76 @@
                 return collectDataFromConstructor(this, Component);
             }
         });
+        // decorate options
         var decorators = Component.__decorators__;
         if (decorators) {
-            decorators.forEach(function (fn) {
-                return fn(options);
-            });
+            decorators.forEach(function (fn) { return fn(options); });
             delete Component.__decorators__;
         }
+        // find super
         var superProto = Object.getPrototypeOf(Component.prototype);
         var Super = superProto instanceof Vue
             ? superProto.constructor
             : Vue;
         var Extended = Super.extend(options);
         forwardStaticMembers(Extended, Component, Super);
+        if (reflectionIsSupported) {
+            copyReflectionMetadata(Extended, Component);
+        }
         return Extended;
     }
     var reservedPropertyNames = [
+        // Unique id
         'cid',
+        // Super Vue constructor
         'super',
+        // Component options that will be used by the component
         'options',
         'superOptions',
         'extendOptions',
         'sealedOptions',
+        // Private assets
         'component',
         'directive',
         'filter'
     ];
     function forwardStaticMembers(Extended, Original, Super) {
+        // We have to use getOwnPropertyNames since Babel registers methods as non-enumerable
         Object.getOwnPropertyNames(Original).forEach(function (key) {
+            // `prototype` should not be overwritten
             if (key === 'prototype') {
                 return;
             }
+            // Some browsers does not allow reconfigure built-in properties
             var extendedDescriptor = Object.getOwnPropertyDescriptor(Extended, key);
             if (extendedDescriptor && !extendedDescriptor.configurable) {
                 return;
             }
             var descriptor = Object.getOwnPropertyDescriptor(Original, key);
+            // If the user agent does not support `__proto__` or its family (IE <= 10),
+            // the sub class properties may be inherited properties from the super class in TypeScript.
+            // We need to exclude such properties to prevent to overwrite
+            // the component options object which stored on the extended constructor (See #192).
+            // If the value is a referenced value (object or function),
+            // we can check equality of them and exclude it if they have the same reference.
+            // If it is a primitive value, it will be forwarded for safety.
             if (!hasProto) {
+                // Only `cid` is explicitly exluded from property forwarding
+                // because we cannot detect whether it is a inherited property or not
+                // on the no `__proto__` environment even though the property is reserved.
                 if (key === 'cid') {
                     return;
                 }
                 var superDescriptor = Object.getOwnPropertyDescriptor(Super, key);
-                if (!isPrimitive(descriptor.value)
-                    && superDescriptor
-                    && superDescriptor.value === descriptor.value) {
+                if (!isPrimitive(descriptor.value) &&
+                    superDescriptor &&
+                    superDescriptor.value === descriptor.value) {
                     return;
                 }
             }
-            if (process.env.NODE_ENV !== 'production'
-                && reservedPropertyNames.indexOf(key) >= 0) {
+            // Warn if the users manually declare reserved properties
+            if (process.env.NODE_ENV !== 'production' &&
+                reservedPropertyNames.indexOf(key) >= 0) {
                 warn("Static property name '" + key + "' declared on class '" + Original.name + "' " +
                     'conflicts with reserved property name of Vue internal. ' +
                     'It may cause unexpected behavior of the component. Consider renaming the property.');
@@ -220,11 +287,12 @@
             Object.defineProperty(Extended, key, descriptor);
         });
     }
+
     function registerHooks(keys) {
         $internalHooks.push.apply($internalHooks, keys);
     }
 
-    /** vue-property-decorator verson 8.0.0 MIT LICENSE copyright 2018 kaorun343 */
+    /* tslint:disable:variable-name no-shadowed-variable */
     /**
      * decorator of an inject
      * @param from key
@@ -249,9 +317,9 @@
         return createDecorator(function (componentOptions, k) {
             var provide = componentOptions.provide;
             if (typeof provide !== 'function' || !provide.managed) {
-                var original_1_1 = componentOptions.provide;
+                var original_1 = componentOptions.provide;
                 provide = componentOptions.provide = function () {
-                    var rv = Object.create((typeof original_1_1 === 'function' ? original_1_1.call(this) : original_1_1) || null);
+                    var rv = Object.create((typeof original_1 === 'function' ? original_1.call(this) : original_1) || null);
                     for (var i in provide.managed) {
                         rv[provide.managed[i]] = this[i];
                     }
@@ -268,9 +336,7 @@
      * @return PropertyDecorator | void
      */
     function Prop(options) {
-        if (options === void 0) {
-            options = {};
-        }
+        if (options === void 0) { options = {}; }
         return createDecorator(function (componentOptions, k) {
             (componentOptions.props || (componentOptions.props = {}))[k] = options;
         });
@@ -282,9 +348,7 @@
      * @return MethodDecorator
      */
     function Watch(path, options) {
-        if (options === void 0) {
-            options = {};
-        }
+        if (options === void 0) { options = {}; }
         var _a = options.deep, deep = _a === void 0 ? false : _a, _b = options.immediate, immediate = _b === void 0 ? false : _b;
         return createDecorator(function (componentOptions, handler) {
             if (typeof componentOptions.watch !== 'object') {
@@ -306,7 +370,7 @@
         function ReflectionUtils() {
         }
         ReflectionUtils.getProvidersFromParams = function (target) {
-            return (Reflect['getMetadata']('design:paramtypes', target) || []).filter(function (item) {
+            return (Reflect.getMetadata('design:paramtypes', target) || []).filter(function (item) {
                 return typeof item === 'function' &&
                     item !== Object &&
                     item !== Function;
@@ -391,8 +455,6 @@
 
     // Global injector holds all instances which are created and injected manually.
     var globalInjector = Injector.create();
-    // Auto injector holds all instances which are created by vert automatically.
-    var autoInjector = Injector.create();
     // Assign registered providers.
     var registeredProviders = Injector.create();
 
@@ -534,8 +596,8 @@
      * @param {*} Constructor
      */
     function keepDecorators(targetClass, Constructor) {
-        if (targetClass['__decorators__']) {
-            Constructor['__decorators__'] = targetClass['__decorators__'];
+        if (targetClass.__decorators__) {
+            Constructor.__decorators__ = targetClass.__decorators__;
         }
     }
 
@@ -693,15 +755,7 @@
         };
     }
 
-    /*!
-     * vuex-class v0.3.1
-     * https://github.com/ktsn/vuex-class
-     *
-     * @license
-     * Copyright (c) 2017 katashin
-     * Released under the MIT license
-     * https://github.com/ktsn/vuex-class/blob/master/LICENSE
-     */
+    /* tslint:disable */
     var State = createBindingHelper('computed', vuex.mapState);
     var Getter = createBindingHelper('computed', vuex.mapGetters);
     var Action = createBindingHelper('methods', vuex.mapActions);
@@ -734,22 +788,20 @@
     function createBindingHelper(bindTo, mapFn) {
         function makeDecorator(map, namespace) {
             return createDecorator(function (componentOptions, key) {
+                var _a;
                 if (!componentOptions[bindTo]) {
                     componentOptions[bindTo] = {};
                 }
-                // @ts-ignore
                 var mapObject = (_a = {}, _a[key] = map, _a);
                 componentOptions[bindTo][key] = namespace !== undefined
                     ? mapFn(namespace, mapObject)[key]
                     : mapFn(mapObject)[key];
-                var _a;
             });
         }
         function helper(a, b) {
             if (typeof b === 'string') {
                 var key = b;
                 var proto = a;
-                // @ts-ignore
                 return makeDecorator(key, undefined)(proto, key);
             }
             var namespace = extractNamespace(b);

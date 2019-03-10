@@ -122,6 +122,7 @@
       true,
       "never"
     ],
+    "variable-name": false,
     "space-before-function-paren": true,
     "triple-equals": true,
     "typedef-whitespace": [

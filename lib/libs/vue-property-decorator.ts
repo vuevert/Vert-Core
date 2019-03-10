@@ -1,19 +1,25 @@
+/* tslint:disable:variable-name no-shadowed-variable */
 /** vue-property-decorator verson 8.0.0 MIT LICENSE copyright 2018 kaorun343 */
 
-/* tslint:disable */
+'use strict'
+import Vue, { PropOptions, WatchOptions } from 'vue'
+import { InjectKey, WatchHandler } from 'vue/types/options'
+import { Component, createDecorator, mixins } from './vue-class-component'
 
-import Vue from 'vue'
-import { Component, createDecorator } from './vue-class-component'
+// tslint:disable-next-line:interface-name
+export interface Constructor {
+  new(...args: any[]): any
+}
 
-export { Component, Vue }
+export { Component, Vue, mixins as Mixins }
 
 /**
  * decorator of an inject
  * @param from key
  * @return PropertyDecorator
  */
-export function Inject (options) {
-  return createDecorator(function (componentOptions, key) {
+export function Inject (options?: { from?: InjectKey, default?: any } | InjectKey): PropertyDecorator {
+  return createDecorator((componentOptions, key) => {
     if (typeof componentOptions.inject === 'undefined') {
       componentOptions.inject = {}
     }
@@ -28,16 +34,14 @@ export function Inject (options) {
  * @param key key
  * @return PropertyDecorator | void
  */
-export function Provide (key) {
-  return createDecorator(function (componentOptions, k) {
-    let provide = componentOptions.provide
+export function Provide (key?: string | symbol): PropertyDecorator {
+  return createDecorator((componentOptions, k) => {
+    let provide: any = componentOptions.provide
     if (typeof provide !== 'function' || !provide.managed) {
-      const original_1 = componentOptions.provide
-      provide = componentOptions.provide = function () {
-        const rv = Object.create((typeof original_1 === 'function' ? original_1.call(this) : original_1) || null)
-        for (const i in provide.managed) {
-          rv[provide.managed[i]] = this[i]
-        }
+      const original = componentOptions.provide
+      provide = componentOptions.provide = function (this: any) {
+        const rv = Object.create((typeof original === 'function' ? original.call(this) : original) || null)
+        for (const i in provide.managed) { rv[provide.managed[i]] = this[i] }
         return rv
       }
       provide.managed = {}
@@ -52,13 +56,10 @@ export function Provide (key) {
  * @param options options
  * @return PropertyDecorator
  */
-export function Model (event, options) {
-  if (options === void 0) {
-    options = {}
-  }
-  return createDecorator(function (componentOptions, k) {
-    (componentOptions.props || (componentOptions.props = {}))[k] = options
-    componentOptions.model = {prop: k, event: event || k}
+export function Model (event?: string, options: (PropOptions | Constructor[] | Constructor) = {}): PropertyDecorator {
+  return createDecorator((componentOptions, k) => {
+    (componentOptions.props || (componentOptions.props = {}) as any)[k] = options
+    componentOptions.model = { prop: k, event: event || k }
   })
 }
 
@@ -67,12 +68,9 @@ export function Model (event, options) {
  * @param  options the options for the prop
  * @return PropertyDecorator | void
  */
-export function Prop (options) {
-  if (options === void 0) {
-    options = {}
-  }
-  return createDecorator(function (componentOptions, k) {
-    (componentOptions.props || (componentOptions.props = {}))[k] = options
+export function Prop (options: (PropOptions | Constructor[] | Constructor) = {}): PropertyDecorator {
+  return createDecorator((componentOptions, k) => {
+    (componentOptions.props || (componentOptions.props = {}) as any)[k] = options
   })
 }
 
@@ -82,56 +80,49 @@ export function Prop (options) {
  * @param  WatchOption
  * @return MethodDecorator
  */
-export function Watch (path, options) {
-  if (options === void 0) {
-    options = {}
-  }
-  const _a = options.deep, deep = _a === void 0 ? false : _a, _b = options.immediate,
-    immediate = _b === void 0 ? false : _b
-  return createDecorator(function (componentOptions, handler) {
+export function Watch (path: string, options: WatchOptions = {}): MethodDecorator {
+  const { deep = false, immediate = false } = options
+
+  return createDecorator((componentOptions, handler) => {
     if (typeof componentOptions.watch !== 'object') {
       componentOptions.watch = Object.create(null)
     }
-    const watch = componentOptions.watch
+
+    const watch: any = componentOptions.watch
+
     if (typeof watch[path] === 'object' && !Array.isArray(watch[path])) {
       watch[path] = [watch[path]]
     } else if (typeof watch[path] === 'undefined') {
       watch[path] = []
     }
-    watch[path].push({handler, deep, immediate})
+
+    watch[path].push({ handler, deep, immediate })
   })
 }
 
 // Code copied from Vue/src/shared/util.js
 const hyphenateRE = /\B([A-Z])/g
-const hyphenate = function (str) {
-  return str.replace(hyphenateRE, '-$1').toLowerCase()
-}
+const hyphenate = (str: string) => str.replace(hyphenateRE, '-$1').toLowerCase()
 
 /**
  * decorator of an event-emitter function
  * @param  event The name of the event
  * @return MethodDecorator
  */
-export function Emit (event) {
-  return function (_target, key, descriptor) {
+export function Emit (event?: string): MethodDecorator {
+  return function (_target: Vue, key: string, descriptor: any) {
     key = hyphenate(key)
     const original = descriptor.value
-    descriptor.value = function emitter () {
-      const _this = this
-      const args = []
-      for (let _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i]
+    descriptor.value = function emitter (...args: any[]) {
+      const emit = (returnValue: any) => {
+        if (returnValue !== undefined) { args.unshift(returnValue) }
+        this.$emit(event || key, ...args)
       }
-      const emit = function (returnValue) {
-        if (returnValue !== undefined) {
-          args.unshift(returnValue)
-        }
-        _this.$emit.apply(_this, [event || key].concat(args))
-      }
-      const returnValue = original.apply(this, args)
+
+      const returnValue: any = original.apply(this, args)
+
       if (isPromise(returnValue)) {
-        returnValue.then(function (returnValue) {
+        returnValue.then(returnValue => {
           emit(returnValue)
         })
       } else {
@@ -141,6 +132,6 @@ export function Emit (event) {
   }
 }
 
-function isPromise (obj) {
+function isPromise (obj: any): obj is Promise<any> {
   return obj instanceof Promise || (obj && typeof obj.then === 'function')
 }

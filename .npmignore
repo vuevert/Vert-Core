@@ -8,6 +8,7 @@ lib/
 .gitlab-ci.yml
 .travis.yml
 babel.config.js
+globals.d.ts
 jest.config.js
 rollup.config.js
 tsconfig.json

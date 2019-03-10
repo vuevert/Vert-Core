@@ -1,21 +1,21 @@
 /* tslint:disable */
-
+import 'reflect-metadata'
 import { AppComponent, Component } from '../lib'
 
-describe('App Component test.', () => {
-  @Component({
-    name: 'some-component',
-    template: '<div>{{greeting}}</div>'
-  })
-  class SomeComponent extends AppComponent {
-    name: string = 'LancerComet'
-    age: number = 99
+@Component({
+  name: 'some-component',
+  template: '<div>{{greeting}}</div>'
+})
+class SomeComponent extends AppComponent {
+  name: string = 'LancerComet'
+  age: number = 99
 
-    get greeting (): string {
-      return `Hello! My name is ${this.name} and I'm ${this.age} now.`
-    }
+  get greeting (): string {
+    return `Hello! My name is ${this.name} and I'm ${this.age} now.`
   }
+}
 
+describe('App Component test.', () => {
   let someComponent: SomeComponent = null
   beforeAll(() => {
     someComponent = new SomeComponent()

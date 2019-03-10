@@ -2,7 +2,7 @@ module.exports = {
   presets: [
     ['@babel/preset-env', {
       targets: {
-        node: 'current',
+        node: 'current'
       },
     }],
     '@babel/preset-typescript'
@@ -11,8 +11,14 @@ module.exports = {
   plugins: [
     '@babel/plugin-transform-modules-commonjs',
     '@babel/plugin-syntax-dynamic-import',
-    ['@babel/plugin-syntax-decorators', {
-      legacy: true
-    }]
+
+    // Deal with decorators.
+    ['@babel/plugin-proposal-decorators', {
+      decoratorsBeforeExport: true
+    }],
+
+    // Deal with TypeScript-Like Class grammar.
+    ['@babel/plugin-proposal-class-properties', {
+    }],
   ]
 }
