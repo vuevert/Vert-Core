@@ -5,7 +5,7 @@ Vert is the library to build Vue applications in OOP.
 [![npm version](https://badge.fury.io/js/%40vert%2Fcore.svg)](https://badge.fury.io/js/%40vert%2Fcore)
 [![Build Status](https://travis-ci.org/LancerComet/Vert-Core.svg?branch=master)](https://github.com/LancerComet/Vert-Core)
 
-![vert-logo](http://7xi38k.com1.z0.glb.clouddn.com/vert-logo.jpg)
+![vert-logo](https://raw.githubusercontent.com/LancerComet/Vert-Core/master/logo.png)
 
 ## Features
 

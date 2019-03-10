@@ -67,7 +67,10 @@ typings/
 *.map
 
 # Dist.
-lib/
+dist/
 
 # Coverage report.
 .coverage-report/
+
+# RollUp.
+.rpt2_cache/

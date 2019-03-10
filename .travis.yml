@@ -12,3 +12,7 @@ notifications:
       - chw644@hotmail.com
     on_success: always
     on_failure: always
+
+branches:
+  only:
+    - master
