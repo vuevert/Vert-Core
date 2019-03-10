@@ -1,6 +1,5 @@
-/* tslint:disable */
 import 'reflect-metadata'
-import { Injectable, Injector } from '../lib'
+import { Injectable, Injector } from '../dist'
 
 describe('Injection test.', () => {
   it('Injector should work.', () => {

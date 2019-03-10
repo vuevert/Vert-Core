@@ -1,6 +1,6 @@
 /* tslint:disable */
 import 'reflect-metadata'
-import { AppComponent, Component } from '../lib'
+import { AppComponent, Component } from '../dist'
 
 @Component({
   name: 'some-component',
@@ -28,6 +28,7 @@ describe('App Component test.', () => {
     expect(someComponent.name).toEqual('LancerComet')
     expect(someComponent.age).toEqual(99)
     expect(someComponent.greeting).toEqual(`Hello! My name is LancerComet and I'm 99 now.`)
+    // @ts-ignore
     expect(Object.prototype.toString.call(someComponent.$mount)).toEqual('[object Function]')
   })
 })

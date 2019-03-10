@@ -7,7 +7,11 @@ export default {
     {
       file: './dist/index.js',
       format: 'umd',
-      name: 'Vert'
+      name: 'Vert',
+      globals: {
+        vue: 'vue',
+        vuex: 'vuex'
+      }
     },
     {
       file: './dist/index.esm.js',
@@ -19,7 +23,8 @@ export default {
     typescript({
       tsconfigOverride: {
         compilerOptions: {
-          target: 'es5'
+          target: 'es5',
+          module: 'esnext'
         }
       }
     })

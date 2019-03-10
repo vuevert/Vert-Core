@@ -1,7 +1,7 @@
 import Vue, { ComponentOptions } from 'vue'
 
+import { GlobalInjector } from '../internal-injectors/global'
 import { THookFunction, TRootComponent, TService } from '../types'
-import { InjectionUtils } from '../utils/injection-utils'
 import { TypeUtils } from '../utils/type-utils'
 
 let appId = 1
@@ -16,7 +16,7 @@ let appId = 1
  */
 export class App {
   static addSingleton <T> (Provider: new (...args: any[]) => T, instance: T) {
-    InjectionUtils.saveToGlobalInjector(Provider, instance)
+    GlobalInjector.saveToInjector(Provider, instance)
   }
 
   private _element?: string | HTMLElement

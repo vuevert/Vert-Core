@@ -1,36 +1,38 @@
 import 'reflect-metadata'
-import { Data } from '../lib'
+import { Data, Injectable, Injector } from '../dist'
 
-test('Type-Secured data should work.', () => {
-  const lancerComet = Student.create({
-    name: 'LancerComet', age: 27
+describe('Data testing.', () => {
+  it('Type-Secured data should work.', () => {
+    const lancerComet = Student.create({
+      name: 'LancerComet', age: 27
+    })
+
+    expect(lancerComet.name).toEqual('LancerComet')
+    expect(lancerComet.age).toEqual(27)
+
+    lancerComet.name = 'Wch'
+    expect(lancerComet.name).toEqual('Wch')
+
+    lancerComet.age = 'Wrong type' as any
+    expect(lancerComet.age).toEqual(27)
   })
 
-  expect(lancerComet.name).toEqual('LancerComet')
-  expect(lancerComet.age).toEqual(27)
+  class Student {
+    static create (param?: IStudent): Student {
+      return Data.createTypeSafetyInstance(Student, param)
+    }
 
-  lancerComet.name = 'Wch'
-  expect(lancerComet.name).toEqual('Wch')
+    name: string = ''
+    age: number = 0
 
-  lancerComet.age = 'Wrong type' as any
-  expect(lancerComet.age).toEqual(27)
-})
-
-class Student {
-  static create (param?: IStudent): Student {
-    return Data.createTypeSafetyInstance(Student, param)
-  }
-
-  name: string = ''
-  age: number = 0
-
-  constructor (param?: IStudent) {
-    if (param) {
-      this.name = param.name
-      this.age = param.age
+    constructor (param?: IStudent) {
+      if (param) {
+        this.name = param.name
+        this.age = param.age
+      }
     }
   }
-}
+})
 
 interface IStudent {
   name: string

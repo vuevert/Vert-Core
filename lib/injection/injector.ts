@@ -1,4 +1,7 @@
-import { TProviders } from '../types'
+/* tslint:disable:no-shadowed-variable */
+import 'reflect-metadata'
+
+import { TConstructor, TProvider, TProviders } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
 
@@ -19,7 +22,22 @@ class Injector {
   /**
    * Provider storage.
    */
-  private map = new WeakMap()
+  private readonly map = new WeakMap()
+
+  /**
+   * Create instance.
+   *
+   * @param {TConstructor} Provider
+   * @param {any[]} args
+   * @return {any}
+   */
+  private createProviderInstance (Provider: TConstructor, args: any[] = []) {
+    return new Provider(...args)
+  }
+
+  addSingleton <T> (Provider: new (...args) => T, instance: T) {
+    // TODO: Addsingleton
+  }
 
   /**
    * Get target instance from injector by providing provider.
@@ -28,7 +46,19 @@ class Injector {
    * @return {T}
    */
   get <T> (Provider: new (...args) => T): T {
-    return this.map.get(Provider)
+    const injectedDependencies = ReflectionUtils
+      .getProvidersFromParams(Provider)
+
+    if (!injectedDependencies.length) {
+      return this.map.get(Provider)
+    }
+
+    const dependencies = []
+    injectedDependencies.forEach(Dependency => {
+      dependencies.push(this.get(Dependency))
+    })
+
+    return new Provider(...dependencies)
   }
 
   /**
@@ -53,20 +83,28 @@ class Injector {
     }
   }
 
-  constructor (...Providers: TProviders) {
-    for (const Provider of Providers) {
-      const dependencies = ReflectionUtils.getProvidersFromParams(Provider)
-        .map(Dependency => {
-          let provider = this.get(Dependency)
-          if (!provider) {
-            provider = InjectionUtils.createProviderInstance(Dependency)
-            this.set(Dependency, provider)
-          }
-          return provider
-        })
-      const provider = InjectionUtils.createProviderInstance(Provider, dependencies)
-      this.set(Provider, provider)
+  /**
+   * Register provider to this injector.
+   *
+   * @param Provider
+   */
+  private registerProviders (Provider: TProvider) {
+    const injectedDependencies = ReflectionUtils
+      .getProvidersFromParams(Provider)
+
+    if (injectedDependencies.length) {
+      injectedDependencies.forEach(item => this.registerProviders(item))
     }
+
+    let instance = this.get(Provider)
+    if (!instance) {
+      instance = new Provider()
+      this.set(Provider, instance)
+    }
+  }
+
+  private constructor (...Providers: TProviders) {
+    Providers.forEach(Item => this.registerProviders(Item))
   }
 }
 

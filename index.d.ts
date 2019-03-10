@@ -143,15 +143,6 @@ declare namespace Vert {
   // Injection.
   // ==============================
   /**
-   * Injectable decorator.
-   *
-   * @param targetClass
-   * @return {any}
-   * @constructor
-   */
-  export function Injectable (): any
-
-  /**
    * Standalone injector class.
    */
   class Injector {

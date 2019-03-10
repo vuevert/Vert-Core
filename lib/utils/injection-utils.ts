@@ -1,56 +1,7 @@
-import { globalInjector, registeredProviders } from '../injection/data/internal-injectors'
-import { TConstructor, TProvider, TProviders } from '../types'
+import { GlobalInjector } from '../internal-injectors/global'
+import { TConstructor, TProviders } from '../types'
 
 abstract class InjectionUtils {
-  /**
-   * Check whether target has been registered.
-   *
-   * @param target
-   * @return {boolean}
-   */
-  static checkProviderIsRegistered (target: TProvider): boolean {
-    return registeredProviders.has(target)
-  }
-
-  /**
-   * Mark a provider registered.
-   *
-   * @param Provider
-   */
-  static registerProvider (Provider: TProvider) {
-    registeredProviders.set(Provider, true)
-  }
-
-  /**
-   * Create a instance of a provider and save to global injector.
-   *
-   * @param {TProvider} Provider
-   * @param {*} instance
-   */
-  static saveToGlobalInjector (Provider: TProvider, instance?: any) {
-    if (!instance) {
-      instance = InjectionUtils.createProviderInstance(Provider)
-    }
-    globalInjector.set(Provider, instance)
-  }
-
-  /**
-   * Create instance executing function.
-   *
-   * @param {TConstructor} Provider
-   * @param {any[]} args
-   * @return {any}
-   */
-  static createProviderInstance (Provider: TConstructor, args: any[] = []) {
-    if (!InjectionUtils.checkProviderIsRegistered(Provider)) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`[@vert/core] Provider "${Provider.name}" is not registered.`)
-      }
-      return
-    }
-    return new Provider(...args)
-  }
-
   /**
    * Class a class that has already been injected.
    *
@@ -65,7 +16,7 @@ abstract class InjectionUtils {
       const providers = []
 
       for (const Provider of Providers) {
-        if (!InjectionUtils.checkProviderIsRegistered(Provider)) {
+        if (!GlobalInjector.has(Provider)) {
           if (process.env.NODE_ENV === 'development') {
             console.warn(`[@vert/core] Provider "${Provider.name}" is not registered.`)
           }
@@ -73,7 +24,7 @@ abstract class InjectionUtils {
           continue
         }
 
-        const instance = globalInjector.get(Provider) || undefined
+        const instance = GlobalInjector.get(Provider) || undefined
         providers.push(instance)
       }
 

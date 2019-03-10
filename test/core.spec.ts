@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { App } from '../lib'
+import { App } from '../dist'
 
 describe('Core Nodule test.', () => {
   it('Should create an app without error.', () => {

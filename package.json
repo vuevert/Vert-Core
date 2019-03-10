@@ -17,7 +17,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
-    "test": "jest --coverage",
+    "test": "karma start",
     "pretest": "npm run build",
     "preversion": "npm test"
   },
@@ -32,19 +32,18 @@
     "vuex": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/plugin-proposal-decorators": "^7.3.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/preset-typescript": "^7.3.3",
-    "@types/jest": "^24.0.11",
+    "@types/jasmine": "^3.3.9",
     "@types/node": "^11.11.0",
-    "jest": "^24.3.1",
+    "@types/reflect-metadata": "^0.1.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-typescript": "^4.0.0",
     "rollup": "^1.6.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-typescript2": "^0.19.3",
-    "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
     "typescript": "^3.3.3333"
   },

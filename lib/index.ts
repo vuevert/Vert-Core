@@ -9,10 +9,12 @@
  * @licence MIT
  */
 
+import 'reflect-metadata'
+
 export { AppComponent } from './app-component/app-component'
 export { Component, Prop, VueInject, VueProvide, Watch } from './app-component/component-decorator'
 export { App } from './core'
 export { Data } from './data'
-export { Injectable } from './injection/injectable'
 export { Injector } from './injection/injector'
+export { Injectable } from './injection/injectable'
 export { State, Getter, Action, Mutation, namespace } from './libs/vuex-class'
