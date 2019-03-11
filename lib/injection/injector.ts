@@ -39,32 +39,38 @@ class Injector {
   /**
    * Register target as singleton provider.
    *
-   * @param {TConstructor} Provider
+   * @param {TConstructor[]} Providers
    */
-  addSingleton (Provider: TConstructor): this {
-    Injector.checkIsInjected(Provider)
+  addSingleton (...Providers: TConstructor[]): this {
+    Providers.forEach(Provider => {
+      Injector.checkIsInjected(Provider)
 
-    if (this.scopedMap.has(Provider)) {
-      throw new Error(`[@vert/core] "${Provider.name}" has been registered as scoped provider.`)
-    }
+      if (this.scopedMap.has(Provider)) {
+        throw new Error(`[@vert/core] "${Provider.name}" has been registered as scoped provider.`)
+      }
 
-    this.singletonMap.set(Provider, null)
+      this.singletonMap.set(Provider, null)
+    })
+
     return this
   }
 
   /**
    * Register target as scoped provider.
    *
-   * @param {TConstructor} Provider
+   * @param {TConstructor[]} Providers
    */
-  addScoped <T> (Provider: TConstructor): this {
-    Injector.checkIsInjected(Provider)
+  addScoped <T> (...Providers: TConstructor[]): this {
+    Providers.forEach(Provider => {
+      Injector.checkIsInjected(Provider)
 
-    if (this.singletonMap.has(Provider)) {
-      throw new Error(`[@vert/core] "${Provider.name}" has been registered as singleton provider.`)
-    }
+      if (this.singletonMap.has(Provider)) {
+        throw new Error(`[@vert/core] "${Provider.name}" has been registered as singleton provider.`)
+      }
 
-    this.scopedMap.set(Provider, null)
+      this.scopedMap.set(Provider, null)
+    })
+
     return this
   }
 

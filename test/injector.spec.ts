@@ -26,9 +26,7 @@ describe('Injector test.', () => {
 
   it('Scoped injection should work.', () => {
     const injector = Injector.create()
-      .addScoped(A)
-      .addScoped(B)
-      .addScoped(C)
+      .addScoped(A, B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)
@@ -65,9 +63,7 @@ describe('Injector test.', () => {
 
   it('Singleton injection should work.', () => {
     const injector = Injector.create()
-      .addSingleton(A)
-      .addSingleton(B)
-      .addSingleton(C)
+      .addSingleton(A, B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)
@@ -105,8 +101,7 @@ describe('Injector test.', () => {
   it('Mixing usage should work.', () => {
     const injector = Injector.create()
       .addSingleton(A)
-      .addScoped(B)
-      .addScoped(C)
+      .addScoped(B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)

@@ -1,8 +1,9 @@
 import Vue, { ComponentOptions } from 'vue'
 
 import { GlobalInjector } from '../internal-injectors/global'
-import { TConstructor, THookFunction, TRootComponent } from '../types'
+import { TConstructor, THookFunction, TProviders, TRootComponent } from '../types'
 import { TypeUtils } from '../utils/type-utils'
+import Global = NodeJS.Global
 
 let appId = 1
 
@@ -20,10 +21,11 @@ export class App {
    *
    * @static
    * @template T
-   * @param {new (...args: any[]) => T} Provider
+   * @param {TConstructor[]} Providers
    */
-  static addSingleton <T> (Provider: new (...args: any[]) => T) {
-    GlobalInjector.addSingleton(Provider)
+  static addSingleton <T> (...Providers: TConstructor[]) {
+    GlobalInjector.addSingleton(...Providers)
+    return App
   }
 
   /**
@@ -31,10 +33,11 @@ export class App {
    *
    * @static
    * @template T
-   * @param {new (...args: any[]) => T} Provider
+   * @param {TConstructor[]} Providers
    */
-  static addScoped <T> (Provider: new (...args: any[]) => T) {
-    GlobalInjector.addScoped(Provider)
+  static addScoped (...Providers: TConstructor[]) {
+    GlobalInjector.addScoped(...Providers)
+    return App
   }
 
   private _element?: string | HTMLElement
@@ -42,12 +45,14 @@ export class App {
   private _store?: any
   private _router?: any
   private _viewModel: Vue
+  private _rootComponent: TRootComponent
 
   private _serviceInstances: {[srvName: string]: TConstructor} = {}
 
   get name (): string { return this._name }
   get store () { return this._store }
   get viewModel (): Vue { return this._viewModel }
+  get RootComponent (): TRootComponent { return this._rootComponent }
 
   private initViewModel (
     RootComponent: TRootComponent,
@@ -99,6 +104,7 @@ export class App {
     this._name = option.name || 'DefaultApp' + appId++
     this._router = option.router
     this._store = option.store
+    this._rootComponent = option.RootComponent
 
     this.initViewModel(
       option.RootComponent,
@@ -126,4 +132,3 @@ export interface IAppOption {
   mounted?: THookFunction
   beforeDestroy?: THookFunction
 }
-

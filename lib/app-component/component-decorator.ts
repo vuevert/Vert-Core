@@ -3,7 +3,7 @@ import { componentFactory } from '../libs/vue-class-component'
 import { registerHooks } from '../libs/vue-class-component'
 import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from '../libs/vue-property-decorator'
 
-import { TConstructor, TProviders } from '../types'
+import { TConstructor } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
 

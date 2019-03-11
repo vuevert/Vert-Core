@@ -1,6 +1,29 @@
 /* tslint:disable */
 import 'reflect-metadata'
-import { AppComponent, Component } from '../dist'
+import { App, AppComponent, Component, Injectable } from '../dist'
+
+@Injectable()
+class HttpService {
+  getData <T> (data: T): T {
+    return data
+  }
+}
+
+@Injectable()
+class MyService {
+  getName () {
+    return this.httpSrv.getData('John Smith')
+  }
+
+  getAge () {
+    return this.httpSrv.getData(100)
+  }
+
+  constructor (
+    private httpSrv: HttpService
+  ) {}
+}
+
 
 @Component({
   name: 'some-component',
@@ -13,22 +36,53 @@ class SomeComponent extends AppComponent {
   get greeting (): string {
     return `Hello! My name is ${this.name} and I'm ${this.age} now.`
   }
+
+  updateName () {
+    this.name = this.mySrv.getName()
+  }
+
+  updateAge () {
+    this.age = this.mySrv.getAge()
+  }
+
+  constructor (
+    private mySrv: MyService
+  ) {
+    super()
+  }
 }
 
 describe('App Component test.', () => {
   let someComponent: SomeComponent = null
+
   beforeAll(() => {
-    someComponent = new SomeComponent()
+    App.addScoped(HttpService, MyService)
+
+    const div = document.createElement('div')
+    document.body.appendChild(div)
+
+    const app = new App({
+      element: div,
+      RootComponent: SomeComponent
+    })
+    app.start()
+
+    someComponent = app.viewModel.$children[0]
   })
 
   it('Should convert class SomeComponent into a vue component.', () => {
     expect(someComponent['_isVue']).toEqual(true)
     expect(someComponent['$options'].template).toEqual('<div>{{greeting}}</div>')
     expect(someComponent['$options'].computed.greeting).toBeDefined()
+    expect(typeof someComponent['$mount']).toEqual('function')
+
     expect(someComponent.name).toEqual('LancerComet')
     expect(someComponent.age).toEqual(99)
     expect(someComponent.greeting).toEqual(`Hello! My name is LancerComet and I'm 99 now.`)
-    // @ts-ignore
-    expect(Object.prototype.toString.call(someComponent.$mount)).toEqual('[object Function]')
+
+    someComponent.updateName()
+    someComponent.updateAge()
+    expect(someComponent.name).toEqual('John Smith')
+    expect(someComponent.age).toEqual(100)
   })
 })

@@ -72,18 +72,18 @@ declare namespace Vert {
      *
      * @static
      * @template T
-     * @param {new (...args: any[]) => T} Provider
+     * @param {TConstructor[]} Providers
      */
-    static addSingleton <T> (Provider: new (...args: any[]) => T)
+    static addSingleton (...Providers: TConstructor[]): App
 
     /**
      * Register target as a scoped provider in global.
      *
      * @static
      * @template T
-     * @param {new (...args: any[]) => T} Provider
+     * @param {TConstructor[]} Providers
      */
-    static addScoped <T> (Provider: new (...args: any[]) => T)
+    static addScoped (...Providers: TConstructor[]): App
 
     name: string
     store: any

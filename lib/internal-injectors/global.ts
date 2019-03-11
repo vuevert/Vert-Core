@@ -20,19 +20,19 @@ abstract class GlobalInjector {
   /**
    * Register target as singleton provider into global injector.
    *
-   * @param Provider
+   * @param Providers
    */
-  static addSingleton (Provider: TConstructor) {
-    GlobalInjector.injector.addSingleton(Provider)
+  static addSingleton (...Providers: TConstructor[]) {
+    GlobalInjector.injector.addSingleton(...Providers)
   }
 
   /**
    * Register target as scoped provider into global injector.
    *
-   * @param Provider
+   * @param Providers
    */
-  static addScoped (Provider: TConstructor) {
-    GlobalInjector.injector.addScoped(Provider)
+  static addScoped (...Providers: TConstructor[]) {
+    GlobalInjector.injector.addScoped(...Providers)
   }
 
   /**
