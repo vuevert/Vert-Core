@@ -6,8 +6,8 @@
 
 import Vue from 'vue'
 
+// TODO: Remove app component.
 class AppComponent extends Vue {
-  // TODO: Find some way to remove these props.
   $route?: any
   $router?: any
 }

@@ -22,7 +22,7 @@ class Injector {
    */
   private static checkIsInjected (Provider: TConstructor) {
     if (!checkIsInjected(Provider)) {
-      throw new Error(`[@ver/core] "${Provider.name}" is not an injected class.`)
+      throw new Error(`[@ver/core] "${Provider.name}" is not an injectable class.`)
     }
   }
 

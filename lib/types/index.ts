@@ -1,9 +1,11 @@
-import Vue, { Component } from 'vue'
+import Vue from 'vue'
+import { CombinedVueInstance } from 'vue/types/vue'
 
 /**
  * Root component type.
  */
-type TRootComponent = Component
+type TRootComponent<T extends Vue = any, Data = any, Methods = any, Computed = any, Props = any>
+  = CombinedVueInstance<T, Data, Methods, Computed, Props>
 
 /**
  * Hook function type.

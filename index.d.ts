@@ -5,8 +5,6 @@ import { State as _State, Getter as _Getter, Action as _Action, Mutation as _Mut
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
-import {TConstructor} from "./lib/types";
-import {ReflectionUtils} from "./lib/utils/reflection-utils";
 
 declare namespace Vert {
   // Vuex-class decorators.
@@ -74,7 +72,7 @@ declare namespace Vert {
      * @template T
      * @param {TConstructor[]} Providers
      */
-    static addSingleton (...Providers: TConstructor[]): App
+    static addSingleton (...Providers: TConstructor[]): typeof App
 
     /**
      * Register target as a scoped provider in global.
@@ -83,7 +81,7 @@ declare namespace Vert {
      * @template T
      * @param {TConstructor[]} Providers
      */
-    static addScoped (...Providers: TConstructor[]): App
+    static addScoped (...Providers: TConstructor[]): typeof App
 
     name: string
     store: any
@@ -139,7 +137,7 @@ declare namespace Vert {
   /**
    * Standalone injector class.
    */
-  class Injector {
+  export class Injector {
     /**
      * Create a new class injector.
      *
@@ -167,7 +165,7 @@ declare namespace Vert {
      * @param {{new(...args): T}} Provider
      * @return {T}
      */
-    get <T> (Provider: new (...args) => T): T
+    get <T> (Provider: new (...args: any[]) => T): T
 
     /**
      * Check whether injector has registered this provider.
@@ -180,9 +178,15 @@ declare namespace Vert {
   }
 
   /**
+   * Make a class injectable.
+   */
+  export function Injectable (): any
+
+  /**
    * Root component type.
    */
-  type TRootComponent = CombinedVueInstance<any, any, any, any, any>
+  type TRootComponent<T extends Vue = any, Data = any, Methods = any, Computed = any, Props = any>
+    = CombinedVueInstance<T, Data, Methods, Computed, Props>
 
   /**
    * Hook function type.

@@ -1,9 +1,8 @@
 import Vue, { ComponentOptions } from 'vue'
 
 import { GlobalInjector } from '../internal-injectors/global'
-import { TConstructor, THookFunction, TProviders, TRootComponent } from '../types'
+import { TConstructor, THookFunction, TRootComponent } from '../types'
 import { TypeUtils } from '../utils/type-utils'
-import Global = NodeJS.Global
 
 let appId = 1
 
@@ -23,7 +22,7 @@ export class App {
    * @template T
    * @param {TConstructor[]} Providers
    */
-  static addSingleton <T> (...Providers: TConstructor[]) {
+  static addSingleton <T> (...Providers: TConstructor[]): typeof App {
     GlobalInjector.addSingleton(...Providers)
     return App
   }
@@ -35,7 +34,7 @@ export class App {
    * @template T
    * @param {TConstructor[]} Providers
    */
-  static addScoped (...Providers: TConstructor[]) {
+  static addScoped (...Providers: TConstructor[]): typeof App {
     GlobalInjector.addScoped(...Providers)
     return App
   }
