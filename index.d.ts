@@ -14,16 +14,6 @@ declare namespace Vert {
   export const Mutation: typeof _Mutation
   export const namespace: typeof _namespace
 
-  // App-Component.
-  // ==============================
-
-  /**
-   * Basically AppComponent is doing nothing, it is just a game ruler.
-   * This class will make all of your cooperator to extend same component constructor
-   * and there will not be any problem that is caused by npm-package-version-problem.
-   */
-  export const AppComponent: typeof Vue
-
   // Component Decorator.
   // ==============================
 

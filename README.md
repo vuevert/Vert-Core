@@ -11,9 +11,8 @@ Vert is the library to build Vue applications in OOP.
 
  - Build Vue apps in OOP, use Angular-like grammar.
  - Pure TypeScript Experience.
- - Decorator class as Service (@Injectable).
- - Inject decorated class into Vue component class or normal class (DI).
- - Easy to do IOC stuff.
+ - Do stuff as ServiceContainer.
+ - Inject dependencies into Vue component directly.
  - Built-in service ([@vert/services](https://github.com/LancerComet/Vert-Services)).
  - Available for both [Vue-SSR](https://ssr.vuejs.org) and [Nuxt.js](https://github.com/nuxt/nuxt.js).
 
@@ -51,6 +50,18 @@ Turn on `emitDecoratorMetadata` in your `tsconfig.json`:
 }
 ```
 
+Set alias for Vue in webpack:
+
+```js
+{
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    }
+  }
+}
+```
+
 Done!
 
 ### Now let's code.
@@ -72,11 +83,12 @@ First, let's build a vue component and make it be our root component:
 ```typescript
 // root-component.ts
 
-import { AppComponent, Component } from '@vert/core'
+import { Component } from '@vert/core'
+import Vue from 'vue'
 
 // Use @Component to make a class into a vue component constructor.
 @Component
-export default class RootComponent extends AppComponent {
+export default class RootComponent extends Vue {
   name: string = ''  
 }
 ```
@@ -162,11 +174,12 @@ And update `root-component.ts`:
 ```typescript
 // root-component.ts
 
-import { AppComponent, Component } from '@vert/core'
+import Vue from 'vue'
+import { Component } from '@vert/core'
 import { EmployeeService } from './service.employee'
 
 @Component
-export default class RootComponent extends AppComponent {
+export default class RootComponent extends Vue {
   name: string = ''
 
   async private getJackData () {

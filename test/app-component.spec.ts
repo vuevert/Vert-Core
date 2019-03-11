@@ -1,6 +1,7 @@
-/* tslint:disable */
 import 'reflect-metadata'
-import { App, AppComponent, Component, Injectable } from '../dist'
+
+import Vue from 'vue'
+import { App, Component, Injectable } from '../dist'
 
 @Injectable()
 class HttpService {
@@ -29,7 +30,7 @@ class MyService {
   name: 'some-component',
   template: '<div>{{greeting}}</div>'
 })
-class SomeComponent extends AppComponent {
+class SomeComponent extends Vue {
   name: string = 'LancerComet'
   age: number = 99
 
