@@ -1,12 +1,11 @@
 /**
  * @vert/core
- *
- * @description
  * Vert is designed to build an OOP application which is based on Vue.
+ * # Carry Your World #
  *
  * @author LancerComet
  * @copyright LancerComet
- * @licence MIT
+ * @license MIT
  */
 
 export { Component, Prop, VueInject, VueProvide, Watch } from './app-component/component-decorator'

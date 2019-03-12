@@ -41,9 +41,6 @@ declare namespace Vert {
   /**
    * App is the basic unit for a project.
    *
-   * @description
-   * Page is the root member for an app. Create an instance to initialize your app.
-   *
    * @class App
    */
   export class App {
@@ -57,17 +54,49 @@ declare namespace Vert {
     static addSingleton (...Providers: TConstructor[]): typeof App
 
     /**
-     * Register target as a scoped provider in global.
+     * Register target as a transient provider in global.
      *
      * @static
      * @template T
      * @param {TConstructor[]} Providers
      */
-    static addScoped (...Providers: TConstructor[]): typeof App
+    static addTransient (...Providers: TConstructor[]): typeof App
 
+    /**
+     * Name of this app instance.
+     *
+     * @type {string}
+     * @readonly
+     * @memberof App
+     */
     name: string
+
+    /**
+     * Vue store object of this app,
+     *
+     * @type {*}
+     * @readonly
+     * @memberof App
+     */
     store: any
+
+    /**
+     * View model of this app,
+     *
+     * @type {Vue}
+     * @readonly
+     * @memberof App
+     */
     viewModel: Vue
+
+    /**
+     * Root component constructor.
+     *
+     * @readonly
+     * @type {TRootComponent}
+     * @memberof App
+     */
+    RootComponent: TRootComponent
 
     /**
      * Start up this app.
@@ -85,15 +114,68 @@ declare namespace Vert {
    * @interface IAppPage
    */
   export interface IAppOption {
+    /**
+     * HTML element to mount.
+     *
+     * @type {(string | HTMLElement)}
+     * @memberof IAppOption
+     */
     element?: string | HTMLElement
+
+    /**
+     * You can specify a name for this app instance.
+     *
+     * @type {string}
+     * @memberof IAppOption
+     */
     name?: string
+
+    /**
+     * Root component the root vue component.
+     *
+     * @type {TRootComponent}
+     * @memberof IAppOption
+     */
     RootComponent: TRootComponent
+
+    /**
+     * Vue router instance for this app.
+     *
+     * @type {*}
+     * @memberof IAppOption
+     */
     router?: any
-    services?: TConstructor[]
+
+    /**
+     * Vuex instance for this app.
+     *
+     * @type {*}
+     * @memberof IAppOption
+     */
     store?: any
 
+    /**
+     * Created hook.
+     *
+     * @type {THookFunction}
+     * @memberof IAppOption
+     */
     created?: THookFunction
+
+    /**
+     * Mounted hook.
+     *
+     * @type {THookFunction}
+     * @memberof IAppOption
+     */
     mounted?: THookFunction
+
+    /**
+     * Before destroy hook.
+     *
+     * @type {THookFunction}
+     * @memberof IAppOption
+     */
     beforeDestroy?: THookFunction
   }
 
@@ -128,18 +210,20 @@ declare namespace Vert {
     static create (): Injector
 
     /**
-     * Register target as singleton provider.
+     * Register target as a singleton provider.
+     * You will get the same instance in every single initialization.
      *
      * @param {TConstructor} Provider
      */
     addSingleton (Provider: TConstructor): this
 
     /**
-     * Register target as scoped provider.
+     * Register target as transient provider.
+     * You will get different instances in every single initialization.
      *
      * @param {TConstructor} Provider
      */
-    addScoped <T> (Provider: TConstructor): this
+    addTransient <T> (Provider: TConstructor): this
 
     /**
      * Get target instance from injector by providing provider.

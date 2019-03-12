@@ -1,7 +1,7 @@
 import { Component } from 'vue'
+import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 import { componentFactory } from '../libs/vue-class-component'
 import { registerHooks } from '../libs/vue-class-component'
-import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from '../libs/vue-property-decorator'
 
 import { TConstructor } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
@@ -48,7 +48,7 @@ function Component (param: any) {
     param = param || {}
 
     const componentName = targetClass.prototype.constructor.name ||
-      'AppComponent_' + componentId++
+      'AppComponent-' + componentId++
 
     param = Object.assign({
       name: componentName

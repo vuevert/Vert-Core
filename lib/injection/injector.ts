@@ -32,12 +32,13 @@ class Injector {
   private readonly singletonMap = new WeakMap()
 
   /**
-   * This map keeps scoped provider.
+   * This map keeps transient provider.
    */
-  private readonly scopedMap = new WeakMap()
+  private readonly transient = new WeakMap()
 
   /**
-   * Register target as singleton provider.
+   * Register target as a singleton provider.
+   * You will get the same instance in every single initialization.
    *
    * @param {TConstructor[]} Providers
    */
@@ -45,8 +46,8 @@ class Injector {
     Providers.forEach(Provider => {
       Injector.checkIsInjected(Provider)
 
-      if (this.scopedMap.has(Provider)) {
-        throw new Error(`[@vert/core] "${Provider.name}" has been registered as scoped provider.`)
+      if (this.transient.has(Provider)) {
+        throw new Error(`[@vert/core] "${Provider.name}" has been registered as transient provider.`)
       }
 
       this.singletonMap.set(Provider, null)
@@ -56,11 +57,12 @@ class Injector {
   }
 
   /**
-   * Register target as scoped provider.
+   * Register target as a transient provider.
+   * You will get different instances in every single initialization.
    *
    * @param {TConstructor[]} Providers
    */
-  addScoped <T> (...Providers: TConstructor[]): this {
+  addTransient <T> (...Providers: TConstructor[]): this {
     Providers.forEach(Provider => {
       Injector.checkIsInjected(Provider)
 
@@ -68,7 +70,7 @@ class Injector {
         throw new Error(`[@vert/core] "${Provider.name}" has been registered as singleton provider.`)
       }
 
-      this.scopedMap.set(Provider, null)
+      this.transient.set(Provider, null)
     })
 
     return this
@@ -82,8 +84,8 @@ class Injector {
    */
   get <T> (Provider: new (...args) => T): T {
     const isSingletonProvider = this.singletonMap.has(Provider)
-    const isScopedProvider = this.scopedMap.has(Provider)
-    if (!isSingletonProvider && !isScopedProvider) {
+    const isTransientProvider = this.transient.has(Provider)
+    if (!isSingletonProvider && !isTransientProvider) {
       return null
     }
 
@@ -100,7 +102,7 @@ class Injector {
         return instance
       }
 
-      case isScopedProvider: {
+      case isTransientProvider: {
         const dependencyInstance = ReflectionUtils
           .getProvidersFromParams(Provider)
           .map(item => this.get(item))
@@ -119,7 +121,7 @@ class Injector {
    * @param target
    */
   has (target: TConstructor): boolean {
-    return this.scopedMap.has(target) || this.singletonMap.has(target)
+    return this.transient.has(target) || this.singletonMap.has(target)
   }
 
   private constructor () {

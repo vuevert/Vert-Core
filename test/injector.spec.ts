@@ -24,9 +24,9 @@ describe('Injector test.', () => {
     ) {}
   }
 
-  it('Scoped injection should work.', () => {
+  it('Transient injection should work.', () => {
     const injector = Injector.create()
-      .addScoped(A, B, C)
+      .addTransient(A, B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)
@@ -101,7 +101,7 @@ describe('Injector test.', () => {
   it('Mixing usage should work.', () => {
     const injector = Injector.create()
       .addSingleton(A)
-      .addScoped(B, C)
+      .addTransient(B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)

@@ -25,7 +25,6 @@ class MyService {
   ) {}
 }
 
-
 @Component({
   name: 'some-component',
   template: '<div>{{greeting}}</div>'
@@ -53,11 +52,11 @@ class SomeComponent extends Vue {
   }
 }
 
-describe('App Component test.', () => {
+describe('Component testing.', () => {
   let someComponent: SomeComponent = null
 
   beforeAll(() => {
-    App.addScoped(HttpService, MyService)
+    App.addTransient(HttpService, MyService)
 
     const div = document.createElement('div')
     document.body.appendChild(div)

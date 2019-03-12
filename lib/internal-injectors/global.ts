@@ -27,12 +27,12 @@ abstract class GlobalInjector {
   }
 
   /**
-   * Register target as scoped provider into global injector.
+   * Register target as transient provider into global injector.
    *
    * @param Providers
    */
-  static addScoped (...Providers: TConstructor[]) {
-    GlobalInjector.injector.addScoped(...Providers)
+  static addTransient (...Providers: TConstructor[]) {
+    GlobalInjector.injector.addTransient(...Providers)
   }
 
   /**

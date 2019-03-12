@@ -28,14 +28,14 @@ export class App {
   }
 
   /**
-   * Register target as a scoped provider in global.
+   * Register target as a transient provider in global.
    *
    * @static
    * @template T
    * @param {TConstructor[]} Providers
    */
-  static addScoped (...Providers: TConstructor[]): typeof App {
-    GlobalInjector.addScoped(...Providers)
+  static addTransient (...Providers: TConstructor[]): typeof App {
+    GlobalInjector.addTransient(...Providers)
     return App
   }
 
@@ -45,8 +45,6 @@ export class App {
   private _router?: any
   private _viewModel: Vue
   private _rootComponent: TRootComponent
-
-  private _serviceInstances: {[srvName: string]: TConstructor} = {}
 
   get name (): string { return this._name }
   get store () { return this._store }
@@ -62,7 +60,6 @@ export class App {
     const option: ComponentOptions<Vue> = {
       name: this.name,
       render: h => h(RootComponent),
-      provide: this._serviceInstances,
       created () {
         TypeUtils.isFunction(created) && created(this as Vue)
       },
@@ -96,11 +93,18 @@ export class App {
     }
   }
 
-  constructor (option: IAppOption) {
-    option.services = option.services || []
+  /**
+   * Destroy app.
+   *
+   * @memberof App
+   */
+  destroy () {
+    this._viewModel.$destroy()
+  }
 
+  constructor (option: IAppOption) {
     this._element = option.element
-    this._name = option.name || 'DefaultApp' + appId++
+    this._name = option.name || 'DefaultApp-' + appId++
     this._router = option.router
     this._store = option.store
     this._rootComponent = option.RootComponent
@@ -124,7 +128,6 @@ export interface IAppOption {
   name?: string
   RootComponent: TRootComponent
   router?: any
-  services?: TConstructor[]
   store?: any
 
   created?: THookFunction

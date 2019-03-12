@@ -9,10 +9,10 @@ Vert is the library to build Vue applications in OOP.
 
 ## Features
 
- - Build Vue apps in OOP, use Angular-like grammar.
+ - Build OOP Vue apps by using Angular-like grammar.
  - Pure TypeScript Experience.
- - Do stuff as ServiceContainer.
- - Inject dependencies into Vue component directly.
+ - Basically it's a service container for Vue.
+ - Inject dependencies into Vue components directly.
  - Built-in service ([@vert/services](https://github.com/LancerComet/Vert-Services)).
  - Available for both [Vue-SSR](https://ssr.vuejs.org) and [Nuxt.js](https://github.com/nuxt/nuxt.js).
 
@@ -27,7 +27,7 @@ You can check these out:
 
 Vert is a library which is designed for building applications that are based on Vue in OOP. It provides some function and decorators to help you to achieve that goal. In General, it turns Vue into Angular.
 
-If you don't feel that good about it, please just stop - we are not here.
+If you don't feel good about it, please just stop reading. 😢
 
 ## Quick start
 
@@ -86,7 +86,7 @@ First, let's build a vue component and make it be our root component:
 import { Component } from '@vert/core'
 import Vue from 'vue'
 
-// Use @Component to make a class into a vue component constructor.
+// Use @Component to make a class into a vue component.
 @Component
 export default class RootComponent extends Vue {
   name: string = ''  
@@ -98,7 +98,7 @@ Now in the entry file (such as `index.ts`, `main.ts` or `app.ts`), we need to cr
 ```typescript
 // index.ts
 
-import 'reflect-metadata'  // You should import 'refelct-metadata' first.
+import 'reflect-metadata'  // You should import 'reflect-metadata' first.
 
 import { App } from '@vert/core'
 import RootComponent from './root-component.vue'  // Import root-component.vue
@@ -111,7 +111,7 @@ const app = new App({
 app.start()
 ```
 
-Then, let's create a service to provide `name` for `RootComponent`:
+Now, let's create a service to provide `name` for `RootComponent`:
 
 ```typescript
 // service.employee.ts
@@ -123,8 +123,7 @@ import { Injectable } from '@vert/core'
  */
 @Injectable()
 class Http {
-  async get (url, query) {}
-  async post (url, data) {}
+  async get (url) {}
 }
 
 /**
@@ -134,14 +133,14 @@ class Http {
  */
 @Injectable()
 class EmployeeService {
-  async getEmployee (name: string): Promise<{ data: IEmployee, error: Error }> {
+  async getEmployee (id: number): Promise<{ data: IEmployee, error: Error }> {
     let data: IEmployee = null
     let error: Error = null
 
     try {
-      data = await http.get('/employee/v1/data/' + name)
+      data = await this.http.get('/employee/v1/' + id)
     } catch (err) {
-      errro = err
+      error = err
     }
 
     return {
@@ -182,8 +181,9 @@ import { EmployeeService } from './service.employee'
 export default class RootComponent extends Vue {
   name: string = ''
 
-  async private getJackData () {
-    const { data, error } = await this.employeeSrv.getEmployee('jack')
+  private async getUserData () {
+    const id = 10
+    const { data, error } = await this.employeeSrv.getEmployee(id)
     if (!error) {
       this.name = data.name
     } else {
@@ -192,7 +192,7 @@ export default class RootComponent extends Vue {
   }
 
   created () {
-    this.getJackData()
+    this.getUserData()
   }
 
   // Inject EmployeeService into component.
@@ -204,31 +204,18 @@ export default class RootComponent extends Vue {
 }
 ```
 
-Finally, let's create a file `startup.ts` (anything you like) to register our service to our app:
+Finally, let's register our service to our app:
 
 ```typescript
-// Create a new file called "startup.ts".
-
-import { App, Injector } from '@vert/core'
-import { EmployeeService, Http } from './service.employee'
-
-const Services = [EmployeeService, Http]
-const injector = Injector.create(...Services)
-Services.forEach((Service: any) => {
-  App.addSingleton(Service, injector.get(Service))
-})
-```
-
-And import `startup.ts in `index.ts`:
-
-```typescript
-// index.ts
-
-import 'reflect-metadata'
-import './startup.ts'  // Import 'startup.ts'
+// Entry file.
+import 'reflect-metadata'  // You should import 'reflect-metadata' first.
 
 import { App } from '@vert/core'
+import { EmployeeService, Http } from './service.employee'  // Import services.
 import RootComponent from './root-component.vue'  // Import root-component.vue
+
+// Register services for the whole app.
+App.addTransient(EmployeeService, Http)
 
 const app = new App({
   element: '#web-app',
@@ -238,11 +225,11 @@ const app = new App({
 app.start()
 ```
 
-That's it! Have a nice try!
+That's it! An oop-vue-app has been built, have a nice try!
 
-## Documentation
 
-Currently documentation files are stored in `docs/` folder and they are under heavy construction.
+## API
+
 
 ## Take care of yourself
 

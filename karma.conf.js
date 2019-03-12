@@ -15,9 +15,12 @@ module.exports = (config) => {
       'karma-coverage'
     ],
 
-    karmaTypescriptConfig: {
-      tsconfig: './tsconfig.json',
-    },
+    karmaTypescriptConfig: Object.assign({}, require('./tsconfig.json'), {
+      compilerOptions: {
+        allowJs: true,
+        module: "commonjs"
+      }
+    }),
 
     client: {
       // leave Jasmine Spec Runner output visible in browser
@@ -25,18 +28,16 @@ module.exports = (config) => {
     },
 
     files: [
-      // { pattern: 'lib/**/*.ts' },
       { pattern: 'test/**/*.spec.ts' }
     ],
 
     preprocessors: {
-      // 'lib/**/*.ts': ['karma-typescript'],
+      'lib/**/*.ts': ['coverage'],
       'test/**/*.spec.ts': ['karma-typescript'],
-      'dist/**/*.js': ['coverage'],
-      'lib/**/*.ts': ['coverage']
+      'dist/**/*.js': ['coverage']
     },
 
-    reporters: ['spec', 'karma-typescript', 'coverage'],
+    reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       type : 'html',
