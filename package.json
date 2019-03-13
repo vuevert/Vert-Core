@@ -24,8 +24,7 @@
     "preversion": "npm test"
   },
   "files": [
-    "doc/",
-    "lib/"
+    "dist/"
   ],
   "dependencies": {
     "reflect-metadata": "0.1.13",
