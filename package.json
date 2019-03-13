@@ -10,105 +10,51 @@
     "url": "https://github.com/LancerComet/Vert-Core",
     "type": "git"
   },
-  "main": "./lib/index.js",
-  "module": "./src/index.ts",
-  "types": "./types/index.d.ts",
-  "typings": "./types/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "types": "./index.d.ts",
+  "typings": "./index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "node ./build/webpack.build.conf.js",
-    "test": "jest --coverage",
-    "test-watch": "jest --watch",
-    "prepublish": "npm run build"
+    "dev": "karma start",
+    "build": "rollup -c",
+    "test": "karma start --single-run",
+    "predev": "npm run build",
+    "pretest": "npm run build",
+    "preversion": "npm test"
   },
   "files": [
     "doc/",
-    "lib/",
-    "types/"
+    "lib/"
   ],
   "dependencies": {
-    "reflect-metadata": "0.1.12",
-    "vue-class-component": "6.1.2",
-    "vue-property-decorator": "6.0.0",
-    "vuex-class": "0.3.1"
+    "reflect-metadata": "0.1.13",
+    "vue": "^2.0.0",
+    "vue-property-decorator": "^8.0.0",
+    "vue-router": "^3.0.0",
+    "vuex": "^3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "22.0.1",
-    "@types/node": "9.4.5",
-    "@vue/test-utils": "^1.0.0-beta.21",
-    "babel-core": "6.26.0",
-    "babel-jest": "22.1.0",
-    "babel-loader": "7.1.2",
-    "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-polyfill": "6.26.0",
-    "babel-preset-stage-2": "6.24.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "css-loader": "0.28.9",
-    "friendly-errors-webpack-plugin": "1.6.1",
-    "html-webpack-plugin": "2.30.1",
-    "jest": "22.1.4",
-    "jest-serializer-vue": "0.3.0",
-    "regenerator-runtime": "0.11.1",
-    "ts-jest": "22.0.1",
-    "ts-loader": "3.5.0",
-    "ts-loader-decleration": "^0.10.4",
-    "typescript": "2.8.1",
-    "vue": "^2.0.0",
-    "vue-jest": "1.4.0",
-    "vue-router": "^3.0.0",
-    "vue-template-compiler": "^2.5.16",
-    "vuex": "^3.0.0",
-    "webpack": "3.10.0",
-    "webpack-dev-server": "2.11.1",
-    "webpack-merge": "4.1.2"
+    "@types/jasmine": "^3.3.9",
+    "@types/node": "^11.11.0",
+    "@types/reflect-metadata": "^0.1.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-jasmine": "^2.0.1",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-typescript": "^4.0.0",
+    "puppeteer": "^1.13.0",
+    "rollup": "^1.6.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-typescript2": "^0.19.3",
+    "tslint": "^5.13.1",
+    "typescript": "^3.3.3333"
   },
   "keywords": [
     "Framework",
     "Vue",
     "Vert"
-  ],
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "useBabelrc": true
-      }
-    },
-    "transform": {
-      ".+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
-      ".+\\.tsx?$": "ts-jest",
-      ".+\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ],
-    "testMatch": [
-      "**/*.(spec|test).(js|ts)?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json",
-      "vue"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.jest/file-mock.js",
-      "\\.(css|less)$": "<rootDir>/.jest/style-mock.js",
-      "vue$": "vue/dist/vue.common.js"
-    },
-    "setupFiles": [
-      "<rootDir>/.jest/setup.js"
-    ],
-    "coverageDirectory": "<rootDir>/.coverage-report",
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx,vue}",
-      "!src/index.ts",
-      "!**/*.d.ts",
-      "!**/*.spec.ts",
-      "!**/node_modules/**"
-    ],
-    "transformIgnorePatterns": [
-      "/node_modules/(?!vue-class-component).+\\.js$"
-    ]
-  }
+  ]
 }
