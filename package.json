@@ -23,9 +23,6 @@
     "pretest": "npm run build",
     "preversion": "npm test"
   },
-  "files": [
-    "dist/"
-  ],
   "dependencies": {
     "reflect-metadata": "0.1.13",
     "vue": "^2.0.0",

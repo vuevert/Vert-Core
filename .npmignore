@@ -1,7 +1,10 @@
-.rpt2_cache/
 .coverage-report/
+.idea/
+.rpt2_cache/
+.vscode/
 doc/
 lib/
+test/
 .editorconfig
 .gitignore
 .gitlab-ci.yml
