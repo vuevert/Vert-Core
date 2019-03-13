@@ -10,6 +10,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "../dist": ["./lib"],
+      "../dist/*": ["./lib/*"]
+    },
     "lib": [
       "dom",
       "es5",

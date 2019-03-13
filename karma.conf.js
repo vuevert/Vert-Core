@@ -32,7 +32,6 @@ module.exports = (config) => {
     ],
 
     preprocessors: {
-      'lib/**/*.ts': ['coverage'],
       'test/**/*.spec.ts': ['karma-typescript'],
       'dist/**/*.js': ['coverage']
     },
