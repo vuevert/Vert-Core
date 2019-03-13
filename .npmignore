@@ -1,11 +1,13 @@
 .rpt2_cache/
+.coverage-report/
 doc/
 lib/
 .editorconfig
 .gitignore
 .gitlab-ci.yml
 .travis.yml
-babel.config.js
+karma.conf.js
+logo.png
 rollup.config.js
 tsconfig.json
 tslint.json
