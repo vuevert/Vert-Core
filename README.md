@@ -22,7 +22,7 @@ Vert is a library which is designed for building applications that are based on 
  
 ## Documents
 
-Please check all documents under `/doc` folder.
+Please check all documents [here](https://github.com/vuevert/Vert-Core/tree/master/doc).
 
 ## Demo
 
