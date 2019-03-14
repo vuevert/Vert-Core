@@ -4,6 +4,7 @@ import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
+import {TConstructor} from "../dist/types";
 
 declare namespace Vert {
   // Component Decorator.
@@ -213,17 +214,17 @@ declare namespace Vert {
      * Register target as a singleton provider.
      * You will get the same instance in every single initialization.
      *
-     * @param {TConstructor} Provider
+     * @param {TConstructor[]} Providers
      */
-    addSingleton (Provider: TConstructor): this
+    addSingleton (...Providers: TConstructor[]): this
 
     /**
      * Register target as transient provider.
      * You will get different instances in every single initialization.
      *
-     * @param {TConstructor} Provider
+     * @param {TConstructor[]} Providers
      */
-    addTransient <T> (Provider: TConstructor): this
+    addTransient <T> (...Providers: TConstructor[]): this
 
     /**
      * Get target instance from injector by providing provider.
