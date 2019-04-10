@@ -24,7 +24,6 @@
     "preversion": "npm test"
   },
   "dependencies": {
-    "reflect-metadata": "0.1.13",
     "vue": "^2.0.0",
     "vue-property-decorator": "^8.0.0",
     "vue-router": "^3.0.0",
