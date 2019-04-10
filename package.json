@@ -1,6 +1,6 @@
 {
   "name": "@vert/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Library to build OOP applications which are based on Vue.",
   "author": {
     "name": "LancerComet",
