@@ -4,7 +4,6 @@ import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-
 
 import Vue from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
-import {TConstructor} from "../dist/types";
 
 declare namespace Vert {
   // Component Decorator.
