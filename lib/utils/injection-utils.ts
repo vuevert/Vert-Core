@@ -31,11 +31,15 @@ abstract class InjectionUtils {
 
     Constructor.prototype = targetClass.prototype
 
-    Object.defineProperty(Constructor, 'name', {
-      writable: true,
-      configurable: true,
-      value: targetClass.name
-    })
+    try {
+      Object.defineProperty(Constructor, 'name', {
+        writable: true,
+        configurable: true,
+        value: targetClass.name
+      })
+    } catch (error) {
+      console.warn('[@Vert/Core] This browser can not redefine property name for injected constructor:', error.message)
+    }
 
     return Constructor
   }
