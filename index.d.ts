@@ -2,33 +2,20 @@
 
 import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-property-decorator'
 
-import Vue from 'vue'
+import Vue, { ComponentOptions } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 
 declare namespace Vert {
+  type VueClass<T> = { new (...args: any[]): T & Vue }
+
   // Component Decorator.
   // ==============================
 
   /**
    * Decorate a class into the component.
    */
-  export function Component (options: IComponentOption): (targetClass: TConstructor) => any
-  export function Component (targetClass: TConstructor): any
-
-  /**
-   * Component param interface.
-   */
-  export interface IComponentOption {
-    components?: { [key: string]: any  }
-    directives?: { [key: string]: any }
-    filters?: { [key: string]: typeof Function }
-    template?: string
-    name?: string
-
-    beforeRouteEnter?: (to: any, form: any, next: any) => void
-    beforeRouteLeave?: (to: any, form: any, next: any) => void
-    beforeRouteUpdate?: (to: any, form: any, next: any) => void
-  }
+  export function Component<V extends Vue> (options: ComponentOptions<V> & ThisType<V>): <VC extends VueClass<V>>(target: VC) => VC
+  export function Component<VC extends VueClass<Vue>> (targetClass: VC): VC
 
   export const Prop: typeof _Prop
   export const VueInject: typeof _Inject
