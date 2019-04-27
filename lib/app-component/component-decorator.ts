@@ -1,4 +1,4 @@
-import { Component } from 'vue'
+import Vue, { Component, ComponentOptions } from 'vue'
 import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 import { componentFactory } from '../libs/vue-class-component'
 import { registerHooks } from '../libs/vue-class-component'
@@ -29,9 +29,10 @@ registerHooks([
 /**
  * Decorate a class into the component.
  */
-function Component (options: IComponentOption): (targetClass: TConstructor) => any
-function Component (targetClass: TConstructor): any
-function Component (param: any) {
+function Component <V extends Vue> (options: ComponentOptions<V> & ThisType<V>)
+  : <VC extends VueClass<V>>(target: VC) => VC
+function Component<VC extends VueClass<Vue>> (targetClass: VC): VC
+function Component (param: any): any {
   if (typeof param === 'function') {
     const Providers = ReflectionUtils.getProvidersFromParams(param)
     const Constructor = InjectionUtils.createInjectedConstructor(param, Providers)
@@ -80,23 +81,12 @@ function keepDecorators (targetClass: any, Constructor: any) {
   }
 }
 
-interface IComponentOption {
-  components?: { [key: string]: any }
-  directives?: { [key: string]: any }
-  filters?: { [key: string]: typeof Function }
-  template?: string
-  name?: string
-
-  beforeRouteEnter?: (to: any, form: any, next: any) => void
-  beforeRouteLeave?: (to: any, form: any, next: any) => void
-  beforeRouteUpdate?: (to: any, form: any, next: any) => void
-}
-
 export {
   Component,
   Prop,
   VueInject,
   VueProvide,
-  Watch,
-  IComponentOption
+  Watch
 }
+
+type VueClass<T> = new (...args: any[]) => T & Vue
