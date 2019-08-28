@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-export { Component, Prop, VueInject, VueProvide, Watch } from './app-component/component-decorator'
+export { Component, Prop, VueInject, VueProvide, Watch, Emit, Model } from './app-component/component-decorator'
 export { App } from './core'
 export { Data } from './data'
 export { Injector } from './injection/injector'

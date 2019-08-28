@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch } from 'vue-property-decorator'
+import { Prop as _Prop, Inject as _Inject, Provide, Watch as _Watch, Model as _Model, Emit as _Emit } from 'vue-property-decorator'
 
 import Vue, { ComponentOptions } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
@@ -21,6 +21,8 @@ declare namespace Vert {
   export const VueInject: typeof _Inject
   export const VueProvide: typeof Provide
   export const Watch: typeof _Watch
+  export const Model: typeof _Model
+  export const Emit: typeof _Emit
 
   // Core.
   // ==============================

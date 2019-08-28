@@ -1,5 +1,5 @@
 import Vue, { Component, ComponentOptions } from 'vue'
-import { Inject as VueInject, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
+import { Emit, Inject as VueInject, Model, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
 import { componentFactory } from '../libs/vue-class-component'
 import { registerHooks } from '../libs/vue-class-component'
 
@@ -86,7 +86,9 @@ export {
   Prop,
   VueInject,
   VueProvide,
-  Watch
+  Watch,
+  Emit,
+  Model
 }
 
 type VueClass<T> = new (...args: any[]) => T & Vue
