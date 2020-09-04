@@ -16,6 +16,19 @@ let appId = 1
  */
 export class App {
   /**
+   * Register instance as a singleton provider in global.
+   *
+   * @static
+   * @template T
+   * @param {TConstructor<T>} type - The type to register
+   * @param {T} instance - The instance to register for the type
+   */
+  static addSingletonInstance<T>(type: TConstructor<T>, instance: T): typeof App {
+    GlobalInjector.addSingletonInstance(type, instance);
+    return App;
+  }
+
+  /**
    * Register target as a singleton provider in global.
    *
    * @static

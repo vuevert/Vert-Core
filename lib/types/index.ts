@@ -15,7 +15,7 @@ type THookFunction = (viewModel?: Vue) => void
 /**
  * Constructor type.
  */
-type TConstructor = new (...args: any[]) => any
+type TConstructor<T = any> = new (...args: any[]) => T
 
 /**
  * Provider type.
