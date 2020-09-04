@@ -34,6 +34,16 @@ declare namespace Vert {
    */
   export class App {
     /**
+     * Register instance as a singleton provider in global.
+     *
+     * @static
+     * @template T
+     * @param {TConstructor<T>} type - The type to register
+     * @param {T} instance - The instance to register for the type
+     */
+    static addSingletonInstance<T>(type: TConstructor<T>, instance: T): typeof App
+
+    /**
      * Register target as a singleton provider in global.
      *
      * @static
@@ -197,7 +207,17 @@ declare namespace Vert {
      * @return {Injector}
      */
     static create (): Injector
-
+    
+    /**
+     * Register instance as a singleton provider in global.
+     *
+     * @static
+     * @template T
+     * @param {TConstructor<T>} type - The type to register
+     * @param {T} instance - The instance to register for the type
+     */
+    addSingletonInstance <T> (type: TConstructor<T>, instance: T)
+    
     /**
      * Register target as a singleton provider.
      * You will get the same instance in every single initialization.
@@ -251,7 +271,7 @@ declare namespace Vert {
   /**
    * Constructor type.
    */
-  type TConstructor = new (...args: any[]) => any
+  type TConstructor<T = any> = new (...args: any[]) => T
 
   /**
    * Provider type.
