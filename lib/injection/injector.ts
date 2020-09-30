@@ -37,6 +37,24 @@ class Injector {
   private readonly transient = new WeakMap()
 
   /**
+   * Register instance as a singleton provider in global.
+   *
+   * @static
+   * @template T
+   * @param {TConstructor<T>} type - The type to register
+   * @param {T} instance - The instance to register for the type
+   */
+  addSingletonInstance <T> (type: TConstructor<T>, instance: T) {
+    if (this.transient.has(type)) {
+      throw new Error(`[@vert/core] "${type.name}" has been registered as transient provider.`)
+    }
+
+    this.singletonMap.set(type, instance)
+
+    return this
+  }
+
+  /**
    * Register target as a singleton provider.
    * You will get the same instance in every single initialization.
    *

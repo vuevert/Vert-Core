@@ -79,10 +79,6 @@
     "no-duplicate-switch-case": true,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-implicit-dependencies": [
-      true,
-      "dev"
-    ],
     "no-namespace": true,
     "no-string-literal": true,
     "no-internal-module": true,
