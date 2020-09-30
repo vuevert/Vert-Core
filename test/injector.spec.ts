@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Injectable, Injector } from '../dist'
+import { Injectable, Injector } from '../dist/index.esm.js'
 
 describe('Injector test.', () => {
   @Injectable()

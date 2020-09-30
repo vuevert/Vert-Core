@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Data, Injectable, Injector } from '../dist'
+import { Data } from '../dist/index.esm.js'
 
 describe('Data testing.', () => {
   it('Type-Secured data should work.', () => {

@@ -1,4 +1,4 @@
-import { App } from '../dist'
+import { App } from '../dist/index.esm.js'
 
 describe('App testing.', () => {
   const RootComponent = {

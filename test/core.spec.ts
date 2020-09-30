@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { App } from '../dist'
+import { App } from '../dist/index.esm.js'
 
 describe('Core Nodule test.', () => {
   it('Should create an app without error.', () => {
