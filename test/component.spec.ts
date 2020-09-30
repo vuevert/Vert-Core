@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import Vue from 'vue'
-import { App, Component, Injectable } from '../dist'
+import { App, Component, Injectable } from '../dist/index.esm.js'
 
 @Injectable()
 class HttpService {
@@ -67,14 +67,15 @@ describe('Component testing.', () => {
     })
     app.start()
 
-    someComponent = app.viewModel.$children[0]
+    someComponent = app.viewModel.$children[0] as SomeComponent
   })
 
   it('Should convert class SomeComponent into a vue component.', () => {
-    expect(someComponent['_isVue']).toEqual(true)
-    expect(someComponent['$options'].template).toEqual('<div>{{greeting}}</div>')
-    expect(someComponent['$options'].computed.greeting).toBeDefined()
-    expect(typeof someComponent['$mount']).toEqual('function')
+    // @ts-ignore
+    expect(someComponent._isVue).toEqual(true)
+    expect(someComponent.$options.template).toEqual('<div>{{greeting}}</div>')
+    expect(someComponent.$options.computed.greeting).toBeDefined()
+    expect(typeof someComponent.$mount).toEqual('function')
 
     expect(someComponent.name).toEqual('LancerComet')
     expect(someComponent.age).toEqual(99)

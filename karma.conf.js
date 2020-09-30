@@ -1,3 +1,5 @@
+const path = require('path')
+
 process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = (config) => {
@@ -15,12 +17,18 @@ module.exports = (config) => {
       'karma-coverage'
     ],
 
-    karmaTypescriptConfig: Object.assign({}, require('./tsconfig.json'), {
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        transforms: [
+          require('karma-typescript-es6-transform')()
+        ]
+      },
       compilerOptions: {
         allowJs: true,
-        module: "commonjs"
+        module: 'commonjs',
+        target: 'es5'
       }
-    }),
+    },
 
     client: {
       // leave Jasmine Spec Runner output visible in browser

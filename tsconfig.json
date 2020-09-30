@@ -1,26 +1,25 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es5",
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+    "module": "ESNext",
+    "target": "ES5",
+    "declaration": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
-    "paths": {
-      "../dist": ["./lib"],
-      "../dist/*": ["./lib/*"]
-    },
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "lib": [
-      "dom",
-      "es5",
-      "es2015",
-      "es2016",
-      "es2017"
+      "DOM",
+      "ES5",
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018"
     ]
-  }
+  },
+  "exclude": [
+    "dist/**/*",
+    "node_modules"
+  ]
 }
