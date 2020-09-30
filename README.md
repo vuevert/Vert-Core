@@ -31,7 +31,11 @@ Please check all documents [here](https://github.com/vuevert/Vert-Core/tree/mast
 
 ## Take care of yourself
 
-I have done several projects with this tool, but however it is a early version, so take care of yourself, leave me a issue if there is a bug.
+I have developed several projects with this tool however please take care of yourself, leave me a issue if there is a bug.
+
+## Which projects?
+
+Some projects for https://live.bilibili.com/ and https://manga.bilibili.com/
 
 ## License
 
