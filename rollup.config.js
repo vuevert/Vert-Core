@@ -10,7 +10,6 @@ export default {
       name: 'Vert',
       globals: {
         vue: 'Vue',
-        vuex: 'Vuex',
         'vue-property-decorator': 'VuePropertyDecorator'
       }
     },

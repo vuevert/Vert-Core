@@ -1,14 +1,14 @@
 /**
- * @vert/core
- * Vert is designed to build an OOP application which is based on Vue.
+ * Vert is the service container which is designed
+ * to build OOP applications which are based on Vue.
+ *
  * # Carry Your World #
  *
  * @author LancerComet
  * @copyright LancerComet
  * @license MIT
+ * @link https://github.com/vuevert/Vert-Core
  */
-
-import 'reflect-metadata'
 
 export { Component, Prop, VueInject, VueProvide, Watch, Emit, Model } from './app-component/component-decorator'
 export { App } from './core'
