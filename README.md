@@ -3,7 +3,7 @@
 Vert is the service container for Vue to build Vue applications in OOP.
 
 [![npm version](https://badge.fury.io/js/%40vert%2Fcore.svg)](https://badge.fury.io/js/%40vert%2Fcore)
-[![Build Status](https://travis-ci.org/LancerComet/Vert-Core.svg?branch=master)](https://github.com/LancerComet/Vert-Core)
+[![VueJsonp](https://github.com/vuevert/Vert-Core/workflows/Test/badge.svg)](https://github.com/LancerComet/vue-jsonp/actions)
 
 ![vert-logo](https://raw.githubusercontent.com/LancerComet/Vert-Core/master/logo.png)
 
