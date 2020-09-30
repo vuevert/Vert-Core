@@ -9,8 +9,8 @@ export default {
       format: 'umd',
       name: 'Vert',
       globals: {
-        vue: 'vue',
-        vuex: 'vuex'
+        vue: 'Vue',
+        'vue-property-decorator': 'VuePropertyDecorator'
       }
     },
     {
@@ -23,10 +23,19 @@ export default {
     typescript({
       tsconfigOverride: {
         compilerOptions: {
-          target: 'es5',
-          module: 'esnext'
-        }
+          target: 'es5'
+        },
+        include: [
+          'lib/**/*'
+        ]
       }
     })
+  ],
+
+  external: [
+    'vue',
+    'vue-class-component',
+    'reflect-metadata',
+    'vue-property-decorator'
   ]
 }

@@ -18,6 +18,18 @@ abstract class GlobalInjector {
   }
 
   /**
+   * Register instance as a singleton provider in global.
+   *
+   * @static
+   * @template T
+   * @param {TConstructor<T>} type - The type to register
+   * @param {T} instance - The instance to register for the type
+   */
+  static addSingletonInstance <T> (type: TConstructor<T>, instance: T) {
+    GlobalInjector.injector.addSingletonInstance(type, instance)
+  }
+
+  /**
    * Register target as singleton provider into global injector.
    *
    * @param Providers
