@@ -1,4 +1,5 @@
-import { App } from '../dist/index.esm.js'
+/* eslint-disable no-undef */
+import { App } from '../lib'
 
 describe('App testing.', () => {
   const RootComponent = {

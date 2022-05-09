@@ -1,11 +1,14 @@
+/* eslint-disable no-redeclare */
+
 import Vue, { Component, ComponentOptions } from 'vue'
 import { Emit, Inject as VueInject, Model, Prop, Provide as VueProvide, Watch } from 'vue-property-decorator'
-import { componentFactory } from '../libs/vue-class-component'
-import { registerHooks } from '../libs/vue-class-component'
+import { componentFactory, registerHooks } from '../libs/vue-class-component'
 
 import { TConstructor } from '../types'
 import { InjectionUtils } from '../utils/injection-utils'
 import { ReflectionUtils } from '../utils/reflection-utils'
+
+type VueClass<T> = new (...args: any[]) => T & Vue
 
 let componentId = 1
 
@@ -90,5 +93,3 @@ export {
   Emit,
   Model
 }
-
-type VueClass<T> = new (...args: any[]) => T & Vue

@@ -3,6 +3,7 @@ import { TConstructor } from '../types'
 let isSupportProxy = true
 
 try {
+  // eslint-disable-next-line no-unused-vars
   const proxy = new Proxy({}, {
     set () {
       return true

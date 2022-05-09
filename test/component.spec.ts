@@ -1,7 +1,8 @@
-import 'reflect-metadata'
+/* eslint-disable no-useless-constructor */
+/* eslint-disable no-undef */
 
 import Vue from 'vue'
-import { App, Component, Injectable } from '../dist/index.esm.js'
+import { App, Component, Injectable } from '../lib'
 
 @Injectable()
 class HttpService {
@@ -79,7 +80,7 @@ describe('Component testing.', () => {
 
     expect(someComponent.name).toEqual('LancerComet')
     expect(someComponent.age).toEqual(99)
-    expect(someComponent.greeting).toEqual(`Hello! My name is LancerComet and I'm 99 now.`)
+    expect(someComponent.greeting).toEqual('Hello! My name is LancerComet and I\'m 99 now.')
 
     someComponent.updateName()
     someComponent.updateAge()

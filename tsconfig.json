@@ -2,13 +2,12 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "module": "ESNext",
     "target": "ES5",
     "declaration": true,
     "esModuleInterop": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
     "lib": [
       "DOM",
       "ES5",

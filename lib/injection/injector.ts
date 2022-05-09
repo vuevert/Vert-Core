@@ -80,7 +80,7 @@ class Injector {
    *
    * @param {TConstructor[]} Providers
    */
-  addTransient <T> (...Providers: TConstructor[]): this {
+  addTransient (...Providers: TConstructor[]): this {
     Providers.forEach(Provider => {
       Injector.checkIsInjected(Provider)
 
@@ -140,9 +140,6 @@ class Injector {
    */
   has (target: TConstructor): boolean {
     return this.transient.has(target) || this.singletonMap.has(target)
-  }
-
-  private constructor () {
   }
 }
 

@@ -1,5 +1,11 @@
-import 'reflect-metadata'
-import { Data } from '../dist/index.esm.js'
+/* eslint-disable no-undef */
+
+import { Data } from '../lib'
+
+interface IStudent {
+  name: string
+  age: any
+}
 
 describe('Data testing.', () => {
   it('Type-Secured data should work.', () => {
@@ -33,11 +39,6 @@ describe('Data testing.', () => {
     }
   }
 })
-
-interface IStudent {
-  name: string
-  age: any
-}
 
 // function Type (target: any, key: string) {
 //   const typeMeta = Reflect.getMetadata('design:type', target, key)

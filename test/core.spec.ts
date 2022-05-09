@@ -1,5 +1,6 @@
-import 'reflect-metadata'
-import { App } from '../dist/index.esm.js'
+/* eslint-disable no-undef */
+
+import { App } from '../lib'
 
 describe('Core Nodule test.', () => {
   it('Should create an app without error.', () => {

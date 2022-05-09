@@ -22,14 +22,9 @@ export function copyReflectionMetadata (
 }
 
 function forwardMetadata (to: object, from: object, propertyKey?: string): void {
-  const metaKeys = propertyKey
-    ? Reflect.getOwnMetadataKeys(from, propertyKey)
-    : Reflect.getOwnMetadataKeys(from)
-
+  const metaKeys = propertyKey ? Reflect.getOwnMetadataKeys(from, propertyKey) : Reflect.getOwnMetadataKeys(from)
   metaKeys.forEach(metaKey => {
-    const metadata = propertyKey
-      ? Reflect.getOwnMetadata(metaKey, from, propertyKey)
-      : Reflect.getOwnMetadata(metaKey, from)
+    const metadata = propertyKey ? Reflect.getOwnMetadata(metaKey, from, propertyKey) : Reflect.getOwnMetadata(metaKey, from)
 
     if (propertyKey) {
       Reflect.defineMetadata(metaKey, metadata, to, propertyKey)
