@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import Vue, { ComponentOptions } from 'vue'
 import { collectDataFromConstructor } from './data'
 import { DecoratedClass, VueClass } from './declarations'
@@ -41,7 +39,7 @@ function componentFactory (
       return
     }
     const descriptor = Object.getOwnPropertyDescriptor(proto, key)!
-    if (descriptor.value !== void 0) {
+    if (descriptor.value !== undefined) {
       // methods
       if (typeof descriptor.value === 'function') {
         (options.methods || (options.methods = {}))[key] = descriptor.value

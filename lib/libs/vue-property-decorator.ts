@@ -1,12 +1,10 @@
-/* tslint:disable:variable-name no-shadowed-variable */
 /** vue-property-decorator verson 8.0.0 MIT LICENSE copyright 2018 kaorun343 */
 
 'use strict'
 import Vue, { PropOptions, WatchOptions } from 'vue'
-import { InjectKey, WatchHandler } from 'vue/types/options'
+import { InjectKey } from 'vue/types/options'
 import { Component, createDecorator, mixins } from './vue-class-component'
 
-// tslint:disable-next-line:interface-name
 export interface Constructor {
   new(...args: any[]): any
 }

@@ -11,6 +11,7 @@ export function collectDataFromConstructor (vm: Vue, Component: VueClass<Vue>) {
     // 2.2.0 compat (props are no longer exposed as self properties)
     if (vm.$options.props) {
       for (const key in vm.$options.props) {
+        // eslint-disable-next-line no-prototype-builtins
         if (!vm.hasOwnProperty(key)) {
           keys.push(key)
         }

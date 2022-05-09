@@ -6,11 +6,11 @@ abstract class InjectionUtils {
   /**
    * Class a class that has already been injected.
    *
-   * @param {*} targetClass
+   * @param {*} TargetClass
    * @param {TProviders} Providers
    * @return {*}
    */
-  static createInjectedConstructor (targetClass: TConstructor, Providers: TProviders): any {
+  static createInjectedConstructor (TargetClass: TConstructor, Providers: TProviders): any {
     // Return a new constructor.
     // This new constructor has no params so you can not get any info by using 'design:paramtypes'.
     const Constructor: any = function () {
@@ -26,16 +26,16 @@ abstract class InjectionUtils {
         providers.push(instance)
       })
 
-      return new targetClass(...providers)
+      return new TargetClass(...providers)
     }
 
-    Constructor.prototype = targetClass.prototype
+    Constructor.prototype = TargetClass.prototype
 
     try {
       Object.defineProperty(Constructor, 'name', {
         writable: true,
         configurable: true,
-        value: targetClass.name
+        value: TargetClass.name
       })
     } catch (error) {
       console.warn('[@Vert/Core] This browser can not redefine property name for injected constructor:', error.message)

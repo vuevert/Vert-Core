@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable no-redeclare */
 
 import Vue, { ComponentOptions } from 'vue'
 import { DecoratedClass, VueClass } from './declarations'

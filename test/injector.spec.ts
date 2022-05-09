@@ -1,5 +1,7 @@
-import 'reflect-metadata'
-import { Injectable, Injector } from '../dist/index.esm.js'
+/* eslint-disable no-useless-constructor */
+/* eslint-disable no-undef */
+
+import { Injectable, Injector } from '../lib'
 
 describe('Injector test.', () => {
   @Injectable()
@@ -130,13 +132,13 @@ describe('Injector test.', () => {
   })
 
   it('Singleton instance injection should work.', () => {
-    const a = new A();
-    a.name = "foo";
+    const a = new A()
+    a.name = 'foo'
 
     const injector = Injector.create()
-      .addSingletonInstance(A, a);
+      .addSingletonInstance(A, a)
 
-    injector.addSingleton(B, C);
+    injector.addSingleton(B, C)
 
     const a1 = injector.get(A)
     const b1 = injector.get(B)

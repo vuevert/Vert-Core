@@ -7,6 +7,23 @@ import { TypeUtils } from '../utils/type-utils'
 let appId = 1
 
 /**
+ * Constructor param of AppPage.
+ *
+ * @interface IAppPage
+ */
+export interface IAppOption {
+  element?: string | HTMLElement
+  name?: string
+  RootComponent: TRootComponent
+  router?: any
+  store?: any
+
+  created?: THookFunction
+  mounted?: THookFunction
+  beforeDestroy?: THookFunction
+}
+
+/**
  * App is the basic unit for a project.
  *
  * @description
@@ -23,9 +40,9 @@ export class App {
    * @param {TConstructor<T>} type - The type to register
    * @param {T} instance - The instance to register for the type
    */
-  static addSingletonInstance<T>(type: TConstructor<T>, instance: T): typeof App {
-    GlobalInjector.addSingletonInstance(type, instance);
-    return App;
+  static addSingletonInstance<T> (type: TConstructor<T>, instance: T): typeof App {
+    GlobalInjector.addSingletonInstance(type, instance)
+    return App
   }
 
   /**
@@ -35,7 +52,7 @@ export class App {
    * @template T
    * @param {TConstructor[]} Providers
    */
-  static addSingleton <T> (...Providers: TConstructor[]): typeof App {
+  static addSingleton (...Providers: TConstructor[]): typeof App {
     GlobalInjector.addSingleton(...Providers)
     return App
   }
@@ -129,21 +146,4 @@ export class App {
       option.beforeDestroy
     )
   }
-}
-
-/**
- * Constructor param of AppPage.
- *
- * @interface IAppPage
- */
-export interface IAppOption {
-  element?: string | HTMLElement
-  name?: string
-  RootComponent: TRootComponent
-  router?: any
-  store?: any
-
-  created?: THookFunction
-  mounted?: THookFunction
-  beforeDestroy?: THookFunction
 }

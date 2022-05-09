@@ -6,12 +6,7 @@ export default {
   output: [
     {
       file: './dist/index.js',
-      format: 'umd',
-      name: 'Vert',
-      globals: {
-        vue: 'Vue',
-        'vue-property-decorator': 'VuePropertyDecorator'
-      }
+      format: 'commonjs'
     },
     {
       file: './dist/index.esm.js',
