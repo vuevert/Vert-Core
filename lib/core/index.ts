@@ -49,7 +49,6 @@ export class App {
    * Register target as a singleton provider in global.
    *
    * @static
-   * @template T
    * @param {TConstructor[]} Providers
    */
   static addSingleton (...Providers: TConstructor[]): typeof App {
