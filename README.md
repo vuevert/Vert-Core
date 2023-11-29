@@ -7,6 +7,10 @@ Vert is the service container for Vue to build Vue applications in OOP.
 
 ![vert-logo](https://raw.githubusercontent.com/LancerComet/Vert-Core/master/logo.png)
 
+## Notice
+
+This project is only available for Vue 2. For Vue 3, please consider using Composition API instead of OOP-like component.
+
 ## Introduction
 
 Vert is a library which is designed for building applications that are based on Vue in OOP. It provides some function and decorators to help you to achieve that goal. In General, it's a service container for Vue and makes your project Angular-like.
